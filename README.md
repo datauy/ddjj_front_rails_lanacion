@@ -41,38 +41,5 @@ Elcon orden de las cabeceras es el siguiente:
 Donde "apellido" es la primer fila, "nombre" la segunda, y asi sin alterar el orden
 Para ejecutar el script acceder al menú del admin "Tareas" > "load_dnis para personas"
 
-## ROUTES:
-
-	* get "tags_personas/index"
-  * get "ddjj/index"
-  * get "ddjj/show"
-  * get "tareas/crear_csv_poderes" => "tareas#crear_csv_poderes"
-  * get "tareas/get_ganalytics"
-  * match "index" => "home#index" 
-  * match "search" => "home#search" 
-  * match "ddjj/:id" => "home#get_ddjj" 
-  * match "filtros/:id" => "home#get_filtros" 
-  * match "data_bienes" => "home#data_bienes" 
-  * match "data_personas" => "home#data_personas" 
-  * match "descargar_poder/:id" => "home#descargar_poder" 
-  * match "personas" => "home#lista_personas" 
-  * match "data/save" => "data#save", :as=> :gurdar
-  * get "data/load"
-  * get "data/reset_bd"
-  * get "data/correr_xapian"
-  * get "data/dump_db"
-  * get "data/gen_str_buscador"
-  * get "tareas/get_ganalytics"
-  * get "tareas/borrar_cache"
-  * ## ADMIN***
-  	* get "admin" => "admin#index"
-  	* match "admin/declaraciones_juradas/:poder" => "admin#declaraciones_juradas"
-  	* match "admin/:id" => "admin#ddjj"
-  	* match "ddjjs/:id" => "ddjjs#update"
-  	* match "tiempo_controls/:id" => "tiempo_controls#update"
-  	* get "tags_personas/index"
-  	* get "tags_personas/save_tags"
-    * get "tags_personas/personas_sin_tags"
-  	* get "tags_personas/load_dnis"
 
 <img src="http://blogs.lanacion.com.ar/data/files/2015/08/HIVOS-2.jpg" width="350">
