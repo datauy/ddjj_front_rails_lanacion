@@ -1,0 +1,39 @@
+<div class="container-fluid" style="margin-bottom:20px">
+  <!-- <div class="hero-unit">
+  </div> -->
+    <h1 id="">Declaraciones juradas del <%= @poder %></h1>
+</div>
+<div class="container-fluid">  
+<table class="table table-bordered ordenar">
+	<thead>
+		<tr>
+			<!-- <th>Poder</th> -->
+			<th>Titular</th>
+			<td>Año</td>
+			<td>Tipo</td>
+			<td>Cargo</td>
+			<td>Publicar?</td>
+			<td>ADMIN</td>
+		</tr>
+	</thead>
+<%	@d.each do |d| %>
+<tr title="Subida el <%= Time.at(d.key).strftime("%d/%m/%Y") %>, Key generada: <%= d.key%>">
+	<!-- <td></td> -->
+	<td><%= d.persona.nom_comp %></td>	
+	<td><a href="<%= url_for(:controller=>:ddjjs, :action=>:show, :id=>d) %>"><%= d.ano %></a></td>	
+	<td><%= d.tipo_ddjj %></td>	
+	<td><%= d.persona_cargo ? d.persona_cargo.cargo.cargo : "*******!!!!!!*********#{d.to_yaml}" 
+	%>
+	<%if d.obs %>
+	<br />
+	<strong>OBS: <%= d.obs%></strong> 
+	<%end%>
+	</td>		
+	<td style="text-align:center"><%= check_box_tag(:status, d.status, d.status) %></td>
+	<td><a href="#<%= ""%>"></a></td>	
+</tr>
+
+<% end %>
+</table>
+</div>
+<%= render 'ddjjs/actualizar_status' %>

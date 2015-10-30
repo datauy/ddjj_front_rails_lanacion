@@ -1,0 +1,34 @@
+
+<table class="table">
+<thead>
+<tr>
+	<th>Foto</th>
+	<th>Apellido, Nombre</th>
+	<th>ID APP</th>
+	<th>ID TAG</th>
+	<th>Url buscador APP / tag nacion</th>
+</tr>
+</thead>
+<tbody>
+<% @p.each do |p| %>
+<tr>
+	<td>
+		<!-- ID:<%= p.tag_img_id %> -->
+		<br>
+		<img src="<%= p.get_img_nacion 100 %>" alt="<%=p.nom_comp%>"/>
+	</td>
+	<td><%=p.nom_comp%></td>
+	<td><%= p.id %></td>
+	<td><%= p.tag_id %></td>
+	<td>
+		<a href="<%= p.url_buscador_app %>" title="Ver declaraciones juradas de <%=p.nom_comp%>">Ver declaraciones juradas</a>
+		<%if p.tag_id %>
+		<br>
+		<a href="<%= p.get_tag_nacion%>" title="Ver notas relacionadas con <%=p.nom_comp%>">Ver notas relacionadas</a>
+		<%end %>
+		
+	</td>
+</tr>
+<% end %>
+</tbody>
+</table>

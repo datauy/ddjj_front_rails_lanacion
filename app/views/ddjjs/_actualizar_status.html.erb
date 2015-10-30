@@ -1,0 +1,35 @@
+<script type="text/javascript">
+window.onload=function(){
+$("input[type=checkbox]").click(function(){
+	var $el =$(this),
+		msj= "";
+	if(this.checked)
+		msj = "Esta seguro que desea publicar esta DDJJ"
+	else
+		msj = "Esta seguro que desea quitar la publicación esta DDJJ";
+	
+	if(confirm(msj)){
+		if(this.checked) 
+			this.value = true
+		else
+			this.value = false;
+		$.ajax({
+			url: $el.data("url"),
+			type: 'POST',
+			data: $el.serialize(),
+		})
+		.done(function() {
+			console.log("success");
+		})
+		.fail(function() {
+			console.log("error");
+		})
+		.always(function() {
+			console.log("complete");
+		});
+	}else{
+		return false;
+	}		
+});
+};
+</script>

@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  jurisdiccion: MyString
+  cargo: MyString
+  poder: MyString
+
+two:
+  jurisdiccion: MyString
+  cargo: MyString
+  poder: MyString

@@ -1,0 +1,35 @@
+<%= @cols.to_yaml %>
+<%
+1.upto(@csv.length-1) do |l| 
+	nombre = @csv[l][@cols[:nombre]].strip
+	apellido = @csv[l][@cols[:apellido]].strip
+	tag_id = @csv[l][@cols[:tag_id]]
+	tag_img_id = @csv[l][@cols[:tag_img_id]]
+
+	p = Persona.where("nombre = ? AND apellido = ?", nombre, apellido).first
+	if p
+
+		p = Persona.update(p, 
+			:tag_id => tag_id ? tag_id.strip : nil,
+			:tag_img_id => tag_img_id ? tag_img_id.strip : nil
+			# :tag_descripcion => @oo.cell(l, @cols[:tag_descripcion])
+			# :ficha_d_l => @oo.cell(l, @cols[:ficha_d_l])
+			)
+
+%>
+<hr>
+<br>
+	
+	<pre>
+	<%= p.to_yaml %>
+	</pre>
+	
+<% 	
+	else
+		%>
+	<strong>no se pudo guardar: <%= "#{nombre} #{apellido}"%></strong>	
+<%	
+	end
+end %>
+
+<!-- :tag_id, :tag_img_id, :tag_descripcion, :ficha_d_l -->

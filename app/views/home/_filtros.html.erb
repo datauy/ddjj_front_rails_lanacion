@@ -1,0 +1,87 @@
+
+		<div id="personas" class="filtro" >	
+			<h3>Funcionario</h3>
+			<ul class="filtro">
+				<li class="selected top" data-type="p"><span class="check"><span class="">&nbsp;</span></span><div class="todos">Todos</div><div class="filtrado">(Filtro)</div><div class="status">&nbsp;</div>
+					<ul>
+					<% @q.each do |x|%>
+						<li class="selected" data-type="p" data-id="<%= x.id %>" title="<%= x.nom_comp %>"><span class="check">&nbsp;</span><%= x.nom_comp %></li>
+					<% end %>
+					</ul>
+				</li>	
+			</ul>	
+		</div>
+		<div id="cargos" class="filtro" >	
+			<h3>Cargo</h3>	
+			<ul class="filtro">
+				<li class="selected top" data-type="c"><span class="check"><span class="">&nbsp;</span></span><div class="todos">Todos</div><div class="filtrado">(Filtro)</div><div class="status">&nbsp;</div>
+					<ul>
+						<% @cargos.each do |x|%>
+							<li class="selected" data-type="c" data-id="<%= x.id %>" title="<%= x.cargo %>"><span class="check">&nbsp;</span><%= x.cargo %></li>
+						<% end %>
+					</ul>			
+				</li>	
+			</ul>
+		</div>
+		<div id="tipo_bien" class="filtro">
+			<h3>Tipo de bienes</h3>
+			<ul class="filtro">
+				<li class="selected top" data-type="tb"><span class="check"><span class="">&nbsp;</span></span><div class="todos">Todos</div><div class="filtrado">(Filtro)</div><div class="status">&nbsp;</div>
+					<ul class="filtro">
+					<% @tipo_bienes.each do |x|%>
+						<li class="selected top" data-type="nb" data-id="<%= x.id %>"><span class="check"><span class="">&nbsp;</span></span><%= x.nombre %>
+							<ul>
+								<% get_nombre_bien(x.id).each do | n | 
+									if n
+								%>
+									<li class="selected" data-type="nb" data-id="<%= n.id %>" title="<%= n.nombre %>"><span class="check">&nbsp;</span><%= n.nombre %></li>
+								<% 
+									end
+								end%>
+							</ul>
+						</li>
+					<% end %>
+					</ul>			
+				</li>
+			</ul>
+		</div>
+		
+		<div id="valor" class="filtro">
+			<h3>Valor de los bienes</h3>
+			<ul class="filtro" data-type="v">
+				<li class="selected top"  data-type="v"><span class="check"><span class="">&nbsp;</span></span><div class="todos">Todos</div><div class="filtrado">(Filtro)</div><div class="status">&nbsp;</div>
+					<ul>	
+						<li class="selected" data-id="0-100000" data-type="v" title="0 - 100.000"><span class="check">&nbsp;</span>0 - 100.000</li>
+						<li class="selected" data-id="100000-200000" data-type="v" title="100.000 - 200.000"><span class="check">&nbsp;</span>100.000 - 200.000</li>
+						<li class="selected" data-id="200000-400000" data-type="v" title="200.000 - 400.000"><span class="check">&nbsp;</span>200.000 - 400.000</li>
+						<li class="selected" data-id="400000-800000" data-type="v" title="400.000 - 800.000"><span class="check">&nbsp;</span>400.000 - 800.000</li>
+						<li class="selected" data-id="800000-1600000" data-type="v" title="800.000 - 1.600.000"><span class="check">&nbsp;</span>800.000 - 1.600.000</li>
+						<li class="selected" data-id="1600000-mas" data-type="v" title="1.600.000 - mas"><span class="check">&nbsp;</span>1.600.000 - mas</li>
+					</ul>			
+				</li>	
+			</ul>
+		</div>
+		<div id="ano" class="filtro" >	
+			<h3>Año</h3>	
+			<ul class="filtro" data-type="a">
+				<li class="selected top" data-type="a"><span class="check"><span class="">&nbsp;</span></span><div class="todos">Todos</div><div class="filtrado">(Filtro)</div><div class="status">&nbsp;</div>
+					<ul>	
+						<li class="selected" data-id="1999" data-type="a"><span class="check">&nbsp;</span>1999</li>
+						<li class="selected" data-id="2000" data-type="a"><span class="check">&nbsp;</span>2000</li>
+						<li class="selected" data-id="2001" data-type="a"><span class="check">&nbsp;</span>2001</li>
+						<li class="selected" data-id="2002" data-type="a"><span class="check">&nbsp;</span>2002</li>
+						<li class="selected" data-id="2003" data-type="a"><span class="check">&nbsp;</span>2003</li>
+						<li class="selected" data-id="2004" data-type="a"><span class="check">&nbsp;</span>2004</li>
+						<li class="selected" data-id="2005" data-type="a"><span class="check">&nbsp;</span>2005</li>
+						<li class="selected" data-id="2006" data-type="a"><span class="check">&nbsp;</span>2006</li>
+						<li class="selected" data-id="2007" data-type="a"><span class="check">&nbsp;</span>2007</li>
+						<li class="selected" data-id="2008" data-type="a"><span class="check">&nbsp;</span>2008</li>
+						<li class="selected" data-id="2009" data-type="a"><span class="check">&nbsp;</span>2009</li>
+						<li class="selected" data-id="2010" data-type="a"><span class="check">&nbsp;</span>2010</li>
+						<li class="selected" data-id="2011" data-type="a"><span class="check">&nbsp;</span>2011</li>
+						<li class="selected" data-id="2012" data-type="a"><span class="check">&nbsp;</span>2012</li>
+					</ul>			
+				</li>	
+			</ul>
+		</div>
+		<div class="clear"></div>

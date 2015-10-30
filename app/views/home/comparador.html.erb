@@ -1,0 +1,685 @@
+<div class="row comparador">
+    <div class="cell_6">
+        <%= render "comparador_ddjj", :id => 'left-ddjj' %>
+    </div>
+    <div class="cell_6">
+        <%= render "comparador_ddjj", :id => 'right-ddjj' %>
+    </div>
+</div>
+<link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+$(function() {
+    var ddjj = new Ddjj();
+    var loading = new Loading("popup");
+    var base_url =  "http://ddjj.lanacion.com.ar/api/";
+
+    loading.start();
+
+    _.templateSettings = {
+        interpolate: /\{\{(.+?)\}\}/g,
+        evaluate: /\{%(.+?)%\}/g
+    };
+
+    var $select_legislador = $('select.legislador');
+    $select_legislador.select2({
+        // placeholder: "Seleccione un funcionario",
+        // allowClear: true
+    });
+    
+    $('select.legislador_ddjjs').select2({
+        placeholder: { id: -1, text: "Seleccione una DJ" },
+        allowClear: true
+    });
+    
+    $.get(base_url + 'legisladores/',
+        function( data ) {
+          
+            var opts = ["<option value='0' selected>Seleccione una DJ</option>"];
+            var opt = "<option value='{id}'>{name}</option>";
+
+            for( i in data ) {
+                if(data[i].ddjjs_count == 0) {
+                    continue;
+                }
+                
+                opts.push(
+                    opt
+                    .replace('{id}', data[i].id)
+                    .replace('{name}', data[i].nombre)
+                );
+            }
+
+            $select_legislador.html(opts);
+            $select_legislador.on('change', change_legislador);
+            loading.esconder();
+        },
+        'json'
+    );
+
+    function change_legislador (e) {
+        var legislador_id = this.value,
+            ddjj_col_id = this.dataset.ddjjCol;
+            legislador_nombre = this.selectedOptions[0].text;
+        
+        if ( legislador_id == "0" ) { return false; }
+        
+        $('#' + ddjj_col_id + ' .legislador_nombre').html(legislador_nombre);
+        reset_legislador(ddjj_col_id);
+        grey_in_cargo(ddjj_col_id);
+        grey_in_ddjj(ddjj_col_id);
+        reset_ddjj(ddjj_col_id);
+        show_ddjj_container(ddjj_col_id);
+        show_ddjj_descargas(ddjj_col_id);
+        hide_carta(ddjj_col_id);
+        find_legislador_ddjjs(ddjj_col_id, legislador_id);
+    }
+
+    var ddjjs = {};
+     
+    function find_legislador_ddjjs(ddjj_col_id, legislador_id) {
+        $legislador_ddjjs = $('#' + ddjj_col_id + ' .legislador_ddjjs');
+        $legislador_ddjjs.html("");
+        $.get(base_url + 'legisladores/{legislador_id}/'.replace( '{legislador_id}', legislador_id ),
+                function(data) {
+                   
+                    var options = [{id: -1, text: "Seleccione una DJ"}];
+                    var text
+                    for(i in data.ddjjs) {
+                        ddjj = data.ddjjs[i];
+                        ddjjs[ddjj.id] = ddjj;
+                        text = 'DDJJ de {0} {1}'.replace('{0}', ddjj.ano).replace('{1}', ddjj.tipo);
+                        option = { id: ddjj.id, text: text};
+                        options.push(option);
+                    }
+
+                    $legislador_ddjjs.select2({data: options}).val("-1");
+            }, 'json');
+    }
+
+    $('.legislador_ddjjs').change(function() {
+        var col_id = this.dataset.ddjjCol;
+        var ddjj_id = this.value;
+        var ddjj = ddjjs[ddjj_id];
+        grey_out_cargo(col_id);
+        reset_ddjj(col_id);
+        grey_in_ddjj(col_id);
+        if(ddjj_id > -1) {
+            show_legislador_ddjj_info(ddjj, col_id);
+            if(ddjj.flag_presenta) {
+                show_carta(col_id, ddjj);
+                hide_ddjj_container(col_id);
+            } else {
+                show_ddjj_container(col_id);
+                show_ddjj_bienes(ddjj_id, col_id);
+                hide_carta(col_id);
+            }
+        }
+    });
+
+    function show_legislador_ddjj_info(ddjj, col_id) {
+        $('#' + col_id + ' .descripcion .legislador_poder').html(ddjj.poder);
+        $('#' + col_id + ' .descripcion .legislador_cargo').html(ddjj.cargo);
+        $('#' + col_id + ' .ddjj_original_url').attr('href', ddjj.url);
+    }
+
+    function get_bien_tipo_class(bien_tipo) {
+        var classes = {
+            'bienes inmuebles': 'inmuebles',
+            'bienes muebles' : 'rodados',
+            'dinero ahorros': 'dinero_ahorros',
+            'ingresos cargo': 'ingresos_cargo',
+            'ingresos venta': 'ingresos_venta',
+            'ingresos otros': 'ingresos_otros',
+            'acreencias': 'acreencias',
+            'titulos': 'titulos',
+            'deudas': 'deudas',
+            'sociedades': 'sociedades'
+        };
+
+        for(key in classes) {
+            if(bien_tipo.toLowerCase() == key) {
+                return classes[key];
+            }
+        }
+
+        return null;
+    }
+
+    function show_ddjj_bienes(ddjj_id, col_id) {
+        var url = base_url + 'ddjjs/{ddjj_id}/'.replace('{ddjj_id}', ddjj_id);
+        $.get(url,
+              function(bienes) {
+                  var tipo_bienes = {};
+                  var i, bien, key, bien_tipo_class;
+                  for(i in bienes) {
+                      bien = bienes[i];
+                      key = bien.tipo_bien.nombre;
+                      if(key === null) {
+                          key = bien.tipo_bien.clasificacion;
+                      }
+
+                      bien_tipo_class = get_bien_tipo_class(key);
+                      
+                      if(!!!tipo_bienes[bien_tipo_class]) {
+                          tipo_bienes[bien_tipo_class] = [];
+                      }
+                      
+                      tipo_bienes[bien_tipo_class].push(bien);
+                  }
+
+                  show_bienes(tipo_bienes, col_id);
+                  grey_out_ddjj(col_id);
+                  
+              },'json');
+    }
+
+    function show_bienes(bienes, col_id) {
+        show_bienes_xmuebles(bienes['inmuebles'], col_id, 'inmuebles');
+        show_bienes_xmuebles(bienes['rodados'], col_id, 'muebles');
+        show_bienes_dineros_ahorros(bienes['dinero_ahorros'], col_id);
+        show_bienes_ingresos(bienes['ingresos_cargo'], col_id, 'ingresos_cargo');
+        show_bienes_ingresos(bienes['ingresos_ventas'], col_id, 'ingresos_ventas');
+        show_bienes_ingresos(bienes['ingresos_otros'], col_id, 'ingresos_otros');
+        show_bienes_ingresos(bienes['acreencias'], col_id, 'acreencias');
+        show_bienes_ingresos(bienes['titulos'], col_id, 'titulos');
+        show_bienes_ingresos(bienes['deudas'], col_id, 'deudas');
+        show_bienes_ingresos(bienes['sociedades'], col_id, 'sociedades');
+    }
+
+    function show_bienes_xmuebles(bienes, col_id, xmuebles) {
+        var $show_hide_button = $('#' + col_id + '  .' + xmuebles + ' a');
+        if(bienes === undefined || bienes.length === 0) {
+            $show_hide_button.removeClass('menos');
+            return;
+        }
+        
+        var bien, i, $li, nombre_bien;
+        var $inmuebles = $('#' + col_id + '  .' + xmuebles + ' ul');
+        $inmuebles.html('');
+        var template  = "<li class='ico {{ nombre_bien_class }}' data-data='{{data}}'>" +
+                          "<div class='nombre_bien'> {{ nombre_bien }}</div>" +
+                          "{% if(porcentaje !== '100.00') { %} <div class='cont_line'> <div class='ico line no_opacity'></div></div> {% } %}" +
+                          "<div class='monto'> {{ moneda_tipo }} {{ valor }}</div>"
+                        "</li>";
+        
+        var bien_template = _.template(template);
+        
+        for(i in bienes) {
+            bien = bienes[i];
+            nombre_bien_class = bien.nombre_bien_s.toLowerCase().replace(' ', '_');
+            
+            if(bien.valor_fiscal !== null) {
+                moneda_tipo = bien.valor_fiscal_moneda_tipo;
+                valor = bien.valor_fiscal;
+            } else {
+                moneda_tipo = bien.valor_adq_moneda_tipo;
+                valor = bien.valor_adq;
+            }
+            
+            var b = bien_template({
+                'nombre_bien': bien.nombre_bien_s,
+                'porcentaje': bien.porcentaje,
+                'moneda_tipo': moneda_tipo,
+                'valor': valor ? format_valor(valor) : 0,
+                'nombre_bien_class' : nombre_bien_class,
+                'data' : JSON.stringify(bien)
+            });
+
+            $(b).data(bien);
+            $inmuebles.append(b);
+        }
+
+        $show_hide_button.addClass('menos');
+        $inmuebles.show();
+
+        // tooltip
+        makeOverLi($("li", $inmuebles));
+
+    }
+
+    function get_moneda_class(moneda_tipo) {
+        var tipos = ["$", "us$", "E", " Uruguayos", "A", "A$", "$L"]
+        var index = tipos.indexOf(moneda_tipo);
+
+        if(index == -1) {
+            index = 8;
+        }
+        
+        return 'moneda_' + index;
+    }
+
+    function format_valor(valor) {
+        valor += '';
+        var numbers = valor.split('.')[0].split("").reverse();
+        var total_letters = numbers.length;
+        valor = _.map(numbers, function(number, key) {
+            if(key < total_letters && (key % 3) === 0 && key !== 0) {
+                return number + '.';
+            } else {
+                return number;
+            }
+        }).reverse()
+          .join('');
+
+        return valor;
+    }
+
+    function show_bienes_dineros_ahorros(bienes, col_id) {
+        var $show_hide_button = $('#' + col_id + '  .dinero a');
+        if(bienes === undefined || bienes.length === 0) {
+            $show_hide_button.removeClass('menos');
+            return;
+        }
+        
+        var bien, i;
+        var tipo_ahorros = {};
+        for(i in bienes) {
+            bien = bienes[i];
+                        
+            if(bien.valor_fiscal !== null) {
+                moneda_tipo = bien.valor_fiscal_moneda_tipo;
+                valor = bien.valor_fiscal;
+            } else {
+                moneda_tipo = bien.valor_adq_moneda_tipo;
+                valor = bien.valor_adq;
+            }
+            
+            if(!!!tipo_ahorros[moneda_tipo]) {
+                tipo_ahorros[moneda_tipo] = {val: 0, data: []};
+            }
+
+            tipo_ahorros[moneda_tipo].val += parseInt(valor);
+            tipo_ahorros[moneda_tipo].data.push(bien);
+        }
+        
+        var $dinero = $('#' + col_id + '  .dinero ul');
+        $dinero.html('');
+        
+        var template  = "<li data-data='{{data}}'>" +
+                        "<span class='ico {{ moneda_class}}'>{{ moneda_tipo }}</span>" +
+                        "<span class='text numero total'>{{ valor }}</span>" +
+                        "</li>";
+        
+        var bien_template = _.template(template);
+        var tipo_ahorro;
+        for(moneda_tipo in tipo_ahorros) {
+            valor = tipo_ahorros[moneda_tipo].val;
+            $dinero.append(bien_template({
+                'moneda_tipo': moneda_tipo,
+                'valor': valor ? format_valor(valor) : 0,
+                'moneda_class' : get_moneda_class(moneda_tipo),
+                'data' : JSON.stringify(tipo_ahorros[moneda_tipo].data),
+            }));
+        }
+
+        $show_hide_button.addClass('menos');
+        $dinero.show();
+
+        // tooltip
+        makeOverLi($("li", $dinero));
+
+    }    
+
+    function show_bienes_ingresos(bienes, col_id, ingreso) {
+        var $show_hide_button = $('#' + col_id + '  .' + ingreso + ' a');
+        if(bienes === undefined || bienes.length === 0) {
+            $show_hide_button.removeClass('menos');
+            return;
+        }
+        
+        var bien, i, $li, nombre_bien;
+        var $ingresos = $('#' + col_id + '  .' + ingreso + ' tbody');
+        $ingresos.html('');
+        var template  = "<tr data-data='{{data}}'>" +
+                        "<td class='first'>{{ nombre_bien }} {% if(!!descripcion) { %}<span> {{ descripcion }}</span>{% } %}</td>" +
+                        "<td class='second'><span class='moneda'>{{ moneda_tipo }}</span> <span class='numero'>{{ valor }}</span></td>" +
+                        "</tr>";
+        
+        var bien_template = _.template(template);
+        
+        for(i in bienes) {
+            bien = bienes[i];
+            nombre_bien = bien.nombre_bien_s;
+            descripcion = bien.descripcion;
+            
+            if(nombre_bien === 'no especifica') {
+                if(!!descripcion) {
+                    nombre_bien = descripcion;
+                    descripcion = null;
+                } else {
+                    nombre_bien = bien.entidad;
+                }
+            }
+
+            if(bien.valor_fiscal !== null) {
+                moneda_tipo = bien.valor_fiscal_moneda_tipo;
+                valor = bien.valor_fiscal;
+            } else {
+                moneda_tipo = bien.valor_adq_moneda_tipo;
+                valor = bien.valor_adq;
+            }
+            
+            $ingresos.append(bien_template({
+                'nombre_bien': nombre_bien,
+                'descripcion' : descripcion,
+                'moneda_tipo': moneda_tipo,
+                'valor': valor ? format_valor(valor) : 0,
+                'data': JSON.stringify(bien)
+            }));
+        }
+
+        $('#' + col_id + '  .' + ingreso + ' .tabla').show();
+        $show_hide_button.addClass('menos');
+
+        // tooltip
+        makeOverLi($("tr", $ingresos));
+    }
+
+    function reset_ddjj(col_id) {
+        $('#' + col_id + ' .ddjj_container_info ul').html('').hide();
+        $('#' + col_id + ' .tabla').hide();
+        $('#' + col_id + ' .tabla tbody').html('');
+        $('#' + col_id + ' .ver').removeClass('menos');
+        $('#' + col_id + ' .descripcion .legislador_cargo').html('Cargo del Funcionario');
+    }
+
+    function reset_legislador(col_id) {
+        $('#' + col_id + ' .legislador_ddjjs').val(0);
+        $('#' + col_id + ' .legislador_ddjjs').html('');
+        $('#' + col_id + ' .legislador_poder').html('Poder');
+        $('#' + col_id + ' .ddjj_original_url').attr('href', '');
+    }
+
+    function grey_in_cargo(col_id) {
+        $('#' + col_id + ' .legislador_cargo_info').addClass('ddjj-gris');
+        $('#' + col_id + ' .legislador_poder').addClass('ddjj-gris');
+    }
+
+    function grey_out_cargo(col_id) {
+        $('#' + col_id + ' .legislador_cargo_info').removeClass('ddjj-gris');
+        $('#' + col_id + ' .legislador_poder').removeClass('ddjj-gris');
+    }
+
+    function grey_in_ddjj(col_id) {
+        $('#' + col_id + ' .ddjj_container').addClass('ddjj-gris');
+    }
+
+    function grey_out_ddjj(col_id) {
+        $('#' + col_id + ' .ddjj_container').removeClass('ddjj-gris');
+    }
+
+    function hide_carta(col_id) {
+        $('#' + col_id + ' .ddjj-carta').hide();
+    }
+
+    function hide_ddjj_container(col_id) {
+        $('#' + col_id + ' .ddjj_container_info').hide();
+    }
+
+    function show_ddjj_container(col_id) {
+        $('#' + col_id + ' .ddjj_container_info').show();
+    }
+            
+    function show_carta(col_id, ddjj) {
+        grey_out_ddjj(col_id);
+        $('#' + col_id + ' .ddjj-carta').show();
+        $('#' + col_id + ' .ddjj-carta ul#list').data('documentcloud', ddjj.url).show();
+        var ul = $('#' + col_id + ' .ddjj-carta ul#list');
+		get_images_documentcloud(ul);
+    }
+
+    function show_ddjj_descargas(col_id) {
+        $('#' + col_id + ' #descargas').show();
+    }
+
+    
+});
+
+function makeOverLi($lis){
+    var $tooltip = $("#tooltip");
+    $lis.hover(function(){
+            var $el = $(this);
+            var data = $el.data("data");
+            
+            $tooltip.html(tmpl_tooltip(data));
+
+            
+            $(this).mousemove(function(e){ // mouse move
+                $tooltip.show();
+                
+                var pos = {};
+                pos.top= e.pageY - ($tooltip.height() / 2); 
+                pos.left= e.pageX  + 20;
+                
+                
+                var validaLeft=(pos.left + $tooltip.width()) > $('body').width();
+                if(validaLeft){ // valida position left 
+                    var margin_cursor = 50;
+                    pos.left= pos.left - $tooltip.width() - margin_cursor;
+                }
+                $tooltip.css({
+                    top: pos.top,
+                    left:pos.left
+                });
+            });
+
+        }, function(){
+            $tooltip.hide();
+            
+        });
+}
+
+function tmpl_tooltip(data){
+    // data = $.parseJSON(data);
+    var tooltip = "";
+    
+    function tmpl_li(x, xx){
+        var tmpl = "<li>_x_: <span>_xx_</span></li>";
+        return tmpl.replace("_x_", x).replace("_xx_", xx);          
+    }
+    
+    function get_list(obj, compartido){ // compartido = recibe true si el bien es compartido en la ddjj 
+        // if(compartido){
+            // var _obj = obj[0];               
+        // }else{
+        // }
+        
+            var _obj = obj;
+        // if(compartido){
+        if(false){
+            var txt_tooltip = {
+                "titular_dominio": "Titular",
+                "fecha_desde":"Fecha desde",
+                "fecha_hasta": "Fecha hasta",
+                "porcentaje": "Porcentaje",
+                "origen":"Origen",
+                "valor_fiscal": "Valor",
+                "valor_adq":"Valor de adq.",
+                "mejoras": "Mejoras"
+                // "vinculo": "Declarante"
+            };
+        }else{
+            var txt_tooltip = {
+                "nombre_bien_s": "Tipo",
+                "direccion": "Dirección",
+                "barrio":"Barrio",
+                "localidad":"Localidad",
+                "provincia":"Provincia",
+                "pais":"País",
+                "descripcion": "Descripción",
+                "modelo": "Modelo",
+                "obs": "Observaciones",
+                "entidad": "Entidad",
+                "ramo": "Ramo",
+                "cant_acciones":"Cantidad",
+                "destino":"Destino",
+                "periodo": "Período",
+                "superficie":  "Superficie",
+                "_separador_":  "<li><hr /></li>",                  
+                // "titular_dominio": "Titular del dominio",
+                "titular_dominio": "Titular",
+                "fecha_desde":"Fecha desde",
+                "fecha_hasta": "Fecha hasta",
+                "porcentaje": "Porcentaje",
+                "origen":"Origen",
+                "valor_fiscal": "Valor",
+                "valor_adq":"Valor de adq.",
+                "mejoras": "Mejoras"
+                // "vinculo": "Declarante"
+            };
+            
+        }
+            
+        for(var key in txt_tooltip){
+            if(!!_obj[key]){
+                // var i = [txt_tooltip[key],_obj[key]];
+                
+                var i = { nom: txt_tooltip[key], val: _obj[key]};
+
+                if(key == "valor_adq" || key == "valor_fiscal" || key == "mejoras"){
+                    if(i.val.toString().length > 3){
+                        i.val =(+i.val).format(i.val % 1 === 0 ? 0 : 2, ',', '.');
+                    }
+                    i.val = _obj[key + "_moneda_tipo"] + i.val;
+                }
+                    
+                if(key == "porcentaje")
+                    i.val = (+i.val).format(i.val % 1 === 0 ? 0 : 2, ',', '.') + "%";
+                
+                if(key == "cant_acciones")
+                    i.val = (+i.val).format(i.val % 1 === 0 ? 0 : 2, ',', '.');
+                
+
+
+
+                // if(key == "titular_dominio"){
+                    // i.val = i.val +" "+ _obj["porcentaje"] + "%"; 
+                    // // if(compartido){ 
+                        // // i.val += ", "+ obj[1][key] + " " + obj[1]["porcentaje"] + "%"; // agrega el porcentaje del otro declarante
+                    // // }
+                // }
+                
+                if(key == "superficie")
+                    i.val = (+i.val).format(i.val % 1 === 0 ? 0 : 2, ',', '.') + _obj["u_medida"];
+                        
+                if(key == "fecha_desde" || key == "fecha_hasta"){
+                    var date = i.val.split("-");
+                    i.val = date[2] + "/" + date[1] + "/" + date[0];
+                }
+                // if(key == "nombre_bien_s")
+                    // i.val = i.val + _obj["u_medida"];
+                        
+                tooltip += tmpl_li( i.nom, i.val.toUpperCaseFirst ? i.val.toUpperCaseFirst() : i.val);
+            }
+            if(key == "titular_dominio" && !_obj[key] ){
+                if(_obj["vinculo"]) {                       
+                    tooltip += tmpl_li( txt_tooltip["titular_dominio"], _obj["vinculo"]);
+                }
+
+            }   
+            if(key == "_separador_")
+                tooltip += txt_tooltip["_separador_"];
+        }
+        // if(compartido){
+            // tooltip += "<li><hr /></li>"
+//              
+        // }
+    }
+    
+    Handlebars.registerHelper('formatNumber', function(n){
+        return (+n).format(n % 1 === 0 ? null : 2, ',', '.');
+    });
+    
+    if (data.constructor == Array) { // si es un array es arma el tooltip para dinero $$$ ó bienes compartidos 
+        
+        if( /dinero\sahorro/i.test(data[0].tipo_bien.nombre)){  // para dinero
+            var template = Handlebars.compile($("#table_tooltip").html());
+            return template(data);
+        
+        }else{  // para los icos
+            var i = 0;
+            get_list(data[i]);
+            if(data[i + 1]){
+                i++;
+                tooltip += "<li><hr /></li>";
+                for(i; i<data.length; i++){
+                    get_list(data[i], true);
+                    if (data[i + 1]){
+                        tooltip += "<li><hr /></li>";
+                    }
+                }
+            }
+        }
+    }else{ // para todos los damas
+        get_list(data);
+    }
+    
+    if(tooltip){
+        tooltip= $(document.createElement("ul")).html(tooltip);
+    }   
+    
+    return tooltip;     
+    
+};
+
+</script>
+
+<script id="table_tooltip" type="text/x-handlebars-template">
+    {{! template para tooltip dinero }}
+    <table>
+        <thead>
+            <tr>
+                <th class="desc">Descripción</th>
+                <th>Declarante</th>
+                <th>Obs.</th>
+                <th>Origen</th>
+                <th>Porcentaje</th>
+                <th>Pais</th>
+                <th class="val">Valor</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each this}}
+            <tr>
+                <td class="desc">
+                    {{nombre_bien_s}}
+                    {{#if descripcion}}
+                        - {{descripcion}}
+                    {{/if}}
+                </td>
+                <td class="vinc">
+                    {{#if titular_dominio}}
+                        {{titular_dominio}}
+                    {{else}}
+                        {{vinculo}}
+                    {{/if}}
+                </td>
+                <td class="obs">
+                    {{#if obs}}
+                        {{obs}}
+                    {{/if}}
+                <td class="obs">
+                    {{#if origen}}
+                        {{origen}}
+                    {{/if}}
+                </td>
+                <td class="porcentaje">
+                    {{#if porcentaje}}
+                        {{formatNumber porcentaje}}%
+                    {{/if}}
+                </td>
+                <td class="pais">
+                    {{ pais }}
+                </td>
+
+                <td class="val">
+                    {{#if valor_fiscal}}
+                        {{valor_fiscal_moneda_tipo}}{{formatNumber valor_fiscal}}
+                    {{/if}}
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</script>

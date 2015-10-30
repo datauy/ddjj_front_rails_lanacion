@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  perdona_id: 1
+  cargo_id: 1
+  ingreso: 2013-04-30
+  egreso: 2013-04-30
+
+two:
+  perdona_id: 1
+  cargo_id: 1
+  ingreso: 2013-04-30
+  egreso: 2013-04-30

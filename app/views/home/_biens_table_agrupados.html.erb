@@ -1,0 +1,19 @@
+<% biens.each do | x | %>
+				
+	<tr class="">
+	<% if x[0].nombre_bien_s && x[0].descripcion	%>
+		<td class="first"><%= x[0].nombre_bien_s %> <span><%= "- #{x[0].descripcion}"%></span></td>
+	<% else	%>
+		<td class="first"><%= x[0].nombre_bien_s && x[0].nombre_bien_s.downcase != "no especifica" ? x[0].nombre_bien_s : x[0].descripcion ? x[0].descripcion : x[0].entidad %></td>
+	<% end	%>
+		<td class="second">
+	<% if x[1] %>
+			2 o + titulares
+	<% else %>
+			<span class="moneda"><%= x[0].get_moneda "fiscal"%></span><span class="numero"><%= x[0].valor_fiscal %></span>
+	<% end	%>
+			<div class="data"><%= x.to_json %></div>
+		</td>
+	</tr>
+
+<% end %>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-43038614-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<!-- <script type="text/javascript">
+	// create elements HTML5 for IE
+	document.createElement("article");
+	document.createElement("section");
+	document.createElement("footer");
+	document.createElement("header");
+	document.createElement("hgroup");
+	document.createElement("nav");
+</script>  -->
+<!--[if lt IE 9]> 
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<![endif]-->
+  <title><%= @title %></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Cristian Bertelegni - web developer | lanacion.com.ar">
+  <meta name="keywords" content="Boudou, Amado, Fernández, Cristina Elisabet, Kicillof, Axel, Kirchner, Alicia Margarita Antonia, Terada, Alicia, Moreno, Mario Guillermo, De Narváez Steuer, Francisco">
+  <meta name="description" content="DECLARACIONES JURADAS ABIERTAS - El patrimonio de los funcionarios públicos de la Argentina | Poder Ejecutivo, Poder Legislativo y Poder Judicial">
+
+<!-- css for header and footer -->
+	<link rel="stylesheet" type="text/css" href="http://especiales.lanacion.com.ar/base-cabezal/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="http://especiales.lanacion.com.ar/base-cabezal/css/font.css">
+	<link rel="stylesheet" type="text/css" href="http://especiales.lanacion.com.ar/base-cabezal/css/estilos.css">
+<!-- /css for header and footer -->
+<!--   <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'> -->
+  <%= stylesheet_link_tag "application", :media => "all" %>
+
+	<%= javascript_include_tag  "application",  "jquery.hideshowlist", "jquery.tooltip.js", "jquery.easing.min", "typeahead.min", "handlebars" %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"  type="text/javascript"></script>
+
+  <%= csrf_meta_tags %>
+</head>
+<body id="<%= controller_name %>" class="<%= action_name %>">
+<%if Rails.env == "pre"%>
+	<h1>##### AMBIENTE PRE</h1>
+<%end%>
+
+<!-- <div id="iframe_header"></div> -->
+<%= render template: "layouts/header_ln" %>
+
+<div id="container">
+<!--[if lt IE 9]> 
+<h1>Su versión de Internet Explorer es muy antigua.</h1>
+<h2>Le recomendamos actualizar su navegador de internet.</h2>
+<p>
+<a href="http://www.mozilla.org/es-AR/firefox/new/" target="_blank"><img src="http://mozorg.cdn.mozilla.net/media/img/firefox/new/header-firefox.png?2013-06"/></a>	
+</p>
+<![endif]-->
+<%= yield %>
+
+<div class="footer">
+	<ul id="especificaciones">
+		<li><a href="https://docs.google.com/document/d/1mFyKaMzk9xdKV71sXjJ-08LWGUguKTMCh1TS18yyK4M/edit?usp=sharing" title="Preguntas frecuentes" target="_blank">Preguntas frecuentes</a></li>
+		<li><a href="https://docs.google.com/document/d/1G9QJPdpxVTLxOmClTIysHzoOjgZEUX7BAwCdTJ-UjHw/edit?usp=sharing" title="lo que aprendimos" target="_blank">Lo que aprendimos</a></li>
+		<!-- <li><a href="" title="Especificaciones" target="_blank">Especificaciones</a></li> -->
+		<li><a href="https://github.com/lanacioncom/" target="_blank" title="ver en github" id="github">Ver en Github <img style="width: 15px; position: relative; top: 3px; margin: 0 0 0 5px;" src="https://github.com/favicon.ico" /></a></li>
+		<li><a href="mailto:ddjj@lanacion.com.ar" title="ddjj@lanacion.com.ar">Consultas y/o sugerencias: <span>ddjj@lanacion.com.ar</span></a></li>
+	</ul>
+	
+	<hr />
+	
+	<ul id="partners">
+		<li><a class="acij" href="http://acij.org.ar/" title="Asociación Civil por la Igualdad y la Justicia" target="_blaank">Asociación Civil por la Igualdad y la Justicia</a></li>
+		<li><a class="pc" href="http://poderciudadano.org/" title="Poder Ciudadano" target="_blaank">Poder Ciudadano</a></li>
+		<li><a class="dl" href=" http://www.directoriolegislativo.org/" title="Directorio legislativo" target="_blaank">Directorio legislativo</a></li>
+		<li><a class="on" href="http://www.mozillaopennews.org/" title="Knight-Mozilla OpenNews" target="_blaank">Knight-Mozilla OpenNews</a></li>
+		<li><a class="ln" href="http://www.lanacion.com.ar/" title="Diario La Nación" target="_blaank">Diario La Nación</a></li>
+		<li><a style="background:none;text-indent:0;" class="ln" href="#" title="Hivos" target="_blaank"><img style="width:55px" src="<%= asset_path("hivos_log.jpg")  %>"></a></li>
+	</ul>
+	<a href="#creditos" class="btn">Créditos</a>
+	<a href="#aviso_legal" class="btn">Aviso Legal</a>
+</div>
+
+</div>
+<%= render template: "layouts/footer_ln" %>
+<!-- <div id="iframe_footer"></div> -->
+<div id="popup">
+  <div id="content">
+  </div>
+</div>
+<div class="popup">
+	<div class="cont" id="creditos">
+		<h2>Créditos</h2>
+		<!-- <ul>
+			<li><span class="rol"> Producción y análisis de datos:</span> Gabriela Bouret y Romina Colman</li>
+			<li><span class="rol">Diseño interactivo:</span> Mariana Trigo Viera</li>
+			<li><span class="rol">Programación:</span> Cristian Bertelegni, Manuel Aristaran <span class="san">(Knight Mozilla OpenNews)</span></li>
+			
+			<li><hr></li>
+			<li class="resp"> <span class="rol">Jefe de diseño interactivo:</span> Juan Diego López</li>
+			<li class="resp"> <span class="rol">Editor responsable:</span> Gastón Roitberg</li>
+			<li><span class="rol"> </span></li>
+		</ul> -->
+		<ul style="padding-bottom:20px">
+			<li><span class="rol"> <a href="http://acij.org.ar/" title="Asociación Civil por la Igualdad y la Justicia" target="_blank">Equipo Asociación Civil por la Igualdad y la Justicia</a></span>
+				<ul>
+					<li>María Victoria Gama, Patricio Kenny, Renzo Lavin, Azul Mertnoff, Ezequiel Nino, Julián Onagoity, Sebastián Pilo, Claire Sobieniak</li>
+					</ul>
+			</li>
+			<li><span class="rol"><a href=" http://www.directoriolegislativo.org/" title="Directorio legislativo" target="_blank">Equipo Fundación Directorio Legislativo</a></span>
+				<ul>
+					<li>María Baron, Noel Alonso Murray, Agustina De Luca, Francina Loguzzo, Lucila Norry, Melina Cruz, Juliana Tonani, Pilar Arechaga, Magalí Gurman, Alejandro Insfrán, Bárbara Stemberg
+					</li> 
+				</ul>	
+			</li>
+			<li><span class="rol"><a href="http://poderciudadano.org/" title="Poder Ciudadano" target="_blank">Equipo Poder Ciudadano</a></span>
+				<ul>
+					<li>
+					Pablo Secchi, Melisa Álvarez, Rosario Pavese, Germán Emanuele, Hernán Tamargo, Sofía Salvo, Cintia Cardozo, Rocío Morales, Griselda López, Delfina Larriva, Ayelén Milan, Clementine Fajolle, Jade Flinois, Nicolás Alberio, Julie Grodin, Natalia Narvaez, Leandro Di Primo, María Florencia Devia Gonzalez
+					</li>
+				</ul>
+			</li>
+			<li><span class="rol"><a href="http://yoquierosaber.org/" title="YoQuieroSaber.org" target="_blank">Equipo YoQuieroSaber.org</a></span></li>
+			<li><hr></li>
+			<li><span class="rol">Coordinación general:</span> Gabriela Bouret y Romina Colman</li>
+			<li><span class="rol">Diseño interactivo:</span> Mariana Trigo Viera</li>
+			<li><span class="rol">Programación:</span> Cristian Bertelegni</li>
+			<li><span class="rol">Producción periodística:</span> Maia Jastreblansky</li>
+			<li><span class="rol">Soporte de datos y comunicación:</span> Florencia Coelho, Guadalupe López e Inés Pujana</li>
+			<li><hr></li>
+			<li class="resp"> <span class="rol">Jefe de diseño interactivo:</span> Juan Diego López</li>
+			<li class="resp"> <span class="rol">Editor responsable:</span> Gastón Roitberg</li>
+			<li><hr></li>
+			<li class="resp"><span class="rol"><a class="on" href="http://www.mozillaopennews.org/fellowships/2013meet.html" title="Knight-Mozilla OpenNews" target="_blaank">Knight Mozilla OpenNews Fellow:</a></span> Manuel Aristarán</li>
+		</ul>
+		<a href="#" class="cerrar">cerrar</a>
+	</div>
+	
+	<div id="aviso_legal" class="cont">
+		<h2>Aviso legal</h2>
+		<p>La difusión de la información contenida en esta base de datos forma parte de las tareas de investigación sobre el monitoreo ciudadano de la Ley N° 25.188 (Ley de Ética de la Función Pública), que llevan adelante la Asociación Civil por la Igualdad y la Justicia, la Fundación Directorio Legislativo y la Fundación Poder Ciudadano. Sus datos fueron transcriptos de las Declaraciones Juradas obtenidas en el marco de lo dispuesto por la referida Ley, cuyas copias se encuentran disponibles en la plataforma en formato pdf. En caso de detectarse cualquier tipo de discrepancia entre la información incluida en la base de datos y las declaraciones juradas, le agradeceremos que se comunique a <a href="mailto:ddjj@lanacion.com.ar" title="ddjj@lanacion.com.ar">ddjj@lanacion.com.ar</a>.	</p>
+		<p>De acuerdo al Art. 11 de la Ley Nº 25.188, la información que surge de las declaraciones juradas no podrá ser utilizada para:<br />
+			"a) Cualquier propósito ilegal;
+			b) Cualquier propósito comercial, exceptuando a los medios de comunicación y noticias para la difusión al público en general;
+			c) Determinar o establecer la clasificación crediticia de cualquier individuo; o
+			d) Efectuar en forma directa o indirecta, una solicitud de dinero con fines políticos, benéficos o de otra índole.
+			Todo uso ilegal de una declaración jurada será pasible de la sanción de multa de quinientos pesos ($ 500) hasta diez mil pesos ($ 10.000). [...]".</p>
+	 	<a href="#" class="cerrar">cerrar</a>
+	</div>
+</div>
+<div id="tooltip">
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,119 @@
+
+<div class="container-fluid">
+	<div class="hero-unit">
+		<h1>Poder: <%= Cargo::PODER[@poder]%> <small>Datos guardados</small></h1>
+		<p>
+			Key generada: <%= @key%> para el archivo "<%= params[:file].original_filename%>" 
+		</p>
+	</div>
+	<h2>Detalles</h2>
+	<a href="#cabeceras" class="datos" >Cabeceras del excel</a>
+	<div id="cabeceras" style="padding: 20px 0; display:none">
+		<pre>
+		<%= @cols.to_yaml %>
+		</pre>
+	</div>
+	 <br />
+	<a href="#indices" class="datos" >Indices tomados</a>
+	<div id="indices" style="padding: 20px 0; display:none">
+		<pre>
+		<%= @dj.to_yaml %>
+		</pre>
+	</div>
+	
+	 <br />
+	 <%= @poder == 0 || @poder == 1 ? "No se guardaron las ObServaciones" : "Se guardaron las Observaciones"%>
+<table class="table table-bordered" style="margin-top: 20px ">
+	<thead>
+		<tr>
+			<th>Line</th>
+			<th>PERSONAS</th>
+			<th>DDJJ</th>
+			<th>CARGO</th>
+			<th>BIEN</th>
+		</tr>
+	</thead>
+	<% 
+		imprimir_log_html = true
+		3.upto(@oo.last_row) do |l| 
+	%>
+	<%  #5800.upto(@oo.last_row) do |l|
+		$stderr.puts "*****************Linea #{ l } ***********************"
+		
+		logger.debug "*****Linea #{ l }"
+		
+		p = get_persona l 			# =>  crea o busca persona
+		#logger.debug "*****Persona: #{ p.to_yaml }" if imprimir_log_html
+		
+		ddjj = get_ddjj l, p 		## =>  crea o busca ddjj
+			#logger.debug "*****DDJJ: #{ ddjj.to_yaml }" if imprimir_log_html
+		
+		c = get_cargo l, p, ddjj 	### =>  crea o busca cargo
+			#logger.debug "*****Cargo: #{ c.to_yaml }" if imprimir_log_html
+		
+		b = get_bien l, p, ddjj 	#### =>  crea nuevo bien
+			#logger.debug "*****Bien #{ b.to_yaml }" if imprimir_log_html
+
+		if imprimir_log_html
+			%>
+
+			<tr>
+				<td><pre><%= l %></pre></td>
+				<!-- 	PERSONAS		 -->
+				<td><pre><%= p.nom_comp %></pre></td>
+
+				<!-- 	DDJJ		 -->
+				<td><pre><%= "#{ddjj.ano} tipo_ddjj_id: #{ddjj.tipo_ddjj_id} funcionario: #{ddjj.funcionario}" %></pre></td>
+
+				<!-- 	CARGO		 -->
+				<td><pre><%#=  c.to_yaml 
+					%></pre></td>
+				
+				<!-- 	BIENES		 -->
+				<td><pre><%#= b.to_yaml 
+					%></pre></td>
+
+			</tr>
+			<!-- FIN EXCEL -->
+			<% 
+		end # imprimir_log_html
+		logger.debug "***** OK ******"
+		$stderr.puts "***************** OK ***********************"
+	end # each excel
+	%>
+
+
+</table>
+</div>
+<!-- <h3>XAPIEN</h3>
+<ul>
+		<%
+		env = Rails.env
+		%>
+			<li><h2>Enviroment = <%= env %></h2></li>
+
+		<% if env == "production" %>
+      <li>XAPIEN = <pre><%# = `/usr/local/lib/ruby/gems/1.9.1/gems/rake-10.1.0/bin/rake  ddjj:load_index 2>&1` 
+      	%></pre></li>
+    <% else %>
+
+      <li>XAPIEN = <pre><%#=  `rake ddjj:load_index 2>&1` 
+      %></pre></li>
+		<% end %>
+			<li>$: <%#= $?
+      %></li>
+
+</ul> -->
+
+<br />
+	<a href="#clearcache" class="datos" >Cache borrado</a>
+	<div id="clearcache" style="padding: 20px 0; display:none">
+		<pre>
+		<% 
+		$stderr.puts "***************** Generando índices para búsquedas x texto ***********************"
+		generar_str_buscador #genera tabla para buscador x texto 
+		%>
+		
+		<%= Rails.cache.clear %>
+		</pre>
+	</div>

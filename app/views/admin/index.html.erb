@@ -1,0 +1,15 @@
+
+<div class="container-fluid">
+   <% flash.each do |name, msg| -%>
+      <%= content_tag :div, msg, class: 'alert alert-success' %>
+    <% end -%>
+  <div class="hero-unit" style="text-align:center">
+    <h1 id="">Declaraciones Juradas</h1>
+    <div style="padding-top:60px">
+    	<a href="<%= url_for(:controller=>:ddjjs, :action=>:index, :poder=>0)%>" class="btn btn-large btn-primary" style="margin: 0 20px">Ejecutivo</a>
+    	<a href="<%= url_for(:controller=>:ddjjs, :action=>:index, :poder=>1)%>" class="btn btn-large btn-primary" style="margin: 0 20px">Legislativo</a>
+    	<a href="<%= url_for(:controller=>:ddjjs, :action=>:index, :poder=>2)%>" class="btn btn-large btn-primary" style="margin: 0 20px">Judicial</a>
+    	<a href="<%= url_for(:controller=>:ddjjs, :action=>:index )%>" class="btn btn-large btn-warning" style="margin: 0 20px">DDJJs en conflicto</a>
+    </div>
+  </div>
+</div>

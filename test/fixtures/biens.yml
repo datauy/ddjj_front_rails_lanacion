@@ -1,0 +1,63 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  tipo_bien_id: 1
+  nombre_bien_id: 1
+  descripcion: MyString
+  direccion: MyString
+  barrio: MyString
+  localidad: MyString
+  provincia: MyString
+  pais: MyString
+  modelo: MyString
+  entidad: MyString
+  ramo: MyString
+  cant_acciones: MyString
+  fecha_desde: 2013-05-02
+  destino: MyString
+  origen: MyString
+  superficie: MyString
+  unidad_medida_id: 1
+  m_mejoras_id: 1
+  mejoras: 9.99
+  m_valor_fiscal_id: 1
+  valor_fiscal: 1
+  m_valor_adq_id: 1
+  valor_adq: 1
+  fecha_hasta: 2013-05-02
+  titular_dominio: MyString
+  porcentaje: MyString
+  periodo: MyString
+  obs: MyString
+  persona_id: 1
+
+two:
+  tipo_bien_id: 1
+  nombre_bien_id: 1
+  descripcion: MyString
+  direccion: MyString
+  barrio: MyString
+  localidad: MyString
+  provincia: MyString
+  pais: MyString
+  modelo: MyString
+  entidad: MyString
+  ramo: MyString
+  cant_acciones: MyString
+  fecha_desde: 2013-05-02
+  destino: MyString
+  origen: MyString
+  superficie: MyString
+  unidad_medida_id: 1
+  m_mejoras_id: 1
+  mejoras: 9.99
+  m_valor_fiscal_id: 1
+  valor_fiscal: 1
+  m_valor_adq_id: 1
+  valor_adq: 1
+  fecha_hasta: 2013-05-02
+  titular_dominio: MyString
+  porcentaje: MyString
+  periodo: MyString
+  obs: MyString
+  persona_id: 1

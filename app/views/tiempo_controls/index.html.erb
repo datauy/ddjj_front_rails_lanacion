@@ -1,0 +1,58 @@
+
+<br>
+<div style="padding: 0 100px">
+<div class="row-fluid">
+	<div class="span12" style="text-align: center">
+		<h3>Tiempo establecido para poder exportar los datos después de haber subido los XLS</h3>
+		<!-- <h2 style="text-align: center" class="small"><%= @tiempo.dias %> días</h2> -->
+	</div>
+</div>
+<br>
+<br>
+<div class="row-fluid">
+	<div class="span6" style="text-align: right">
+		<select style="font-size: 29px; height: 44px; margin:0" id="dias">
+			<% 0.upto(31) do |i| 
+				dias_s = i == 1 ? "día" : "días"
+				%>
+
+				<% if i.to_s == @tiempo.dias  %>
+					<option value="<%= i.to_s%>" selected><%= "#{i.to_s} #{dias_s}"%></option>
+				<% else  %>
+					<option value="<%= i.to_s%>"><%= "#{i.to_s} #{dias_s}"%></option>
+				<% end  %>
+			<% end %>
+		</select>
+	</div>
+	<div class="span6" style="text-align: left">
+		<a href="#" class="btn btn-large" onclick="modificar_dias('<%= url_for(:controller=>:tiempo_controls, :action =>:update, :id => @tiempo.id) %>', this)">Modificar</a>
+	</div>
+</div>
+<br>
+<br>
+<br>
+<br>
+</div>
+
+<script type="text/javascript">
+function modificar_dias(url, el){
+	// console.log()
+	if(confirm("Realmente quiere cambiar la fecha?")){
+		$.ajax({
+			url: url,
+			type: 'post',
+			dataType: 'json',
+			data: {	"_method":"update", "dias": $("#dias").val()}
+		})
+		.done(function(d, s) {
+			alert("La cantidad de dias se cambió con éxito.")
+			console.log(d, s);
+		})
+		.fail(function(d,s) {
+			console.log(s);
+			console.log(d);
+		});
+	}
+	
+}
+</script>
