@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  poder: 1
+  nombre_bienes: MyText
+  personas: MyText
+
+two:
+  poder: 1
+  nombre_bienes: MyText
+  personas: MyText

@@ -1,0 +1,38 @@
+<%= @cols.to_yaml %>
+<%
+2.upto(@oo.last_row) do |l| 
+	p = Persona.where("nombre = ? AND apellido = ?", @oo.cell(l, @cols[:nombre]).strip, @oo.cell(l, @cols[:apellido]).strip).first
+	if p
+
+		p = Persona.update(p, 
+			:tag_id => @oo.cell(l, @cols[:tag_id]) ? @oo.cell(l, @cols[:tag_id]).to_i : nil,
+			:tag_img_id => @oo.cell(l, @cols[:tag_img_id]) ? @oo.cell(l, @cols[:tag_img_id]).to_i : nil,
+			:tag_descripcion => @oo.cell(l, @cols[:tag_descripcion]),
+			:ficha_d_l => @oo.cell(l, @cols[:ficha_d_l])
+			)
+
+%>
+<hr>
+<br>
+	
+	<pre>
+	<%= p.to_yaml %>
+	</pre>
+	<!-- 
+	<%= @oo.cell(l, @cols[:apellido]) %>
+	<%= @oo.cell(l, @cols[:nombre]) %>
+	<%= @oo.cell(l, @cols[:tag_id]) %>
+	<%= @oo.cell(l, @cols[:tag_img_id]) %>
+	<%= @oo.cell(l, @cols[:tag_descripcion]) %>
+	<%= @oo.cell(l, @cols[:ficha_d_l]) %>
+	 -->
+<% 	
+	else
+		%>
+	<h1>error</h1>	
+	<%= @oo.cell(l, @cols[:apellido]) %>
+		<%
+	end
+end %>
+
+<!-- :tag_id, :tag_img_id, :tag_descripcion, :ficha_d_l -->

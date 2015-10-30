@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  ddjj_flag: MyString
+  visitas: 1
+  fecha: 2013-08-08
+
+two:
+  ddjj_flag: MyString
+  visitas: 1
+  fecha: 2013-08-08

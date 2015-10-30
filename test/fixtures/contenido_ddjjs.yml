@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  ddjj_id: 1
+  ddjj_ano: MyString
+  ddjj_tipo: MyString
+  poder_id: 1
+  persona_str: MyString
+  persona_id: 1
+  cargo_str: MyString
+  cargo_id: 1
+  contenido: MyText
+
+two:
+  ddjj_id: 1
+  ddjj_ano: MyString
+  ddjj_tipo: MyString
+  poder_id: 1
+  persona_str: MyString
+  persona_id: 1
+  cargo_str: MyString
+  cargo_id: 1
+  contenido: MyText

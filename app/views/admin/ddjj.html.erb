@@ -1,0 +1,87 @@
+<style type="text/css">
+h1 { font-size: 2em} 
+h2 { font-size: 1.5em} 
+h3 { font-size: 1.1em} 
+</style>
+<div style="width: 3200px">
+<div class="container-fluid" style="margin-bottom:40px">
+	  <h1><%= @d.persona.nom_comp %></h1>
+	  <h2>DDJJ <%= @d.tipo_ddjj %> <%= @d.ano %> <small>(<%= @d.persona_cargo.cargo.cargo %>)</small></h2>
+		<%if @d.obs %>
+			<h3>Observaciones: <%= @d.obs%></h3> 
+		<%end%>
+		<h3>Publicar: <input type="checkbox" checkedd/> </h3>
+</div>
+<div class="container-fluid">
+  	<table class="table table-striped table-bordered ordenar">
+		  <thead>
+			  <tr>
+			  	<th>Tipo bien</th>
+			  	<th>Nombre bien</th>
+			  	<th>Descripción</th>
+			  	<th>Dirección</th>
+			  	<th>barrio</th>
+			  	<th>Localidad</th>
+			  	<th>Provincioa</th>
+			  	<th>País</th>
+			  	<th>Superficie</th>
+			  	<th>U_Med.</th>
+			  	<th>modelo</th>
+			  	<th>Entidad</th>
+			  	<th>ramo</th>
+			  	<th>Acciones</th>
+			  	<th>Desde</th>
+			  	<th>Origen</th>
+			  	<th>$</th>
+			  	<th>Mejoras</th>
+			  	<th>$</th>
+			  	<th>V. Fiscal</th>
+			  	<th>$</th>
+			  	<th>V. Adq.</th>
+			  	<th>Hasta</th>
+			  	<th>%</th>
+			  	<th>Destino</th>
+			  	<th>Obs.</th>
+			  	<th>Tit. Dominio</th>
+			  	<th title="Es titular del Bien?">Tit.?</th>
+			  </tr>
+		  </thead>
+		  <tbody>
+		  	<% @d_b.each do |x| %>		  	
+		  	<tr> 
+		  		<td><%= x.tipo_bien_s %></td>
+		  		<td><%= x.nombre_bien_s %></td>
+		  		<td><%= x.descripcion %></td>
+		  		<td><%= x.direccion %></td>
+		  		<td><%= x.barrio %></td>
+		  		<td><%= x.localidad %></td>
+		  		<td><%= x.provincia %></td>
+		  		<td><%= x.pais %></td>
+		  		<td><%= x.superficie %></td>
+		  		<td><%= x.u_medida %></td>
+		  		<td><%= x.modelo %></td>
+		  		<td><%= x.entidad %></td>
+		  		<td><%= x.ramo %></td>
+		  		<td><%= x.cant_acciones %></td>
+		  		<td><%= x.fecha_desde %></td>
+		  		<td><%= x.origen %></td>
+		  		<td><%= x.moneda 1 %></td>
+		  		<td><%= x.mejoras %></td>
+		  		<td><%= x.moneda 2 %></td>
+		  		<td><%= x.valor_fiscal %></td>
+		  		<td><%= x.moneda 3 %></td>
+		  		<td><%= x.valor_adq %></td>
+		  		<td><%= x.fecha_hasta %></td>
+		  		<td><%= x.porcentaje %></td>
+		  		<td><%= x.destino %></td>
+		  		<td><%= x.obs %></td>
+		  		<td><%= x.titular_dominio %></td>
+		  		<td><%= x.vinculo %></td>
+		  	
+		  	</tr>
+		  	<% end %>
+		  </tbody>
+	  </table>
+</div>
+
+</div>

@@ -1,0 +1,47 @@
+<div class="container-fluid">
+  <div class="hero-unit">
+	<h1>Subir datos a la aplicación</h1>
+	<ul style="margin: 20px 0 0 40px">
+		<li>Elija el archivo con extensión ".XLS" o ".XLSX"</li>
+		<li>Seleccione el poder al cual pertenece El archivo a subir</li>
+		<li><small>Oprima el botón "Subir datos"</small></li>
+		<li><small>Esta operación puede tardar algunos minútos, por favor aguarde a que termine el proceso</small></li>
+
+	</ul>
+  </div>
+  <div class="row-fluid">
+    <div class="span4"></div>
+    <div class="span4" style="">
+    	<div class="box">
+			<%= form_tag( gurdar_url(), :multipart=>true, :class=>"", :name=>"excel") do %>
+			<%= label_tag(:file, "Elegir XLS") %>
+			<%= file_field_tag(:file, :placeholder=>"Elija el archivo", :accept=>'application/vnd.ms-excel') %>
+			<hr />
+					<label for="poder_0">
+						<%= radio_button_tag(:poder, "0") %>
+						<strong> Poder Ejecutivo</strong>
+					</label>
+					<label for="poder_1">
+						<%= radio_button_tag(:poder, "1") %>
+						<strong>Poder Legislativo</strong>
+					</label>
+					<label for="poder_2">
+						<%= radio_button_tag(:poder, "2") %>
+						<strong>Poder Judicial</strong>
+					</label>
+			  <hr />
+				<label for="status">
+					<%= check_box_tag(:status, false) %>
+					<strong> Desea publicar automáticamente las ddjjs que están en este archivo?</strong>
+				</label>
+			  <hr />
+			  <div style="text-align: center">
+			 	 <%= submit_tag("Subir datos", :class=>"btn btn-large btn-primary", :id=>"enviar_datos") %>
+			  </div>
+			<% end %>
+		</div>
+    </div>
+    <div class="span4"></div>
+  </div>
+</div>
+<div id="loading"></div>

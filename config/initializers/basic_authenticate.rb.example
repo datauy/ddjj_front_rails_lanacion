@@ -1,0 +1,5 @@
+
+# basic authenticate for admin
+
+Ddjj2::Application.config.basic = "xxx"
+Ddjj2::Application.config.pass = "xxx"

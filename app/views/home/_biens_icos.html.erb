@@ -1,0 +1,30 @@
+<% biens.each do | x | %>
+	<li class="ico <%= x[0].css_class_name %>">
+		<div class="nombre_bien">
+			<%= x[0].nombre_bien_s %>
+		</div>
+		<div class="data"><%= x.to_json %></div>	
+		<%
+		if x[0].porcentaje
+			if x[0].porcentaje != 100 %>
+			<div class="cont_line">								  
+				<div class="ico line" <%= x[1] ? "no_opacity" : ""%>></div>
+			</div>
+		<%	end 
+		end
+		%>
+		<div class="monto">
+			<% if x[1] %>
+			2 o + titulares
+			<% else %>
+				<% #if x[0].valor_adq.to_i %>
+				<% if x[0].valor_fiscal.to_i != 0
+					%>
+				  <%= "#{x[0].get_moneda('fiscal')}" %><span class="numero"><%= x[0].valor_fiscal %></span>
+				<%else %>
+				  <%= "#{x[0].get_moneda('adqisicion')}" %><span class="numero"><%= x[0].valor_adq %></span>
+				<%end %>
+			<% end %>  
+		</div>
+	</li>		
+<% end %>

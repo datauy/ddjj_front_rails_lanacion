@@ -1,0 +1,55 @@
+/*
+  Place all the styles related to the matching controller here.
+  They will automatically be included in application.css.
+*/
+/* SORT TABLE !!*/
+body#admin div.dataTables_length label {
+	/*width: 460px;*/
+	text-align: left;
+
+}
+div.dataTables_length select, div.dataTables_filter input/*, div.dataTables_info, div.dataTables_paginate */{ display: inline-block;}
+div.dataTables_length select {
+	width: 75px;
+	margin-left: 50px
+}
+
+div.dataTables_filter label {
+	/*float: left;*/
+	float: left;
+	/*width: 460px;*/
+}
+
+div.dataTables_info {
+	padding: 8px 8px 0 0;
+}
+
+div.dataTables_paginate {
+	/* float: right; */
+	margin: 0;
+}
+
+body#admin table {
+	margin: 1em 0;
+	clear: both;
+}
+
+body#admin table.dataTable th:active {
+	outline: none;
+}
+/*#DataTables_Table_0_length{display: none;}*/
+
+/*status sort */
+.sorting_asc {
+	background: url(<%= asset_path("sort/sort_asc.png")  %>) no-repeat center right;
+}
+
+.sorting_desc {
+	background: url(<%= asset_path "sort/sort_desc.png"  %>) no-repeat center right;
+}
+
+.sorting {
+	background: url(<%= asset_path "sort/sort_both.png"  %>) no-repeat center right;
+}
+
+/* //SORT TABLE !!*/

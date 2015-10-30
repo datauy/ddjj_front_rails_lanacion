@@ -1,0 +1,67 @@
+<script type="text/javascript">
+</script>
+<div class="header_top">	
+<h1>DECLARACIONES JURADAS ABIERTAS<!--  <span class="beta">Beta</span>--></h1>
+<p>El patrimonio de los funcionarios públicos de la Argentina<br /><span>Total <strong><%= @CANTIDAD_DDJJS.to_s%></strong> DDJJ. Actualizado el <%= "#{@last.day}/#{@last.month}/#{@last.year}" %></span> </p>
+</div>
+<div id="cont_filtros">
+	<section id="filtros">
+	<a id="comparador_btn" href="<%= url_for({:action =>:comparador}) %>"><img src="<%= asset_path("comparador_btn.png")  %>"></a>
+	<%= render "buscador_x_str"%>
+	
+	<div id="cont_tabs">	  
+		<ul id="tabs_poderes">
+			<%
+			### se define active al poder que va a aparecer x dafault al inicio
+			%>
+			<li data-id="0" data-link="<%= url_for({:action =>:get_filtros, :id => 0}) %>" class="<%= 'active' if params[:id].to_i == 0%>"><h2>Poder Ejecutivo </h2><span>- <%= @count_ddjjs_0 %> DDJJ</span></li>
+			<li data-id="1" data-link="<%= url_for({:action =>:get_filtros, :id => 1}) %>" class="<%= 'active' if params[:id].to_i == 1%>"><h2>Poder Legislativo </h2><span>- <%= @count_ddjjs_1 %> DDJJ</span></li>
+			<li data-id="2" data-link="<%= url_for({:action =>:get_filtros, :id => 2}) %>" class="<%= 'active' if params[:id].to_i == 2%>"><h2>Poder judicial </h2><span>- <%= @count_ddjjs_2 %> DDJJ</span></li>
+		</ul>
+		<div id="filtros_ul">
+			<!--  ###	Filtros ###		 -->
+		</div>
+		<a id="buscar" href="<%= url_for({:action =>:search}) %>">Buscar</a>
+		<div class="clear"></div>
+	</div>
+</section>
+</div>
+<div id="status_search" class="poder_<%= params[:id].to_i %>">
+  	<h2><span class="spt logo_poder">&nbsp;</span> <span id="log_txt">Poder ejecutivo</span> <a href="#" id="volver_filtros" class="cont_flecha"><span class="spt btn_flecha back">&nbsp;</span> Mostrar flitros</a></h2>
+	<%= render "social" %>
+</div>
+
+
+  
+
+
+<div id="render">&nbsp;<!--  render de la tabla  --></div>
+<div style="overflow:hidden">
+<%if PERMITIR_EXPORTAR_DATA %>
+	<a onclick="$('#cont_desc').toggle('fast'); return false;" id="descargar_datos" href="#" title="Descargar los datos de esta búsqueda" class="cont_flecha"><span class="spt btn_flecha down">&nbsp;</span> Descargar datos</a>
+	<div id="cont_desc" style="">
+		<select id="decarga_poder" onchange="descargar_csv_poder(this, '<%= url_for(:action=>:descargar_poder,  :id=> '__id__', :format=>:csv)%>')">
+			<option disabled selected>Seleccione un poder</option>
+			<option value="0">Ejecutivo</option>
+			<option value="1">Legislativo</option>
+			<option value="2">Judicial</option>
+		</select>
+<!-- 		
+		<select id="decarga_format" onchange="descargar(this, 1)">
+			<option value="" disabled selected>Seleccione un formato</option>
+			<option value="json">JSON</option>
+			<option value="xml">XML</option> 
+			<option value="csv" selected>CSV</option>
+		</select>
+-->
+		<a href="#" id="descargar" style="" class="btn" target="_blank">Descargar</a>
+	</div>
+<% end %>
+
+</div>
+<script type="text/javascript" charset="utf-8">
+	$(document).bind("ready", function(){
+		var h = new Home();
+	});
+
+</script>

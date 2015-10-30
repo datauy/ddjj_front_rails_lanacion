@@ -1,0 +1,189 @@
+<div id="<%= id %>">
+    <div class="row">
+        <div class="buscador">
+	        <!-- <input type="text" placeholder="Buscar.." data-ddjj-col="<%= id %>"/> -->
+			<select class="legislador" data-ddjj-col="<%= id %>">
+			<!-- append legisladores list -->
+            </select>
+            <!-- <ul class="results"> </ul> -->
+        </div>
+	    <div class="descripcion">
+		    <h3><a href="" title="" target="_blanc" class="legislador_nombre">Apellido, Nombre</a></h3>
+            <select class="legislador_ddjjs" data-ddjj-col="<%= id %>">
+            </select>
+		    <h5 class="legislador_poder ddjj-gris">Poder</h5>
+		    <div class="legislador_cargo_info ddjj-gris" style="margin: 5px 0 0; line-height: 1.3">
+			    <p class="legislador_cargo">Cargo del Funcionario</p>
+			    <p>Ingreso a la función pública</p>
+		    </div>	
+	    </div>
+    </div>
+    <div class="ddjj_container ddjj-gris">
+        <div class="row">
+	        <a href="#" target="_blank" class="cont_flecha ddjj_original_url" title="" id="" style=""><span class="spt btn_flecha cloud"> </span>Ddjj original</a>
+	        <ul id="descargas">
+		        <li class="cont_flecha" title="" id="" style="/*position:absolute; top: 0px;right: 20px;*/"><span class="spt btn_flecha down"> </span>Descargar datos
+			        <ul>
+				        <li><a href="/ddjj/abal-medina-juan-manuel-2011-anual.json" title="Descargar en formato JSON">JSON</a></li>
+				        <li><a href="/ddjj/abal-medina-juan-manuel-2011-anual.xml" title="Descargar en formato XML">XML</a></li>
+				        <li><a href="/ddjj/abal-medina-juan-manuel-2011-anual.csv" title="Descargar en formato CSV">CSV</a></li>
+			        </ul>
+		        </li>
+	        </ul>
+        </div>
+        <div class="row ddjj_container_info">
+            <div class="col_1">	  
+		        <section class="ddjj">
+			        <h2 hidden>bienes declarados</h2>
+                    <p id="filtrar" hidden>&nbsp;</p>
+			        <article class="inmuebles">
+				        <h3><span>Bienes inmuebles</span></h3>
+				        <a class="ver" href="#">ver mas</a>
+	    		        <ul>
+				        </ul>
+			        </article>
+
+                    <article class="muebles">
+				        <h3><span>Bienes muebles</span></h3>
+				        <a class="ver" href="#">ver mas</a>
+	    		        <ul>
+				        </ul>
+			        </article>
+
+                    <article class="dinero">
+					    <h3><span>Ahorros*</span></h3>
+					    <a class="ver" href="#">ver mas</a>
+					    <ul class="dineros">
+                        </ul>
+                    </article>
+                    <p class="nota">* INCLUYE DINERO EN EFECTIVO, DEPÓSITOS BANCARIOS Y BONOS</p>
+
+                    <article class="ingresos ingresos_cargo">
+					    <h3><span>Ingresos por cargo</span></h3>
+					    <a class="ver menos" href="#">ver mas</a>
+					    
+					    <table class="tabla">
+			  			    <thead>
+							    <tr>
+							        <th class="first">Cargo</th>
+							        <th class="second">Importe</th>
+							    </tr>
+						    </thead>
+						    <tbody>
+						    </tbody>
+					    </table>
+				    </article>
+                    
+                    <article class="ingresos_ventas">
+					    <h3><span>Ingresos por venta</span></h3>
+					    <a class="ver" href="#">ver mas</a>
+					    
+					    <table class="tabla">
+			  			    <thead>
+							    <tr>
+							        <th class="first">Ventas</th>
+							        <th class="second">Importe</th>
+							    </tr>
+						    </thead>
+						    <tbody>
+						    </tbody>
+					    </table>
+				    </article>
+
+                    <article class="ingresos_otros">
+					    <h3><span>Otros ingresos</span></h3>
+					    <a class="ver" href="#">ver mas</a>
+					    <table class="tabla">
+			  			    <thead>
+							    <tr>
+							        <th class="first">Otros</th>
+							        <th class="second">Importe</th>
+							    </tr>
+						    </thead>
+						    <tbody>
+						    </tbody>
+					    </table>
+				    </article>
+
+                    <article class="sociedades">
+					    <h3><span>Sociedades</span></h3>
+					    <a class="ver" href="#">ver mas</a>
+					    <table class="tabla">
+			  			    <thead>
+							    <tr>
+							        <th class="first">Sociedad</th>
+							        <th class="second">Importe</th>
+							    </tr>
+						    </thead>
+						    <tbody>
+						    </tbody>
+					    </table>
+				    </article>
+				    
+				    <article class="acreencias">
+					    <h3><span>Acreencias</span></h3>
+					    <a class="ver" href="#">ver mas</a>
+					    <table class="tabla">
+			  			    <thead>
+							    <tr>
+							        <th class="first">Acreencia</th>
+							        <th class="second">Importe</th>
+							    </tr>
+						    </thead>
+						    <tbody>
+						    </tbody>
+					    </table>
+				    </article>
+				    
+				    <article class="titulos">
+					    <h3><span>Títulos y Fondos</span></h3>
+					    <a class="ver" href="#">ver mas</a>
+					    <table class="tabla">
+			  			    <thead>
+							    <tr>
+							        <th class="first">Títulos y Fondos</th>
+							        <th class="second">Importe</th>
+							    </tr>
+						    </thead>
+						    <tbody>
+						    </tbody>
+					    </table>
+				    </article>
+				    
+				    <article class="deudas">
+					    <h3><span>Deudas</span></h3>
+					    <a class="ver" href="#">ver mas</a>
+					    <table class="tabla">
+			  			    <thead>
+							    <tr>
+							        <th class="first">Deudas</th>
+							        <th class="second">Importe</th>
+							    </tr>
+						    </thead>
+						    <tbody>
+						    </tbody>
+					    </table>
+				    </article>
+                    
+                </section>
+            </div>
+        </div>
+    </div>
+    <div class="row ddjj-carta" style="display:none">
+        <div class="col_1">	  
+		    <section class="ddjj">
+                <article class="document">
+	                <h3><span>Documentación presentada</span></h3>
+	                <div id="app">
+		                
+		                <a class="btn prev" href="#">ANTERIOR</a>
+		                <div id="slide">
+			                <ul id="list" data-documentcloud=""> </ul>
+		                </div>
+		                <a class="btn next"  href="#">PRÓXIMO</a>
+	                </div>
+                </article>
+            </section>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,96 @@
+<% cache( @key_cache.downcase , :expires_in => TIME_CACHE_SEARCH) do 
+	%>
+<!-- <p>Ranking de los funcionarios más buscados</p> -->
+<%
+##CHEQUEAR EL TOTAL DE DDJJ
+
+%>
+
+<!-- <p>Resultado de búsqueda: <%= page_entries_info @q %> de <%= @CANTIDAD_DDJJS %></p> -->
+
+<p id="filtro_aplicado">Filtro: "<%= params[:str] ? params[:str].upcase : '' %>"</p>
+<%if @query_muy_corta%>
+<!-- &#10007; &#9785; &#8252;	 -->
+	<!-- <p style="color:red">&#9785; El filtro no se ha aplicado, para hacerlo debe ingresar 4 o mas caracteres.</p> -->
+<%end%>
+<table id="resultado">
+	<thead>
+		<tr>
+			<th class="index" data-order='<%= (params[:ord] && params[:ord] == "desc") ? "asc" : "desc"%>'>
+				<div class="tabla_row">
+					<div class="span12">
+						<p>Indice</p>
+					</div>
+				</div>
+			</th>
+			<th class="nombre">
+				<div class="tabla_row">
+					<div class="span12">
+						<p>Persona</p>
+					</div>
+				</div>
+			</th>
+			<th class="detalle">
+				<div class="tabla_row">
+					<div class="span6">
+						<p>Cargo</p>
+					</div>
+					<div class="span6">
+						<p>Declaraciones juradas de los años *</p>
+					</div>
+				</div>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		
+<% @q.each_with_index do |p, i|%>
+	<tr>
+		<td class="index">
+			<div class="tabla_row">
+				<div class="span12">
+					<p><%= i %></p>
+				</div>
+			</div>
+			</td>
+		<td class="nombre">
+			<div class="tabla_row">
+				<div class="span12">
+					<p><span class="upper"><%= p.apellido%></span>, <%= p.nombre%></p>
+				</div>
+			</div>
+		</td>
+		<td class="detalle">
+		<% p.persona_cargos.each do |pc| %>	
+			<div class="tabla_row">  
+				<div class="span6">
+					<p><%= pc.cargo.cargo %></p>
+				</div>
+				<div class="span6"> 
+					<p>	<% 
+						pc_cant = pc.ddjjs.length - 1
+						pc.ddjjs.each_with_index do |dj, n| 
+						%>
+						<a href="<%= url_for :action=> "get_ddjj", :id => dj.flag_search %><%= params[:str] ? '#'+params[:str] : ''%>" data-ddjj="<%= dj.id %>" title="<%= dj.tipo_ddjj%> <%= "(Presenta carta por DDJJ)" unless dj.flag_presenta %>"><%= dj.tipo_ddjj_short %><% if dj.flag_presenta == 0 %>
+						<span class="pres_carta min"></span><% end %></a><%= ", " if pc_cant > n 
+						%>	
+						<% end %>
+					</p>
+				</div>
+			</div>
+			<% end %>
+		</td>
+	</tr>
+<%end%>
+	</tbody>	
+</table>
+<div id="paginador">
+<p class="desc">* Todas las DDJJ listadas son "Anuales" salvo las que poseen las siguientes letras: A - DDJJ Alta &#62; B - DDJJ Baja &#62; I - DDJJ Inicial</p>
+<%= will_paginate @q 
+%>
+
+
+        
+</div>
+<% end %>
+

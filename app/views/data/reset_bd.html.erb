@@ -1,0 +1,36 @@
+<div class="container-fluid">
+  <div class="hero-unit">
+  <h1>Reset Base de datos</h1>
+  <!-- 
+  <ul style="margin: 20px 0 0 40px">
+    <li>Elija el archivo con extensión ".XLS" o ".XLSX"</li>
+    <li>Seleccione el poder al cual pertenece El archivo a subir</li>
+    <li><small>Oprima el botón "Subir datos"</small></li>
+    <li><small>Esta operación puede tardar algunos minútos, por favor aguarde a que termine el proceso</small></li> 
+  </ul>
+  -->
+  </div>
+  <div class="row-fluid">
+    <div class="span4"></div>
+    <div class="span4" style="">
+    	<h2>Su número de IP junto con sus datos personales fueron guardados para dejar registro de la acción</h2>
+		<ul>
+			<li>Drop DB: <%= system 'rake db:drop'
+				%></li>
+			<li>Create DB: <%= system 'rake db:create'
+				%></li>
+			<li>Migrate DB: <%= system 'rake db:migrate'
+				%></li>
+		</ul>
+      
+      
+      
+ 
+      
+      
+    </div>
+    </div>
+    <div class="span4"></div>
+  </div>
+</div>
+<div id="loading"></div>

@@ -1,0 +1,25 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:
+  hello: "Hello world"
+  
+  will_paginate:
+    page_entries_info:
+      single_page:
+        zero:  "Resultado de Búsqueda: 0 DDJJ</span> "
+        one:   "Displaying 1 %{model}"
+        other: "Displaying all %{count} %{model}"
+      single_page_html:
+        zero:  "Resultado de Búsqueda: 0 DDJJ</span> "
+        one:   "Resultado de Búsqueda: <span> %{count} DDJJ</span> "
+        other: "Resultado de Búsqueda: <span> %{count} DDJJs</span> "
+
+      # multi_page: "Displaying %{model} %{from} - %{to} of %{count} in totalxxxxx"
+      # multi_page_html: "Displaying %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> of <b>%{count}</b> in xxxxxtotal"
+      multi_page: "Resultado de Búsqueda: <span> %{count} DDJJs</span> "
+      multi_page_html: "Resultado de Búsqueda: <span> %{count} DDJJs</span> "
+      
+    previous_label: "Anterior"
+    next_label: "Pórximo"
+    page_gap: "&hellip;"

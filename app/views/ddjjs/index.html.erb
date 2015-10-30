@@ -1,0 +1,72 @@
+<div class="container-fluid" style="margin-bottom:20px">
+  <!-- <div class="hero-unit">
+  </div> -->
+<% unless params[:poder] %>
+    <h1 id="">Declaraciones juradas en conflicto </h1>
+<% else %>
+    <h1 id="">Declaraciones juradas del <%= @poder %></h1>
+<% end %>
+</div>
+<div class="container-fluid">  
+<table class="table table-bordered ordenar">
+	<thead>
+		<tr>
+<% unless params[:poder] %>
+			<th>Poder</th>
+<% end %>
+			<th>Titular</th>
+			<td>Año</td>
+			<td>Tipo</td>
+			<td>Cargo</td>
+			<td>Publicar?</td>
+			<td>Admin</td>
+			<!-- <td>ADMIN</td> -->
+		</tr>
+	</thead>
+<%	@d.each do |d| %>
+<tr title="Subida el <%= Time.at(d.key).strftime("%d/%m/%Y") %>, Key generada: <%= d.key%>">
+<% unless params[:poder] %>
+	<td><%= d.poder_id ? Cargo::PODER[d.poder_id] : "Error en el poder" %></td>
+<% end %>
+	<td><%= d.persona.nom_comp %></td>	
+	<td><a href="<%= url_for(:controller=>:ddjjs, :action=>:show, :id=>d) %>"><%= d.ano %></a></td>	
+	<td><%= d.tipo_ddjj %></td>	
+	<td><%= d.persona_cargo ? d.persona_cargo.cargo.cargo : "*******!!!!!!*********#{d.to_yaml}" 
+	%>
+	<%if d.obs %>
+	<br />
+	<strong>OBS: <%= d.obs%></strong> 
+	<%end%>
+	</td>
+	<td style="text-align:center"><%= check_box_tag(:status, d.status, d.status, :onclick=>"cambiar_status(this)", :data=>{:url=> url_for(:controller=> :ddjjs, :action=>:update, :id=>d)}) %></td>
+	<%= #link_to "Borrar", ddjj_path(d), method: :delete, data: { confirm: "Estas seguro de borrar esta DDJJ: \n #{d.persona.nom_comp}\n #{d.ano} #{d.tipo_ddjj}?"} 
+	%>
+	<td><a href="#" onclick="borrar('<%= url_for(:controller=>:ddjjs, :action =>:destroy, :id => d.id) %>', '<%= "#{d.persona.nom_comp}__#{d.ano}__#{d.tipo_ddjj}"%>', this); return false;">Borrar</a> </td>
+</tr>
+
+<% end %>
+</table>
+</div>
+<script type="text/javascript">
+function borrar(url, msj, el){
+	msj = msj.split("__")
+	console.log(msj)
+	var m = "¿Realmente quiere borrar esta DDJJ?\n\t" + msj[0] + "\n\tDDJJ: " + msj[1] + " " + msj[2]
+	if(confirm(m)){
+		$.ajax({
+			url: url,
+			type: 'post',
+			dataType: 'json',
+			data: {	"_method":"delete" }
+		})
+		.done(function(d, s) {
+			$(el).parent().parent().remove();
+		})
+		.fail(function(d,s) {
+			console.log(s);
+			console.log(d);
+		});
+	}
+	
+}
+</script>
