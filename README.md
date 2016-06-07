@@ -23,8 +23,7 @@ Por último, agradecemos a [Suma Ciudadana](http://www.sumaciudadana.org/), ONG 
 ## Para actualizar los assets
 
 	'rake assets:precompile'
-  !!! copiar las imagenes en el root de interactivos para que no den 404. http://origeninteractivos.lanacion.com.ar/assets/
-
+ 
 ## crear csv para exportar de los 3 poders
 
   `GET tareas/crear_csv_poderes`
