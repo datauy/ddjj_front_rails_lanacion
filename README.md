@@ -13,7 +13,24 @@ Por último, agradecemos a [Suma Ciudadana](http://www.sumaciudadana.org/), ONG 
   `sudo apt-get install libxapian-dev libxapian22 uuid-dev`
 
   Se recomienda usar [_rbenv_](https://github.com/sstephenson/rbenv) y [_rbenv-bundler_](https://github.com/carsomyr/rbenv-bundler)
+  
 
+## Configuración de la aplicación
+
+* Duplicar __config/database.yml.example__ y y renombrar a  __"config/database.yml"__
+* Abrir __"config/database.yml"__ y configurar la base de datos
+* Duplicar __config/initializers/basic_authenticate.rb.example__ y renombrar a  __"config/initializers/basic_authenticate.rb"__ \(Simple logins para el admin\)
+* Correr las migraciones: `$ rake db:migrate`
+* Correr el server: `$ rails s`
+
+
+
+```
+bundle install
+```
+
+basic_authenticate.rb.example
+  
 ## Para actualizar el indice de busqueda
 
   `rake ddjj:load_index`
@@ -24,7 +41,7 @@ Por último, agradecemos a [Suma Ciudadana](http://www.sumaciudadana.org/), ONG 
 
 	'rake assets:precompile'
  
-## crear csv para exportar de los 3 poders
+## Crear csv para exportar de los 3 poders
 
   `GET tareas/crear_csv_poderes`
 
