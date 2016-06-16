@@ -24,8 +24,6 @@ Por último, agradecemos a [Suma Ciudadana](http://www.sumaciudadana.org/), ONG 
 * Correr las migraciones: `$ rake db:migrate`
 * Correr el server: `$ rails s`
 
-
-basic_authenticate.rb.example
   
 ## Para actualizar el indice de busqueda
 
