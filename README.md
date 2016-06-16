@@ -19,7 +19,7 @@ Por último, agradecemos a [Suma Ciudadana](http://www.sumaciudadana.org/), ONG 
 
 * Duplicar __config/database.yml.example__ y y renombrar a  __"config/database.yml"__
 * Abrir __"config/database.yml"__ y configurar la base de datos
-* Duplicar __config/initializers/basic_authenticate.rb.example__ y renombrar a  __"config/initializers/basic_authenticate.rb"__ \(Simple logins para el admin\)
+* Duplicar __config/initializers/basic_authenticate.rb.example__ y renombrar a  __"config/initializers/basic_authenticate.rb"__ \(Simple login para el admin\)
 * Correr las migraciones: `$ rake db:migrate`
 * Correr el server: `$ rails s`
 
