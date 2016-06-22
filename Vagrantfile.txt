@@ -1,0 +1,29 @@
+## -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure(2) do |config|
+  config .vm.box = "hashicorp/precise64"
+  config.vm.network "forwarded_port", guest: 3000, host: 3000
+  config.vm.synced_folder ".", "/code"
+  config.vm.provision "shell", privileged: false, inline: <<-SHELL
+        sudo apt-get update && sudo apt-get install -y build-essential make curl git libmysqlclient-dev mysql-client-core-5.5 libxapian-dev libxapian22 uuid-dev ruby1.9.1
+        sudo ln -sf /usr/bin/ruby1.9.1 /usr/bin/ruby
+        sudo gem install bundler bundle
+
+        gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+        curl -sSL https://get.rvm.io | bash -s stable --ruby
+        source /home/vagrant/.rvm/scripts/rvm
+        rvm install ruby-1.9.3-p327
+
+        cd /code
+        bundle install
+        cp ./config/database.yml.example ./config/database.yml
+
+        echo "cd /code" >> /home/vagrant/.bashrc
+        echo "source /home/vagrant/.rvm/scripts/rvm" >> /home/vagrant/.bashrc
+      SHELL
+end
