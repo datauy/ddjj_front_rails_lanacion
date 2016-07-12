@@ -37,13 +37,12 @@ class HomeController < ApplicationController
       cc = @q.map { |p| (p.persona_cargos || '') }.flatten.uniq
       c = cc.map{ |c| (c.cargo || "")}.flatten.uniq
       @cargos = c.sort{|x,y| x.cargo <=> y.cargo}
-      # @cargos = Cargo.where("poder_id" => poder)
-      # @cargos = Cargo.todos poder
-      # @tipo_bienes = TipoBien.includes(:biens=>:ddjj).where("ddjjs.persona_id"=> @q.map{|x| x.id}).order(:nombre)
-      # personas = @q.map{|x| x.id}
+
       @tipo_bienes = TipoBien.all
-      # @nombre_bien = NombreBien.where("tipo_bien_id"=> @tipo_bienes.map{|x| x.id}).order(:nombre)
-      @nombre_bien = NombreBien.includes(:biens => :ddjj ).where("ddjjs.poder_id" => poder).order(:nombre)
+      # @nombre_bien = NombreBien.includes(:biens => :ddjj ).where("ddjjs.poder_id" => poder).order(:nombre)
+      @nombre_bien = NombreBien.joins( :biens => :ddjj ).where("ddjjs.poder_id" => poder).order(:nombre).flatten.uniq
+      @anos = Ddjj.uniq.pluck(:ano).sort()
+
     end
 
     
@@ -69,7 +68,7 @@ class HomeController < ApplicationController
       # :a / año
       # :pd / poder
       # :ord / orden
-    @q = Persona.with_ddjjs
+    @q = Persona.get_personas.joins(:ddjjs)
     if params[:str]
       @key_cache += params[:str]
       

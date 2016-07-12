@@ -65,23 +65,15 @@
 			<h3>Año</h3>	
 			<ul class="filtro" data-type="a">
 				<li class="selected top" data-type="a"><span class="check"><span class="">&nbsp;</span></span><div class="todos">Todos</div><div class="filtrado">(Filtro)</div><div class="status">&nbsp;</div>
-					<ul>	
-						<li class="selected" data-id="1999" data-type="a"><span class="check">&nbsp;</span>1999</li>
-						<li class="selected" data-id="2000" data-type="a"><span class="check">&nbsp;</span>2000</li>
-						<li class="selected" data-id="2001" data-type="a"><span class="check">&nbsp;</span>2001</li>
-						<li class="selected" data-id="2002" data-type="a"><span class="check">&nbsp;</span>2002</li>
-						<li class="selected" data-id="2003" data-type="a"><span class="check">&nbsp;</span>2003</li>
-						<li class="selected" data-id="2004" data-type="a"><span class="check">&nbsp;</span>2004</li>
-						<li class="selected" data-id="2005" data-type="a"><span class="check">&nbsp;</span>2005</li>
-						<li class="selected" data-id="2006" data-type="a"><span class="check">&nbsp;</span>2006</li>
-						<li class="selected" data-id="2007" data-type="a"><span class="check">&nbsp;</span>2007</li>
-						<li class="selected" data-id="2008" data-type="a"><span class="check">&nbsp;</span>2008</li>
-						<li class="selected" data-id="2009" data-type="a"><span class="check">&nbsp;</span>2009</li>
-						<li class="selected" data-id="2010" data-type="a"><span class="check">&nbsp;</span>2010</li>
-						<li class="selected" data-id="2011" data-type="a"><span class="check">&nbsp;</span>2011</li>
-						<li class="selected" data-id="2012" data-type="a"><span class="check">&nbsp;</span>2012</li>
-					</ul>			
-				</li>	
-			</ul>
+				
+				<ul class="filtro" data-type="a">
+					<li class="selected top" data-type="a"><span class="check"><span class="">&nbsp;</span></span><div class="todos">Todos</div><div class="filtrado">(Filtro)</div><div class="status">&nbsp;</div>
+						<ul>	
+							<% @anos.each do |ano| %>
+							<li class="selected" data-id="<%= ano %>" data-type="a"><span class="check">&nbsp;</span><%= ano %></li>
+							<% end %>
+						</ul>			
+					</li>	
+				</ul>
 		</div>
 		<div class="clear"></div>
