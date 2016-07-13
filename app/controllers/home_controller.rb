@@ -68,7 +68,7 @@ class HomeController < ApplicationController
       # :a / año
       # :pd / poder
       # :ord / orden
-    @q = Persona.get_personas.joins(:ddjjs)
+    @q = Persona.with_ddjjs
     if params[:str]
       @key_cache += params[:str]
       
