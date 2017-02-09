@@ -6,10 +6,12 @@
   <div class="hero-unit" style="text-align:center">
     <h1 id="">Declaraciones Juradas</h1>
     <div style="padding-top:60px">
-    	<a href="<%= url_for(:controller=>:ddjjs, :action=>:index, :poder=>0)%>" class="btn btn-large btn-primary" style="margin: 0 20px">Ejecutivo</a>
-    	<a href="<%= url_for(:controller=>:ddjjs, :action=>:index, :poder=>1)%>" class="btn btn-large btn-primary" style="margin: 0 20px">Legislativo</a>
-    	<a href="<%= url_for(:controller=>:ddjjs, :action=>:index, :poder=>2)%>" class="btn btn-large btn-primary" style="margin: 0 20px">Judicial</a>
-    	<a href="<%= url_for(:controller=>:ddjjs, :action=>:index )%>" class="btn btn-large btn-warning" style="margin: 0 20px">DDJJs en conflicto</a>
+        <a href="<%= url_for(:controller=>:data, :action=>:gen_str_buscador)%>" class="btn btn-large btn-primary" style="margin: 0 20px">Actualizar el buscador</a>
+    
+        <a href="<%= action_name == "borrar_cache" ? "active" : "" %>" class="btn btn-large btn-primary" style="margin: 0 20px">Borrar Cache</a>
+
+        <a href="<%= url_for(:controller=>:tareas, :action=>:crear_csv_poderes)%>" class="btn btn-large btn-primary" style="margin: 0 20px">Actualizar el csv</a>
+
     </div>
   </div>
 </div>

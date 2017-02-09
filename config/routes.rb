@@ -17,29 +17,19 @@ Ddjj2::Application.routes.draw do
   match "data_personas" => "home#data_personas" 
   match "descargar_poder/:id" => "home#descargar_poder" 
   match "personas" => "home#lista_personas" 
-  
-  match "data/save" => "data#save", :as=> :gurdar
-  get "data/load"
+    
   get "data/reset_bd"
-  get "data/correr_xapian"
-  get "data/dump_db"
+  
+  
   get "data/gen_str_buscador"
-  # get "data/get_ganalytics"
-
-  get "tareas/get_ganalytics"
   get "tareas/borrar_cache"
   get "tareas/crear_csv_poderes" => "tareas#crear_csv_poderes"
-  get "tareas/load_dnis" => "tareas#load_dnis" # guarda dnis para personas desde un csv
-  # get "tareas/lista_personas"
   
  
   ## ADMIN***
   get "admin" => "admin#index"
   match "admin/declaraciones_juradas/:poder" => "admin#declaraciones_juradas"
-  match "admin/:id" => "admin#ddjj"
-
-  resources :ddjjs
-  match "ddjjs/:id" => "ddjjs#update"
+  # match "admin/:id" => "admin#ddjj"
   
   resources :tiempo_controls
   match "tiempo_controls/:id" => "tiempo_controls#update"

@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+
 <!--[if lt IE 9]> 
 <script type="text/javascript">
-	// create elements HTML5 for IE
-	document.createElement("article");
-	document.createElement("section");
-	document.createElement("footer");
-	document.createElement("header");
-	document.createElement("hgroup");
-	document.createElement("nav");
+  // create elements HTML5 for IE
+  document.createElement("article");
+  document.createElement("section");
+  document.createElement("footer");
+  document.createElement("header");
+  document.createElement("hgroup");
+  document.createElement("nav");
 </script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <![endif]-->
@@ -26,7 +29,7 @@
 <%if Rails.env == "pre"%>
   <p>##### AMBIENTE PRE</p>
 <%end%>
-	<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
           <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -35,44 +38,28 @@
             <span class="icon-bar"></span>
           </button>
           <a class="brand" href="<%= url_for(:root)%>">Declaraciones Juradas 2</a>
+              <% if false %>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="<%= action_name == "index" ? "active" : "" %>"><a href="<%= url_for(:controller=>:admin, :action=>:index)%>">Admin</a></li>
-              <li class="<%= action_name == "load" ? "active" : "" %>"><a href="<%= url_for(:controller=>:data, :action=>:load)%>">Subir Archivo</a></li>
-              <li class="<%= action_name == "reset_bd" ? "active" : "" %> dropdown">
-              	<a class="dropdown-toggle" data-toggle="dropdown" href="#menu1">
-			      Tareas
-			      <b class="caret"></b>
-			    </a>
-              	<ul class="dropdown-menu">
-	              <li class="<%= action_name == "gen_str_buscador" ? "active" : "" %>"><a href="<%= url_for(:controller=>:data, :action=>:gen_str_buscador)%>">Actualizar el buscador por texto</a></li>
-	              <!-- <li class="<%= action_name == "get_ganalytics" ? "active" : "" %>"><a href="<%= url_for(:controller=>:tareas, :action=>:get_ganalytics)  	%>">G_Analytics | actualizar visitas ddjjs</a></li> -->
-            <li class="<%= action_name == "borrar_cache" ? "active" : "" %>"><a href="<%= url_for(:controller=>:tareas, :action=>:borrar_cache)%>">Borrar cache</a></li>
-            <!-- <li class="<%= action_name == "correr_xapian" ? "active" : "" %>"><a href="<%= url_for(:controller=>:data, :action=>:correr_xapian)%>">Correr Xapian (actualizar indices del buscador x texto)</a></li> -->
-<!--            <li class="<%= action_name == "reset_bd" ? "active" : "" %>"><a href="<%= url_for(:controller=>:data, :action=> :reset_bd)%>" onclick="return confirm('Borrará toda la base de datos, esta seguro que quiere continuar?')">Borrar BASE DE DATOS</a></li> -->
-
-            <li class="<%= action_name == "index" ? "active" : "" %>"><a href="<%= url_for(:controller=>:tiempo_controls, :action=>:index)%>">Cambiar el tiempo de control para exportar DDJJs</a></li>
-            <li class="<%= action_name == "crear_csv_poderes" ? "active" : "" %>"><a href="<%= url_for(:controller=>:tareas, :action=>:crear_csv_poderes)%>" title="Esta operación tardará unos minutos.">Crear csv de los 3 poderes</a></li>
-            <li class="<%= action_name == "load_dnis" ? "active" : "" %>"><a href="<%= url_for(:controller=>:tareas, :action=>:load_dnis)%>" title="subir csv con dni de personas.">load_dnis para personas</a></li>
-              	</ul>
-              </li>
+            
 <!--          <li <%= ""%>><a href="#contact">Contact</a></li> -->
             </ul>
 
           </div><!--/.nav-collapse -->
+              <% end %>
         </div>
       </div>
     </div>
 <%= yield %>
 <footer class="container-fluid" style="margin:20px 0">
-	<div class="row-fluid">
+  <div class="row-fluid">
     <div class="span6">
      Producción y análisis de datos: <a href="https://twitter.com/gabybouret">@Gabriela Bouret</a> - <a href="https://twitter.com/colmanromi" target="_blank">@Romina Colman</a>
     </div>  
-	  <div class="span6">
-		  Desarrollo web: <a href="https://twitter.com/cbertelegni">@Cristian Bertelegni</a>
-	  </div>		
-	</div>
+    <div class="span6">
+      Desarrollo web: <a href="https://twitter.com/cbertelegni">@Cristian Bertelegni</a>
+    </div>    
+  </div>
   <div class="row-fluid">  
     <div class="span12">
       <a href="http://www.lanacion.com.ar/" target="_blank">LaNacion.com.ar</a>
@@ -81,11 +68,11 @@
 </footer>
 
   <%= javascript_include_tag  "application", "bootstrap-dropdown" %>
-	
-	<script>
-		$(function(){
-			$('.dropdown-toggle').dropdown();
-		})
-	</script>
+  
+  <script>
+    $(function(){
+      $('.dropdown-toggle').dropdown();
+    })
+  </script>
 </body>
 </html>
