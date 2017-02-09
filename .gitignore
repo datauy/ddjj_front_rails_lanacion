@@ -34,3 +34,5 @@ ouput.*
 dump.*
 
 /config/initializers/basic_authenticate.rb
+
+app/controllers/tareas_controller.rb
