@@ -1,5 +1,5 @@
-DDJJ La Nación
-==============
+ Declaraciones Juradas Abiertas - Front
+=======================================
 Declaraciones Juradas Abiertas es un proyecto de [LA NACION](http://lanacion.com.ar), junto a Poder Ciudadano, Fundación Directorio Legislativo, la Asociación Civil por la Igualdad y la Justicia y más de 30 voluntarios que colaboraron para abrir la información patrimonial de los principales funcionarios públicos de la Argentina.
 Todas las personas que participamos del proyecto queremos que otras organizaciones y equipos se sumen a la aventura de abrir documentos públicos que no puedan ser procesados (aún) por las tecnologías disponibles. Con este mismo espíritu y gracias al apoyo de Hivos, creamos este formulario que nos permitió cargar de manera colaborativa más de 900 declaraciones juradas nuevas, luego del lanzamiento inicial en 2013.
 Estamos convencidos de que abrir el código de esta aplicación permitirá a otros hacer más fácil la tarea de crear bases de datos para acercar la información pública a los ciudadanos. Por eso también, invitamos (y queremos) que otras personas puedan descargar , modificar y retrabajar lo que hicimos en equipo.
@@ -13,7 +13,18 @@ Por último, agradecemos a [Suma Ciudadana](http://www.sumaciudadana.org/), ONG 
   `sudo apt-get install libxapian-dev libxapian22 uuid-dev`
 
   Se recomienda usar [_rbenv_](https://github.com/sstephenson/rbenv) y [_rbenv-bundler_](https://github.com/carsomyr/rbenv-bundler)
+  
 
+## Configuración de la aplicación
+
+* Duplicar __config/database.yml.example__ y y renombrar a  __"config/database.yml"__
+* Abrir __"config/database.yml"__ y configurar la base de datos
+* Duplicar __config/initializers/basic_authenticate.rb.example__ y renombrar a  __"config/initializers/basic_authenticate.rb"__ \(Simple login para el admin\)
+* Instalar gemas `$ bundle install`
+* Correr las migraciones: `$ rake db:migrate`
+* Correr el server: `$ rails s`
+
+  
 ## Para actualizar el indice de busqueda
 
   `rake ddjj:load_index`
@@ -23,9 +34,8 @@ Por último, agradecemos a [Suma Ciudadana](http://www.sumaciudadana.org/), ONG 
 ## Para actualizar los assets
 
 	'rake assets:precompile'
-  !!! copiar las imagenes en el root de interactivos para que no den 404. http://origeninteractivos.lanacion.com.ar/assets/
-
-## crear csv para exportar de los 3 poders
+ 
+## Crear csv para exportar de los 3 poders
 
   `GET tareas/crear_csv_poderes`
 
