@@ -1,4 +1,4 @@
-<% cache( @key_cache.downcase , :expires_in => TIME_CACHE_SEARCH) do 
+<% cache( @key_cache.downcase , :expires_in => TIME_CACHE_SEARCH) do
 	%>
 <!-- <p>Ranking de los funcionarios más buscados</p> -->
 <%
@@ -43,7 +43,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		
+
 <% @q.each_with_index do |p, i|%>
 	<tr>
 		<td class="index">
@@ -61,19 +61,19 @@
 			</div>
 		</td>
 		<td class="detalle">
-		<% p.persona_cargos.each do |pc| %>	
-			<div class="tabla_row">  
+		<% p.persona_cargos.each do |pc| %>
+			<div class="tabla_row">
 				<div class="span6">
 					<p><%= pc.cargo.cargo %></p>
 				</div>
-				<div class="span6"> 
-					<p>	<% 
+				<div class="span6">
+					<p>	<%
 						pc_cant = pc.ddjjs.length - 1
-						pc.ddjjs.each_with_index do |dj, n| 
+						pc.ddjjs.each_with_index do |dj, n|
 						%>
 						<a href="<%= url_for :action=> "get_ddjj", :id => dj.flag_search %><%= params[:str] ? '#'+params[:str] : ''%>" data-ddjj="<%= dj.id %>" title="<%= dj.tipo_ddjj%> <%= "(Presenta carta por DDJJ)" unless dj.flag_presenta %>"><%= dj.tipo_ddjj_short %><% if dj.flag_presenta == 0 %>
-						<span class="pres_carta min"></span><% end %></a><%= ", " if pc_cant > n 
-						%>	
+						<span class="pres_carta min"></span><% end %></a><%= ", " if pc_cant > n
+						%>
 						<% end %>
 					</p>
 				</div>
@@ -82,15 +82,9 @@
 		</td>
 	</tr>
 <%end%>
-	</tbody>	
+	</tbody>
 </table>
 <div id="paginador">
-<p class="desc">* Todas las DDJJ listadas son "Anuales" salvo las que poseen las siguientes letras: A - DDJJ Alta &#62; B - DDJJ Baja &#62; I - DDJJ Inicial</p>
-<%= will_paginate @q 
-%>
-
-
-        
+	<%= will_paginate @q %>
 </div>
 <% end %>
-

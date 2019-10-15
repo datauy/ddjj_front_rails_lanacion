@@ -19,7 +19,7 @@
 /declaraciones-juradas.sublime-workspace
 
 
-
+*.lock
 /public/assets
 /public/ddjj_poder_Ejecutivo.csv
 /public/ddjj_poder_Judicial.csv

@@ -4,9 +4,9 @@
 		<%end%>
 		<input type="text" value="" placeholder="Buscar..." name="text_buscar" id="str" data-provide="typeahead" data-personas="<%= url_for :data_personas%>" data-bienes="<%= url_for :data_bienes %>">
 		<ul class="filtro">
-			<li data-id="0" data-str="poder ejecutivo" class="selected"><span class="check">&nbsp;</span>Ejecutivo</li>
-			<li data-id="1" data-str="poder legislativo" class="selected"><span class="check">&nbsp;</span>Legislativo</li>
-			<li data-id="2" data-str="poder judicial" class="selected"><span class="check">&nbsp;</span>judicial</li>
+			<li data-id="1" data-str="poder ejecutivo" class="selected"><span class="check">&nbsp;</span>Ejecutivo</li>
+			<li data-id="2" data-str="poder legislativo" class="selected"><span class="check">&nbsp;</span>Legislativo</li>
+			<!--<li data-id="3" data-str="poder judicial" class="selected"><span class="check">&nbsp;</span>judicial</li>-->
 		</ul>
 		<a href="#" id="buscar_str" class="spt" data-action="<%= url_for :index%>">Buascar por texto</a>
 	</div>

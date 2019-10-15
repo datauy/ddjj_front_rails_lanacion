@@ -4,7 +4,7 @@ class Jurisdiccion < ActiveRecord::Base
   has_many :persona_cargos
   has_many :personas, :through => :persona_cargos
   
-  PODER = ["Ejecutivo", "Legislativo", "Judicial", "Otro"].freeze
+  PODER = ["Otro", "Ejecutivo", "Legislativo", "Judicial"].freeze
   
   scope :todos, lambda{|poder| order("cargo").where("poder_id = ?", poder) }
 

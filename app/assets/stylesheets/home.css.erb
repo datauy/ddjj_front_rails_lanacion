@@ -37,7 +37,7 @@ hr { border: none; border-bottom: 1px solid #ccc; margin: 10px 0}
 a { color: #2b90b7; text-decoration: none}
 a:hover { text-decoration: underline}
 
-.celeste { color: #33AAD4} 
+.celeste { color: #33AAD4}
 .clear { clear: both;}
 .upper { text-transform: uppercase;}
 .btn { display: inline-block; padding: 3px 6px; background: #959595; color: #fff; text-decoration: none}
@@ -71,7 +71,7 @@ span.logo_poder,
 table#resultado th.index,
 div.status,
 ul.social li a,
-span.check, 
+span.check,
 .spt
 { background: #fff url(<%= asset_path("./sprite.png")  %>) 5000px 5000px no-repeat;}
 li.active > span.check,
@@ -98,7 +98,7 @@ div#container .header_top p span {color: #999; font-size: .9em}
 span.beta {font-size: .7em; background: #C6730D; font-weight: normal; padding: 1px 3px; color: #fff; display: inline-block; margin-left: 15px; position: relative; top: -2px; text-transform: none}
 
 /* filtros */
-select.legislador { width: 100%; } 
+select.legislador { width: 100%; }
 select.legislador_ddjjs { width: 180px; }
 
 section#filtros {}
@@ -275,9 +275,9 @@ section#filtros ul#tabs_poderes li h2 { display: inline; }
 section#filtros ul#tabs_poderes li.active { background: #33AAD4; }
 section#filtros ul#tabs_poderes li span { font-size: 1em; display: none;  font-family: 'PT Sans', sans-serif; font-weight: bold;}
 section#filtros ul#tabs_poderes li.active span { display: inline-block; }
-	
+
 	/* general filtro*/
-	
+
 div#filtros_ul { background: #E6E6E6; border: solid 2px #33AAD4; border-bottom: none; border-left:none; height: 50px; float: left; width: 100% }
 section#filtros ul.filtro li { cursor: pointer}
 span.check { display: inline-block; width: 13px; height: 13px; border: 1px solid #ccc; margin: 0 5px 0 0;}
@@ -352,8 +352,8 @@ table#resultado td.nombre { font-weight: bold  }
 table#resultado .nombre { }
 table#resultado div.tabla_row { width: 100%; border-top: 1px solid #FFFFFF; clear:both }
 table#resultado .index{ color: #000; }
-table#resultado div.span6, 
-table#resultado div.span12 
+table#resultado div.span6,
+table#resultado div.span12
 {padding: 8px 0}
 table#resultado div.span6 { width: 49.5%; width: calc(50% - 1px); float: left;}
 	table#resultado div.span6:first-child { border-right: 1px solid #fff  }
@@ -372,30 +372,30 @@ body#home div.pagination  .previous_page, div.pagination .next_page { display: i
 body#home div.pagination .next_page { background-position: -353px 1px;}
 body#home a#descargar_datos { clear: right; float: right; }
 
- 
+
 /* status_search */
 div#status_search { position: relative; margin: 15px 0 0;}
 
 #status_search h2,
-.header h2 
+.header h2
 { display: block; border-bottom: 2px solid #ECECEC; color: #33AAD4; position: relative; margin: 10px 0 0 0; padding-bottom: 3px}
 .header h2 {padding: 0 0 3px 90px;}
 h2 span.logo_poder { position: absolute; width: 90px; height: 50px; display: inline-block; background-position: 0 -443px; left: 0; bottom: -2px }
-.poder_0 h2 span.logo_poder { height: 58px;} /* poder ejetuctivo */
-.poder_1 h2 span.logo_poder { background-position: -114px -451px;} /* poder legislativo */
-.poder_2 h2 span.logo_poder { background-position: -225px -451px; width: 70px} /* poder judicial */
-.poder_0 h2, .poder_1 h2, .poder_2 h2 { padding-left: 90px}
-.poder_2 h2 { padding-left: 70px}
+.poder_1 h2 span.logo_poder { height: 58px;} /* poder ejetuctivo */
+.poder_2 h2 span.logo_poder { background-position: -114px -451px;} /* poder legislativo */
+.poder_3 h2 span.logo_poder { background-position: -225px -451px; width: 70px} /* poder judicial */
+.poder_1 h2, .poder_2 h2, .poder_3 h2 { padding-left: 90px}
+.poder_3 h2 { padding-left: 70px}
 .gris .header h2 {color: #999; }
 .gris h2 span.logo_poder { width: 80px; }
 /*.poder_0.gris h2 span.logo_poder {background-position: -322px -453px;}*/
-.poder_0.gris h2 span.logo_poder {background-position: -322px -443px;}
-.poder_1.gris h2 span.logo_poder {background-position: -414px -453px;}
-.poder_2.gris h2 span.logo_poder {background-position: -505px -453px;width: 65px;}
+.poder_1.gris h2 span.logo_poder {background-position: -322px -443px;}
+.poder_2.gris h2 span.logo_poder {background-position: -414px -453px;}
+.poder_3.gris h2 span.logo_poder {background-position: -505px -453px;width: 65px;}
 
 
-.poder_0.gris h2, .poder_1.gris h2 { padding-left: 80px} /* poder judicial */
-.poder_2.gris h2 { padding-left: 65px} /* poder judicial */
+.poder_1.gris h2, .poder_2.gris h2 { padding-left: 80px} /* poder judicial */
+.poder_3.gris h2 { padding-left: 65px} /* poder judicial */
 div#status_search h2 a#volver_filtros { display: none; margin: 0 0 0 15px;} /* btn volver a los filtros */
 .por_str {  margin-top: 30px }
 div#status_search.por_str h2 { padding-left: 0; }
@@ -441,7 +441,7 @@ div.header { margin: 35px 0 15px; position: relative}
 div.descripcion { overflow: hidden; margin: 10px 0 10px; position: relative}
 div.descripcion img { display: block; width: 90px; height: 90px; border: 2px solid #000; float: left; margin: 0 10px 0 0; }
 div.descripcion h3 { margin: 0 0 5px;font-weight: bold; font-size: 1.7em;}
-div.descripcion h3 a { color: #000; text-decoration: underline; background: url(../img/ir_ln.gif) no-repeat 100% 3px; padding: 0 45px 0 0}
+div.descripcion h3 a { color: #000; text-decoration: underline; padding: 0 45px 0 0;}
 div.descripcion h4 { color: #33AAD4; font-weight: normal; margin: 0 0 5px; font-size: 1.5em;}
 div.descripcion h4 span { font-weight: bold; text-transform: uppercase}
 div.descripcion h4 span.small{ font-size: .7em; text-transform: none; font-weight: normal }
@@ -454,7 +454,8 @@ p#filtrar a.cont_flecha { margin: 0 0 0 20px}
 
 a#volver{ font-size: 1.5em; position:absolute; top: -0px;left: 20px;}
 a#volver span.btn_flecha { top: 3px}
-div.col_1 { width: 83%; float: left}
+div.col_1_comparador { width: 90%; float: left}
+div.col_1 { width: 100%; float: left}
 div.col_2 { width: 15%; float: right; padding: 10px 0 0}
 div.row { overflow: hidden}
 
@@ -518,17 +519,17 @@ li.ico.casa
 li.ico.casa .line
 { background-position: -29px -150px;} /* para las diviciones */
 li.ico.departamento,
-li.ico.propiedad_horizontal, 
+li.ico.propiedad_horizontal,
 li.ico.oficina
 { background-position:  -50px -150px;}
 li.ico.oficina .line,
 li.ico.departamento .line,
-li.ico.propiedad_horizontal .line 
+li.ico.propiedad_horizontal .line
 { background-position:  -78px -150px;}
 
-li.ico.local, 
+li.ico.local,
 li.ico.depósito { background-position:  0px -204px;}
-li.ico.local .line, 
+li.ico.local .line,
 li.ico.depósito .line { background-position:  -27px -204px;}
 
 li.ico.casa_con_lote { background-position: -112px -203px}
@@ -606,23 +607,26 @@ ul.dineros li span { display: inline-block; }
 ul.dineros li span.ico { height: 25px; width: 25px; text-indent: -5000px }
 ul.dineros li span.text { font-size: 15px; font-weight: bold; left: 3px; position: relative; top: 7px; }
 ul.dineros li span.ico.moneda_0 { background-position: -31px -282px; }
-ul.dineros li span.ico.moneda_1 { background-position: 0px -282px; }
-ul.dineros li span.ico.moneda_2 { background-position: -62px -282px; }
-ul.dineros li span.ico.moneda_3 { background-position: -403px -282px; }
-ul.dineros li span.ico.moneda_4 { background-position: -350px -282px; }
-ul.dineros li span.ico.moneda_5 { background-position: -155px -282px; }
+ul.dineros li span.ico.moneda_1 { background-position: -31px -282px; }
+ul.dineros li span.ico.moneda_2 { background-position: 0px -282px; }
+ul.dineros li span.ico.moneda_3 { background-position: -62px -282px; }
+ul.dineros li span.ico.moneda_6 { background-position: -403px -282px; }
+ul.dineros li span.ico.moneda_4 { background-position: -523px -282px; }
+ul.dineros li span.ico.moneda_5 { background-position: -570px -282px; }
 
 li.ico div.cont_line { border-left: 4px solid #FFFFFF; height: 100%; width: 22px; position: absolute; top: 0; right: 0; background: #fff; overflow: hidden;}
 li.ico div.line { height: 100%; width: 100%; position: absolute; top: 0; left: 0}
 li.ico div.line {opacity: .4}
 li.ico div.line[no_opacity] {opacity: 1}
-
+.total_patrimonio {color:#000000; font-weight: bold; font-size: 14px; margin-top: 10px;}
 table.tabla { width: 100%; font-size: 1.1em; color: #666; margin: 10px 0 10px; }
 table.tabla th { height: 20px}
 table.tabla thead th { /*font-size: 12px;*/ color: #333;}
 table.tabla .first { width: 75%; text-align: left;}
 table.tabla .first span { color:#999}
+table.tabla .first b {color:#000000; font-weight: bold;}
 table.tabla .second { width: 25%; text-align: right;}
+table.tabla .second b{ color:#000000; font-weight: bold;}
 .ddjj .data { width: 0; display: none;}
 table.tabla tbody tr { border-bottom: 1px solid #ddd; cursor: default; }
 table.tabla tbody tr:hover { background: #f3f3f3; }
@@ -650,7 +654,7 @@ section#referencias { margin: 20px 0 0}
 section#referencias h3 { color: #999; margin-bottom: 5px; font-weight: bold;}
 ul#referencias_graficas, ul#referencias_graficas_monedas { margin: 0px 0 0; background-position: 0 -32px; display: block; height: 60px; text-indent: -5000px; width: 100%;}
 ul#referencias_graficas li, ul#referencias_graficas_monedas li {display: none}
-ul#referencias_graficas_monedas { background-position: 0 -514px}
+ul#referencias_graficas_monedas { background-position: 0 -514px; width: 280px;}
 div#notas, p.nota { /*font-size: .8em;*/ margin: 10px 0 0; color: #888989 }
 div#notas { margin: 15px 0 0;}
 

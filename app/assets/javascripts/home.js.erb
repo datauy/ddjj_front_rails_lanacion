@@ -5,7 +5,7 @@ function Home(){ // carga todos los nodos
 	self.cache= {};
 	var n = self;	// nodos html
 	// nodos html
-	
+
 	n.cont_filtros = $("div#cont_tabs"); // contenedor de los filtros
 	n.volver_filtros = $("a#volver_filtros"); // link para volver a los filtros
 	n.content_filtros = $("div#filtros_ul"); // contenedor de los checkbox-filtros, se actualiza cuando se cambia de poder
@@ -17,27 +17,27 @@ function Home(){ // carga todos los nodos
 	n.tabs_poderes = $("ul#tabs_poderes li"); // tabs poderes, para la busqueda avanzada
 	n.btn_buscar_str = $("a#buscar_str"); // btn buscar por string
 	n.poderes_str= $("div.buscador ul.filtro li"); // checkbox para buscar por str
-	
-	n.url = n.a_buscar.attr("href"); // btn buscar que contiene la url para el buscador	
+
+	n.url = n.a_buscar.attr("href"); // btn buscar que contiene la url para el buscador
 	self.get_nodos_filtros = function(){ // en cada load de los filtros
 		n.filtros = $("div.filtro > ul.filtro");
-		n.li_types = n.filtros.find("> li.top"); // 
+		n.li_types = n.filtros.find("> li.top"); //
 		n.tipo_bien = n.li_types.filter("[data-type=tb]");
 		n.list_tipo_bien = n.tipo_bien.find(" > ul > li.top");
-		
+
 		n.span_filtrado = $("li.top > span"); // cuadrados azules
-		
+
 		// tabs_poderes para filtros
 	};
-	
+
 	self.events_filtros = function(){ // eventos para los filtros
 		self.get_nodos_filtros();
 		n.span_filtrado.click(filtrarTodos);
-		self.filtros.hideshowlist(callback);		
+		self.filtros.hideshowlist(callback);
 	};
-	
+
 	self.loading = new Loading("popup");
-	
+
 	self.changeActive = function(){ // cambia las tabs de poderes al click
 		var $this = $(this);
 		if(!$this.is(".active")){
@@ -50,7 +50,7 @@ function Home(){ // carga todos los nodos
 			self.change_status_search(0);
 		return false;
 	};
-			
+
 	self.change_status_search = function(is_x_str){
 		var p= {
 				"class":"por_str", // esta clase css borra el logo del poder
@@ -64,20 +64,20 @@ function Home(){ // carga todos los nodos
 			var $o = n.tabs_poderes.filter(".active"),
 				id= $o.data("id");
 			p["class"] = "poder_" + id;
-			
+
 			var detalle=[
-				"> Información aportada a Poder Ciudadano por la Oficina Anticorrupción",
-				"> Información aportada a Directorio Legislativo por el Poder Legislativo",
-				"> Información aportada a ACIJ por el Poder Judicial"
+				"",
+				"",
+				""
 				];
 
 			p["h2"] = $o.find("h2").text() + "<span class='detalle'>" + detalle[id] + "</span>";
 		}
-			
+
 		self.status_search.attr("class", p.class);
 		self.log_txt.html(p.h2);
 	}
-	
+
 	self.load_filtros = function(url, callback){ // busca los filtros según el poder
 		cache = escape(url);
 		if (!self.cache[cache]){
@@ -94,7 +94,7 @@ function Home(){ // carga todos los nodos
 						callback();
 				},
 				error: function( jqXHR, textStatus, errorThrown ){
-					self.loading.esconder();				
+					self.loading.esconder();
 				}
 			});
 		}else{
@@ -114,7 +114,7 @@ function Home(){ // carga todos los nodos
 			cant_x_pagina = 20;
 		for(var i=0; i< index.length; i++){
 			var pos = (index[i].innerHTML*1 + 1);
-				pos += page ? (page - 1)* cant_x_pagina : 0;// si hay paginado le suma		
+				pos += page ? (page - 1)* cant_x_pagina : 0;// si hay paginado le suma
 			index[i].innerHTML = pos;
 		}
 	};
@@ -124,24 +124,24 @@ function Home(){ // carga todos los nodos
 		var str= "";
 		var query = new Array;
 		q = q.split("&");
-		
+
 		for(var i=0; i< q.length; i++){
 			var x = q[i].split("=");
-			if(x[1])	
-				query[x[0]] = x[1].split("_"); 
+			if(x[1])
+				query[x[0]] = x[1].split("_");
 		}
 		var hay_indice = false;
 		for(key in query){
-			
+
 			// var x =$("[data-type="+key+"]");
 			if(key == "pd"){
-			
+
 			}else if(key == "str"){
 					str += '"'+ query[key] + '"';
 
 				// return false;
 			}else if(key == "tb"){
-				
+
 			}
 			// else if(key == "rkg"){
 			// 	str += "RANKING DE LOS MAS VISTOS"
@@ -149,7 +149,7 @@ function Home(){ // carga todos los nodos
 			else{
 				var li = $("[data-type="+key+"]");
 				var str_li = "";
-				
+
 				if (key == "nb"){
 					str += "Nombre bien > ";
 				}else{
@@ -159,7 +159,7 @@ function Home(){ // carga todos los nodos
 					if(i)
 						str_li += " +" +li.filter("[data-id="+query[key][i]+"]").text()
 					else
-						str_li += li.filter("[data-id="+query[key][i]+"]").text();					
+						str_li += li.filter("[data-id="+query[key][i]+"]").text();
 				}
 				str += '<span>"'+str_li.trim() +'"</span> ';
 				if(li[0]) hay_indice = true;
@@ -171,16 +171,16 @@ function Home(){ // carga todos los nodos
 			$("#filtro_aplicado")
 				.html(inicial_str + urldecode(str))
 				.show();
-			
+
 		}
 	};
 
 	function check_tb_filtrado(){
-		if(n.list_tipo_bien.filter(".filtrado").length) 
-			n.tipo_bien.addClass("filtrado");			
+		if(n.list_tipo_bien.filter(".filtrado").length)
+			n.tipo_bien.addClass("filtrado");
 		else
 			n.tipo_bien.removeClass("filtrado");
-	} 
+	}
 
 	function filtrarTodos(){
 		$parent = $(this).parent();
@@ -190,43 +190,43 @@ function Home(){ // carga todos los nodos
 			$parent.find("li.top").removeClass("filtrado");
 		}else{
 			$parent.addClass("filtrado")
-				.find("li").removeClass("selected");		
+				.find("li").removeClass("selected");
 			$parent.find("li.top").addClass("filtrado");
 		}
 		check_tb_filtrado();
 		return false;
 	}
-	
+
 	var callback= { // calback para los click es llas listas de filtros
 		afterClickLi: function(nodoHtml){ // se ejecuta al click de los li
 			$this= $(nodoHtml);
 			$parent = $this.parent();
-			
-			if($this.data("type") != "v"){	// si no es x valor				
+
+			if($this.data("type") != "v"){	// si no es x valor
 				if($this.is(".selected")){
 					$this.removeClass("selected");
-				}else{		
+				}else{
 					$this.addClass("selected");
 				}
 			}else{ // si es valor
 				if($this.is(".selected")){
 					if($parent.find("li.selected").length > 1) {
 						$parent.find("li").removeClass("selected");
-						// console.log($this,$parent);					
+						// console.log($this,$parent);
 						$this.addClass("selected");
 					}else{
 						$parent.find("li").addClass("selected");
 					}
-				}else{		
+				}else{
 					$parent.find("li").removeClass("selected")
 					$this.addClass("selected");
 				}
 			}
-			
-			
+
+
 			if($parent.find("li:not(.selected)").length) {
 				$parent.parent()
-					.addClass("filtrado");	
+					.addClass("filtrado");
 			}else{
 				$parent.parent()
 					.removeClass("filtrado");
@@ -238,10 +238,10 @@ function Home(){ // carga todos los nodos
 		afterHideUl: function(nodoHtml){ // se ejecuta después de esconder un ul
 		}
 	};
-	
-	
 
-	self.getParams = function(){ // retorna obj con los parametros seleccionados en los checks	
+
+
+	self.getParams = function(){ // retorna obj con los parametros seleccionados en los checks
 		function getData(arr){
 			var map = $.map(arr, function(x, i){
 				return x.getAttribute("data-id");
@@ -251,7 +251,7 @@ function Home(){ // carga todos los nodos
 		var params= {};
 		var filtrados = n.li_types.filter(".filtrado");
 		for(var i = 0; i < filtrados.length; i++){
-			var seleccion =""; 
+			var seleccion ="";
 			switch(filtrados[i].getAttribute("data-type")){
 				case "p":
 					params.p = getData($(filtrados[i]).find("li.selected")).join("_");
@@ -263,12 +263,12 @@ function Home(){ // carga todos los nodos
 				case "tb":
 					$tb = $(filtrados[i].getElementsByClassName("top"));
 					var nb= getData($tb.filter(".filtrado").find("li.selected"));
-					if (nb.length)	
+					if (nb.length)
 						params.nb = getData($tb.filter(".filtrado").find("li.selected")).join("_")
 					else
 					params.tb = getData($tb.filter(":not(.filtrado)")).join("_");
 						// ;
-						
+
 					break;
 				case "v":
 					params.v = getData($(filtrados[i]).find("li.selected")).join("_");
@@ -286,8 +286,8 @@ function Home(){ // carga todos los nodos
 		if(!url){
 			var url= n.url + "?" + params;
 		}
-		
-		function callback_load(){	
+
+		function callback_load(){
 			self.contar_index();
 			location.hash = params ? params : url.split("?")[1];
 			$("#paginador .pagination a").click(function(){
@@ -303,7 +303,7 @@ function Home(){ // carga todos los nodos
 			});
 			self.muestra_texto_busqueda_actual();
 		}
-		
+
 		var cache = escape(url);
 		if(!self.cache[cache]){
 			self.loading.start();
@@ -319,17 +319,17 @@ function Home(){ // carga todos los nodos
 					callback_load();
 				},
 				error: function( jqXHR, textStatus, errorThrown ){
-					self.loading.esconder();				
+					self.loading.esconder();
 					// if(console) console.log(jqXHR, textStatus, errorThrown);
 				}
 			});
-		}else{	
+		}else{
 			n.render.html(self.cache[cache]);
 			// location.hash = params ? params : url.split("?")[1];
 			callback_load();
 			//self.loading.esconder();
 		}
-			
+
 	};
 
 	self.search= function(str, rkg){ // ejecuta una busqueda
@@ -347,16 +347,16 @@ function Home(){ // carga todos los nodos
 		}else{
 			query = self.getParams();
 			n.li_types.filter(".open").click();
-			//var poder = n.tabs_poderes.filter(".active"); // x change_status_search 
+			//var poder = n.tabs_poderes.filter(".active"); // x change_status_search
 		};
 		// change_status_search(p);
 		params= $.param(query);
 		// if(rkg) params = params + "&rkg=true";
-		self.loadData(params);	
+		self.loadData(params);
 		return false;
 	}
 
-	self.chek_if_query= function(){ 
+	self.chek_if_query= function(){
 		var hash = location.hash;
 		var query;
 		if(hash){
@@ -367,7 +367,7 @@ function Home(){ // carga todos los nodos
 			if(oHash.pd){
 				n.poderes_str.removeClass('selected'); // checkbox de poder
 				var pd = oHash.pd.split("_");
-				
+
 				pd.forEach(function(x, i){
 					n.poderes_str.filter("[data-id= "+x+"]").addClass('selected');
 				});
@@ -377,11 +377,11 @@ function Home(){ // carga todos los nodos
 				}
 			}
 		}
-		
+
 		self.load_filtros(n.tabs_poderes.filter(".active").data("link"), function(){
 			if(hash){
 				self.loadData(urldecode(hash));
-				if(oHash.str){ 
+				if(oHash.str){
 					esconderFiltros();
 				}
 			}else{
@@ -403,34 +403,34 @@ function Home(){ // carga todos los nodos
 	self.events = function(){
 		n.str.bind("focus", function(){	// focus para el buscador x string
 			esconderFiltros();
-		});					
-			
+		});
+
 		n.volver_filtros.click(function(){
 			n.cont_filtros.slideDown("fast");
 			n.volver_filtros.hide("fast");
 			// para el estatus de los filtros
 			self.change_status_search(0);
-			return false;			
+			return false;
 		});
 		n.btn_buscar_str.click(function(){self.search(1); return false;}); // buscados de str
 		n.a_buscar.click(function(){self.search(0); return false;});// buscados desde los filtros
 		n.tabs_poderes.click(self.changeActive);
 		// self.events_filtros(); // eventos para los filtros checkbox
-		// n.poderes_str.click(self.select_poder_to_search); 
-		n.poderes_str.bind("click", esconderFiltros); 
+		// n.poderes_str.click(self.select_poder_to_search);
+		n.poderes_str.bind("click", esconderFiltros);
 		$("ul.social li a").click(function(){ // botones sociales
 			self.social.share(this.target);
 			return false;
 		});
 		 // llena la tabla al iniciar
-		self.chek_if_query(); 
+		self.chek_if_query();
 		/*
 		self.load_filtros(n.tabs_poderes.filter(".active").data("link"), function(){
-			self.chek_if_query(); 
+			self.chek_if_query();
 			event_btn_gen_iframes(); // aplication.js
 		});
 		*/
-		
+
 	};
 	self.events();
 }
@@ -447,7 +447,7 @@ function Ddjj(){
 		tooltip: $("#tooltip"),
 		ver_mas: $("a.ver")
 	};
-	self.cache_ddjj= function(key, _function){ // cache events 
+	self.cache_ddjj= function(key, _function){ // cache events
 		if(!this.cache){
 			this.cache={};
 		}
@@ -459,23 +459,23 @@ function Ddjj(){
 		}
 		return this.cache[key];
 	};
-	
+
 	/* template tooltip */
 	self.tmpl_tooltip = function(data){
 		data = $.parseJSON(data);
 		var tooltip = "";
-		
+
 		function tmpl_li(x, xx){
 			var tmpl = "<li>_x_: <span>_xx_</span></li>";
-			return tmpl.replace("_x_", x).replace("_xx_", xx);			
+			return tmpl.replace("_x_", x).replace("_xx_", xx);
 		}
-		
-		function get_list(obj, compartido){ // compartido = recibe true si el bien es compartido en la ddjj	
+
+		function get_list(obj, compartido){ // compartido = recibe true si el bien es compartido en la ddjj
 			// if(compartido){
-				// var _obj = obj[0];				
+				// var _obj = obj[0];
 			// }else{
 			// }
-			
+
 				var _obj = obj;
 			if(compartido){
 				var txt_tooltip = {
@@ -506,7 +506,7 @@ function Ddjj(){
 					"destino":"Destino",
 					"periodo": "Período",
 					"superficie":  "Superficie",
-					"_separador_":  "<li><hr /></li>",					
+					"_separador_":  "<li><hr /></li>",
 					// "titular_dominio": "Titular del dominio",
 					"titular_dominio": "Titular",
 					"fecha_desde":"Fecha desde",
@@ -518,9 +518,9 @@ function Ddjj(){
 					"mejoras": "Mejoras"
 					// "vinculo": "Declarante"
 				};
-				
+
 			}
-				
+
 			for(var key in txt_tooltip){
 				if(!!_obj[key] && !!_obj[key] !== ''){
 					var i = [txt_tooltip[key],_obj[key]];
@@ -530,51 +530,51 @@ function Ddjj(){
 						}
 						i[1] = _obj["monedas"][key] + "" + i[1];
 					}
-						
+
 					if(key == "porcentaje")
 						i[1] = (+i[1]).format(i[1] % 1 === 0 ? 0 : 2, ',', '.') + "%";
-					
+
 					if(key == "cant_acciones")
 						i[1] = (+i[1]).format(i[1] % 1 === 0 ? 0 : 2, ',', '.');
-					
+
 
 
 
 					// if(key == "titular_dominio"){
-						// i[1] = i[1] +" "+ _obj["porcentaje"] + "%"; 
-						// // if(compartido){ 
+						// i[1] = i[1] +" "+ _obj["porcentaje"] + "%";
+						// // if(compartido){
 							// // i[1] += ", "+ obj[1][key] + " " + obj[1]["porcentaje"] + "%"; // agrega el porcentaje del otro declarante
 						// // }
 					// }
-					
+
 					if(key == "superficie")
 						i[1] = (+i[1]).format(i[1] % 1 === 0 ? 0 : 2, ',', '.') + _obj["u_medida"];
-							
+
 					if(key == "fecha_desde" || key == "fecha_hasta"){
 						var date = i[1].split("-");
 						i[1] = date[2] + "/" + date[1] + "/" + date[0];
 					}
 					// if(key == "nombre_bien_s")
 						// i[1] = i[1] + _obj["u_medida"];
-							
+
 					tooltip += tmpl_li( i[0], i[1].toUpperCaseFirst ? i[1].toUpperCaseFirst() : i[1]);
 				}
 				if(key == "titular_dominio" && !_obj[key] ){
-					if(_obj["vinculo"])	{						
+					if(_obj["vinculo"])	{
 						tooltip += tmpl_li( txt_tooltip["titular_dominio"], _obj["vinculo"]);
 					}
 
-				}	
+				}
 				if(key == "_separador_")
 					tooltip += txt_tooltip["_separador_"];
 			}
 			// if(compartido){
 				// tooltip += "<li><hr /></li>"
-// 				
+//
 			// }
 		}
-		
-		if (data.constructor == Array) { // si es un array es arma el tooltip para dinero $$$ ó bienes compartidos 
+
+		if (data.constructor == Array) { // si es un array es arma el tooltip para dinero $$$ ó bienes compartidos
 			if( data[0].tipo_bien_s.toLowerCase() == "Dinero ahorros".toLowerCase()){  // para dinero
 				var template = Handlebars.compile($("#table_tooltip").html());
 				Handlebars.registerHelper('formatNumber', function(n){
@@ -599,39 +599,39 @@ function Ddjj(){
 		}else{ // para todos los damas
 			get_list(data);
 		}
-		
+
 		if(tooltip){
 			tooltip= $(document.createElement("ul")).html(tooltip);
-		}	
-		
-		return tooltip;		
-		
+		}
+
+		return tooltip;
+
 	};
-	
+
 	// self.show_tooltip=function(){
 		// $this = $(this);
-// 		
+//
 		// var data = $this.find(".data").html();
-		// var tooltip = self.cache_ddjj (data, self.tmpl_tooltip(data)); 
+		// var tooltip = self.cache_ddjj (data, self.tmpl_tooltip(data));
 		// self.n.tooltip.html(tooltip);
 	// };
-	
+
 	self.data_tooltip=function(obj){
 		$this = $(obj);
 		var data = $this.find(".data").html();
 
-		var tooltip = self.cache_ddjj (data, self.tmpl_tooltip(data)); 
-		
+		var tooltip = self.cache_ddjj (data, self.tmpl_tooltip(data));
+
 		self.n.tooltip.html(tooltip);
 	};
-	
-	self.ver_mas = function(){ // btn +/- ver mas o menos en las ddjj 
+
+	self.ver_mas = function(){ // btn +/- ver mas o menos en las ddjj
 		var $this=$(this);
 	    var $next = $this.next();
 	    if($next.is(':hidden')){
 	        $next.slideDown();
 	        $this.addClass("menos");
-	
+
 	    }else{
 	        $next.slideUp();
 	        $this.removeClass("menos");
@@ -645,14 +645,14 @@ function Ddjj(){
 			if(nodos[i].tagName == "UL"){
 				var child = nodos[i].getElementsByTagName("li");
 			}else{
-				var child = nodos[i].getElementsByTagName("tbody")[0].getElementsByTagName("tr");	
+				var child = nodos[i].getElementsByTagName("tbody")[0].getElementsByTagName("tr");
 			};
 			if(!child.length){
 				nodos[i].style.display="none";
 				nodos[i].previousElementSibling.className = "ver";
 			}
 		}
-		
+
 	};
 
 	(function(){
@@ -677,17 +677,17 @@ function Ddjj(){
 
 		var hash = window.location.hash;
 		// busca filtros****
-		if(hash){ 
+		if(hash){
 			hash = hash.replace("#", "");
 			var opacity = ".4",
 				data_page = $("li.ico, li[data-flag=moneda],  table.tabla tbody tr"),
 				filtro = data_page.filter(":contains("+hash+")");
-			
+
 			if(filtro.length && hash.length >=3){
 				var txt = 'FILTRO: <span>"'+ hash +'"<span>',
 					$P = $("p#filtrar"),
 					a_filtrar = '<a href="#" class="cont_flecha filtrado" ><span class="spt btn_flecha filtrar"> </span>Sacar filtro</a>';
-				
+
 				filtro.each(function(x){
 					var	el = filtro[x],
 						p = el.parentNode;
@@ -699,7 +699,7 @@ function Ddjj(){
 				});
 				data_page.css("opacity", opacity);
 				$P.show().append(txt + a_filtrar)
-				
+
 				// actions
 				var $clones = $(".clon");
 				$.tooltip($clones, self.n.tooltip, self.data_tooltip)
@@ -713,12 +713,12 @@ function Ddjj(){
 						$clones.hide("slow");
 						$this.removeClass("filtrado")
 							.html('<span class="spt btn_flecha filtrar"> </span>Filtrar');
-											
+
 					}else{
 						data_page.css("opacity", opacity);
 						$clones.show("slow");
 						filtro.hide("slow");
-						$this.addClass("filtrado")				
+						$this.addClass("filtrado")
 							.html('<span class="spt btn_flecha filtrar"> </span>Sacar filtro');
 					}
 					return false;
@@ -739,9 +739,9 @@ function Ddjj(){
 		// event_btn_gen_iframes(); // aplication.js
 		event_btns(); // aplication.js
 	})();
-	
+
 }
-Ddjj.prototype.social = new MiniSocial(); 
+Ddjj.prototype.social = new MiniSocial();
 // slide para las ddjjs que no presentan
 function startSlide(){
 		app= {
@@ -752,7 +752,7 @@ function startSlide(){
 			}
 		app.lis=app.ul.find("li");
 		app.w= $(app.lis[0]).width();
-		
+
 		//  set left position
 		app.active=0;
 		app.lis.css({ "left": app.w });
@@ -843,4 +843,3 @@ function startSlide(){
 				});
 		}
 	}
-

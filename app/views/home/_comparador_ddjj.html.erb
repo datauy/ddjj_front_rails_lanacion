@@ -8,31 +8,32 @@
             <!-- <ul class="results"> </ul> -->
         </div>
 	    <div class="descripcion">
-		    <h3><a href="" title="" target="_blanc" class="legislador_nombre">Apellido, Nombre</a></h3>
+		    <h3><a title="" class="legislador_nombre">Apellido, Nombre</a></h3>
             <select class="legislador_ddjjs" data-ddjj-col="<%= id %>">
             </select>
 		    <h5 class="legislador_poder ddjj-gris">Poder</h5>
 		    <div class="legislador_cargo_info ddjj-gris" style="margin: 5px 0 0; line-height: 1.3">
 			    <p class="legislador_cargo">Cargo del Funcionario</p>
 			    <p>Ingreso a la función pública</p>
-		    </div>	
+		    </div>
 	    </div>
     </div>
     <div class="ddjj_container ddjj-gris">
         <div class="row">
-	        <a href="#" target="_blank" class="cont_flecha ddjj_original_url" title="" id="" style=""><span class="spt btn_flecha cloud"> </span>Ddjj original</a>
+	        <!--<a href="#" target="_blank" class="cont_flecha ddjj_original_url" title="" id="" style=""><span class="spt btn_flecha cloud"> </span>Ddjj original</a>-->
 	        <ul id="descargas">
 		        <li class="cont_flecha" title="" id="" style="/*position:absolute; top: 0px;right: 20px;*/"><span class="spt btn_flecha down"> </span>Descargar datos
-			        <ul>
-				        <li><a href="/ddjj/abal-medina-juan-manuel-2011-anual.json" title="Descargar en formato JSON">JSON</a></li>
-				        <li><a href="/ddjj/abal-medina-juan-manuel-2011-anual.xml" title="Descargar en formato XML">XML</a></li>
-				        <li><a href="/ddjj/abal-medina-juan-manuel-2011-anual.csv" title="Descargar en formato CSV">CSV</a></li>
+			        <ul class="descargas_formatos_libres">
+				        <li><a href="" title="Descargar en formato JSON">JSON</a></li>
+				        <!--<li><a href="" title="Descargar en formato XML">XML</a></li>
+				        <li><a href="" title="Descargar en formato CSV">CSV</a></li>-->
 			        </ul>
 		        </li>
 	        </ul>
+          <div class="total_superior"></div>
         </div>
         <div class="row ddjj_container_info">
-            <div class="col_1">	  
+            <div class="col_1_comparador">
 		        <section class="ddjj">
 			        <h2 hidden>bienes declarados</h2>
                     <p id="filtrar" hidden>&nbsp;</p>
@@ -59,9 +60,9 @@
                     <p class="nota">* INCLUYE DINERO EN EFECTIVO, DEPÓSITOS BANCARIOS Y BONOS</p>
 
                     <article class="ingresos ingresos_cargo">
-					    <h3><span>Ingresos por cargo</span></h3>
+					    <h3><span>Ingresos por cargo (excluídos del total patrimonio)</span></h3>
 					    <a class="ver menos" href="#">ver mas</a>
-					    
+
 					    <table class="tabla">
 			  			    <thead>
 							    <tr>
@@ -73,11 +74,11 @@
 						    </tbody>
 					    </table>
 				    </article>
-                    
+
                     <article class="ingresos_ventas">
-					    <h3><span>Ingresos por venta</span></h3>
+					    <h3><span>Ingresos por venta (excluídos del total patrimonio)</span></h3>
 					    <a class="ver" href="#">ver mas</a>
-					    
+
 					    <table class="tabla">
 			  			    <thead>
 							    <tr>
@@ -91,7 +92,7 @@
 				    </article>
 
                     <article class="ingresos_otros">
-					    <h3><span>Otros ingresos</span></h3>
+					    <h3><span>Otros ingresos (excluídos del total patrimonio)</span></h3>
 					    <a class="ver" href="#">ver mas</a>
 					    <table class="tabla">
 			  			    <thead>
@@ -119,7 +120,7 @@
 						    </tbody>
 					    </table>
 				    </article>
-				    
+
 				    <article class="acreencias">
 					    <h3><span>Acreencias</span></h3>
 					    <a class="ver" href="#">ver mas</a>
@@ -134,7 +135,7 @@
 						    </tbody>
 					    </table>
 				    </article>
-				    
+
 				    <article class="titulos">
 					    <h3><span>Títulos y Fondos</span></h3>
 					    <a class="ver" href="#">ver mas</a>
@@ -149,7 +150,7 @@
 						    </tbody>
 					    </table>
 				    </article>
-				    
+
 				    <article class="deudas">
 					    <h3><span>Deudas</span></h3>
 					    <a class="ver" href="#">ver mas</a>
@@ -164,18 +165,18 @@
 						    </tbody>
 					    </table>
 				    </article>
-                    
+
                 </section>
             </div>
         </div>
     </div>
     <div class="row ddjj-carta" style="display:none">
-        <div class="col_1">	  
+        <div class="col_1_comparador">
 		    <section class="ddjj">
                 <article class="document">
 	                <h3><span>Documentación presentada</span></h3>
 	                <div id="app">
-		                
+
 		                <a class="btn prev" href="#">ANTERIOR</a>
 		                <div id="slide">
 			                <ul id="list" data-documentcloud=""> </ul>
@@ -186,4 +187,5 @@
             </section>
         </div>
     </div>
+    <div class="total_inferior"></div>
 </div>

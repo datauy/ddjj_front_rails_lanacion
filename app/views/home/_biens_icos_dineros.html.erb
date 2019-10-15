@@ -1,5 +1,5 @@
 <% total = 0 %>
-<ul>
+<ul class="dineros">
 <% biens.each do | x | %>
   <% total += x[0].valor_fiscal %>
 	<li class="ico <%= x[0].css_class_name %>">

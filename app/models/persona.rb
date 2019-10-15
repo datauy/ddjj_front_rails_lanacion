@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Persona < ActiveRecord::Base
-  attr_accessible :apellido, :cuit_cuil, :documento, :estado_civil_id, :legajo, :nacimento, :nombre, :sexo_id, :tipo_documento_id, :tag_id, :tag_img_id, :tag_descripcion, :ficha_d_l
+  attr_accessible :apellido, :cuit_cuil, :documento, :estado_civil_id, :legajo, :nacimento, :nombre, :sexo_id, :tipo_documento_id, :email, :tag_id, :tag_img_id, :tag_descripcion, :ficha_d_l
 
   has_many :ddjjs
   has_many :persona_cargos
@@ -10,7 +10,7 @@ class Persona < ActiveRecord::Base
   TIPO_DOCUMENTO  = ["dni", "le", "lc", "pasaporte"].freeze
   SEXO  = ["M", "F"].freeze
   ESTADO_CIVIL  = ["Casado/a", "Cónyugue", "Divorciado/a", "Separado", "Soltero/a", "U. Hecho", "Viudo/a"].freeze
-  
+
   self.per_page = 20
   def nom_comp
     self.apellido.to_s + ", " + self.nombre.to_s
@@ -40,9 +40,16 @@ class Persona < ActiveRecord::Base
                                                       # ]).where('ddjjs.id is not null').where("ddjjs.status = ?", true).order('ddjjs.ano DESC')}
                                                       # ]).where('ddjjs.id is not null').where("ddjjs.status = ?", 1)}
                                                       ]).where("ddjjs.status = ? AND ddjjs.id is not null", 1)}
-                                                    
+
+  scope :all_people, -> { includes(:persona_cargos => [:cargo,
+                                                    {:ddjjs => :biens }
+                                                    # ]).where('ddjjs.id is not null').order('personas.apellido', 'ddjjs.ano DESC')}
+                                                    # ]).where('ddjjs.id is not null').where("ddjjs.status = ?", true).order('ddjjs.ano DESC')}
+                                                    # ]).where('ddjjs.id is not null').where("ddjjs.status = ?", 1)}
+                                                    ]).where("personas.apellido is not null", 1).order(:apellido)}
+
   scope :get_personas, -> { includes({:persona_cargos => [:cargo]}, :ddjjs ).where("ddjjs.status = ? AND ddjjs.id is not null", 1).order(:apellido)}
-  
+
   scope :get_personas_sin_tags, -> { includes(:ddjjs ).where("ddjjs.status = ? AND ddjjs.id is not null AND personas.tag_id is null", 1).order(:apellido)}
 
   def serializable_hash(options = nil)

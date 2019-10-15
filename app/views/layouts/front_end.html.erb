@@ -3,16 +3,14 @@
 <head>
 <script type="text/javascript">
 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-43038614-1']);
-  _gaq.push(['_trackPageview']);
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
+  ga('create', 'UA-34702401-16', 'auto');
+  ga('send', 'pageview');
+  
 </script>
 <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 <!-- <script type="text/javascript">
@@ -24,21 +22,21 @@
 	document.createElement("hgroup");
 	document.createElement("nav");
 </script>  -->
-<!--[if lt IE 9]> 
+<!--[if lt IE 9]>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <![endif]-->
   <title><%= @title %></title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+
   <meta name="author" content="Cristian Bertelegni - web developer | lanacion.com.ar">
-  <meta name="keywords" content="Boudou, Amado, Fernández, Cristina Elisabet, Kicillof, Axel, Kirchner, Alicia Margarita Antonia, Terada, Alicia, Moreno, Mario Guillermo, De Narváez Steuer, Francisco">
-  <meta name="description" content="DECLARACIONES JURADAS ABIERTAS - El patrimonio de los funcionarios públicos de la Argentina | Poder Ejecutivo, Poder Legislativo y Poder Judicial">
+  <meta name="keywords" content="Declaraciones juradas políticos uruguay">
+  <meta name="description" content="DECLARACIONES JURADAS ABIERTAS - El patrimonio de los funcionarios públicos del Uruguay | Poder Ejecutivo, Poder Legislativo y Poder Judicial">
 
 <!-- css for header and footer -->
-	<link rel="stylesheet" type="text/css" href="http://especiales.lanacion.com.ar/base-cabezal/css/reset.css">
-	<link rel="stylesheet" type="text/css" href="http://especiales.lanacion.com.ar/base-cabezal/css/font.css">
-	<link rel="stylesheet" type="text/css" href="http://especiales.lanacion.com.ar/base-cabezal/css/estilos.css">
+	<link rel="stylesheet" type="text/css" href="/staticCSS/reset.css">
+	<link rel="stylesheet" type="text/css" href="/staticCSS/font.css">
+	<link rel="stylesheet" type="text/css" href="/staticCSS/estilos.css">
 <!-- /css for header and footer -->
 <!--   <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'> -->
   <%= stylesheet_link_tag "application", :media => "all" %>
@@ -57,36 +55,42 @@
 <%= render template: "layouts/header_ln" %>
 
 <div id="container">
-<!--[if lt IE 9]> 
+<!--[if lt IE 9]>
 <h1>Su versión de Internet Explorer es muy antigua.</h1>
 <h2>Le recomendamos actualizar su navegador de internet.</h2>
 <p>
-<a href="http://www.mozilla.org/es-AR/firefox/new/" target="_blank"><img src="http://mozorg.cdn.mozilla.net/media/img/firefox/new/header-firefox.png?2013-06"/></a>	
+<a href="http://www.mozilla.org/es-AR/firefox/new/" target="_blank"><img src="http://mozorg.cdn.mozilla.net/media/img/firefox/new/header-firefox.png?2013-06"/></a>
 </p>
 <![endif]-->
 <%= yield %>
 
 <div class="footer">
-	<ul id="especificaciones">
-		<li><a href="https://docs.google.com/document/d/1mFyKaMzk9xdKV71sXjJ-08LWGUguKTMCh1TS18yyK4M/edit?usp=sharing" title="Preguntas frecuentes" target="_blank">Preguntas frecuentes</a></li>
-		<li><a href="https://docs.google.com/document/d/1G9QJPdpxVTLxOmClTIysHzoOjgZEUX7BAwCdTJ-UjHw/edit?usp=sharing" title="lo que aprendimos" target="_blank">Lo que aprendimos</a></li>
-		<!-- <li><a href="" title="Especificaciones" target="_blank">Especificaciones</a></li> -->
-		<li><a href="https://github.com/lanacioncom/" target="_blank" title="ver en github" id="github">Ver en Github <img style="width: 15px; position: relative; top: 3px; margin: 0 0 0 5px;" src="https://github.com/favicon.ico" /></a></li>
-		<li><a href="mailto:ddjj@lanacion.com.ar" title="ddjj@lanacion.com.ar">Consultas y/o sugerencias: <span>ddjj@lanacion.com.ar</span></a></li>
-	</ul>
-	
 	<hr />
-	
-	<ul id="partners">
-		<li><a class="acij" href="http://acij.org.ar/" title="Asociación Civil por la Igualdad y la Justicia" target="_blaank">Asociación Civil por la Igualdad y la Justicia</a></li>
-		<li><a class="pc" href="http://poderciudadano.org/" title="Poder Ciudadano" target="_blaank">Poder Ciudadano</a></li>
-		<li><a class="dl" href=" http://www.directoriolegislativo.org/" title="Directorio legislativo" target="_blaank">Directorio legislativo</a></li>
-		<li><a class="on" href="http://www.mozillaopennews.org/" title="Knight-Mozilla OpenNews" target="_blaank">Knight-Mozilla OpenNews</a></li>
-		<li><a class="ln" href="http://www.lanacion.com.ar/" title="Diario La Nación" target="_blaank">Diario La Nación</a></li>
-		<li><a style="background:none;text-indent:0;" class="ln" href="#" title="Hivos" target="_blaank"><img style="width:55px" src="<%= asset_path("hivos_log.jpg")  %>"></a></li>
-	</ul>
-	<a href="#creditos" class="btn">Créditos</a>
-	<a href="#aviso_legal" class="btn">Aviso Legal</a>
+	<section id="pie" class="floatFix expandido">
+    <div class="copy floatFix">
+      <span class="textoCopy">Un proyecto de <a href="https://directoriolegislativo.org/" target="_blank">Directorio Legislativo</a> implementado por <a href="http://datauy.org" target="_blank">DATA</a> en base al trabajo realizado por <a href="http://www.lanacion.com.ar/" target="_blank">La Nación</a></span>
+      <br/>
+      <ul id="especificaciones">
+    		<li><a href="https://gitlab.com/directorio-legislativo/ddjj_front_rails_lanacion-datauy" target="_blank" title="ver en github" id="github">Ver en Github <img style="width: 15px; position: relative; top: 3px; margin: 0 0 0 5px;" src="https://github.com/favicon.ico" /></a></li>
+    	</ul>
+    </div>
+	</section>
+
+	<!--
+		<ul id="partners">
+			<li><a class="acij" href="http://acij.org.ar/" title="Asociación Civil por la Igualdad y la Justicia" target="_blaank">Asociación Civil por la Igualdad y la Justicia</a></li>
+			<li><a class="pc" href="http://poderciudadano.org/" title="Poder Ciudadano" target="_blaank">Poder Ciudadano</a></li>
+			<li><a class="dl" href=" http://www.directoriolegislativo.org/" title="Directorio legislativo" target="_blaank">Directorio legislativo</a></li>
+			<li><a class="on" href="http://www.mozillaopennews.org/" title="Knight-Mozilla OpenNews" target="_blaank">Knight-Mozilla OpenNews</a></li>
+			<li><a class="ln" href="http://www.lanacion.com.ar/" title="Diario La Nación" target="_blaank">Diario La Nación</a></li>
+			<li><a style="background:none;text-indent:0;" class="ln" href="#" title="Hivos" target="_blaank"><img style="width:55px" src="<%= asset_path("hivos_log.jpg")  %>"></a></li>
+		</ul>
+	-->
+
+	<!--
+		<a href="#creditos" class="btn">Créditos</a>
+		<a href="#aviso_legal" class="btn">Aviso Legal</a>
+	-->
 </div>
 
 </div>
@@ -103,7 +107,7 @@
 			<li><span class="rol"> Producción y análisis de datos:</span> Gabriela Bouret y Romina Colman</li>
 			<li><span class="rol">Diseño interactivo:</span> Mariana Trigo Viera</li>
 			<li><span class="rol">Programación:</span> Cristian Bertelegni, Manuel Aristaran <span class="san">(Knight Mozilla OpenNews)</span></li>
-			
+
 			<li><hr></li>
 			<li class="resp"> <span class="rol">Jefe de diseño interactivo:</span> Juan Diego López</li>
 			<li class="resp"> <span class="rol">Editor responsable:</span> Gastón Roitberg</li>
@@ -118,8 +122,8 @@
 			<li><span class="rol"><a href=" http://www.directoriolegislativo.org/" title="Directorio legislativo" target="_blank">Equipo Fundación Directorio Legislativo</a></span>
 				<ul>
 					<li>María Baron, Noel Alonso Murray, Agustina De Luca, Francina Loguzzo, Lucila Norry, Melina Cruz, Juliana Tonani, Pilar Arechaga, Magalí Gurman, Alejandro Insfrán, Bárbara Stemberg
-					</li> 
-				</ul>	
+					</li>
+				</ul>
 			</li>
 			<li><span class="rol"><a href="http://poderciudadano.org/" title="Poder Ciudadano" target="_blank">Equipo Poder Ciudadano</a></span>
 				<ul>
@@ -143,7 +147,7 @@
 		</ul>
 		<a href="#" class="cerrar">cerrar</a>
 	</div>
-	
+
 	<div id="aviso_legal" class="cont">
 		<h2>Aviso legal</h2>
 		<p>La difusión de la información contenida en esta base de datos forma parte de las tareas de investigación sobre el monitoreo ciudadano de la Ley N° 25.188 (Ley de Ética de la Función Pública), que llevan adelante la Asociación Civil por la Igualdad y la Justicia, la Fundación Directorio Legislativo y la Fundación Poder Ciudadano. Sus datos fueron transcriptos de las Declaraciones Juradas obtenidas en el marco de lo dispuesto por la referida Ley, cuyas copias se encuentran disponibles en la plataforma en formato pdf. En caso de detectarse cualquier tipo de discrepancia entre la información incluida en la base de datos y las declaraciones juradas, le agradeceremos que se comunique a <a href="mailto:ddjj@lanacion.com.ar" title="ddjj@lanacion.com.ar">ddjj@lanacion.com.ar</a>.	</p>

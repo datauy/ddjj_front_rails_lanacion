@@ -9,10 +9,12 @@
 <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
 <script type="text/javascript" charset="utf-8">
+var total_patrimonio = [];
+var total_deudas = [];
 $(function() {
     var ddjj = new Ddjj();
     var loading = new Loading("popup");
-    var base_url =  "http://ddjj.lanacion.com.ar/api/";
+    var base_url =  "http://form.ddjj.datauy.org/api/";
 
     loading.start();
 
@@ -26,15 +28,15 @@ $(function() {
         // placeholder: "Seleccione un funcionario",
         // allowClear: true
     });
-    
+
     $('select.legislador_ddjjs').select2({
         placeholder: { id: -1, text: "Seleccione una DJ" },
         allowClear: true
     });
-    
-    $.get(base_url + 'legisladores/',
+
+    $.get(base_url + 'legisladores',
         function( data ) {
-          
+
             var opts = ["<option value='0' selected>Seleccione una DJ</option>"];
             var opt = "<option value='{id}'>{name}</option>";
 
@@ -42,7 +44,7 @@ $(function() {
                 if(data[i].ddjjs_count == 0) {
                     continue;
                 }
-                
+
                 opts.push(
                     opt
                     .replace('{id}', data[i].id)
@@ -61,9 +63,9 @@ $(function() {
         var legislador_id = this.value,
             ddjj_col_id = this.dataset.ddjjCol;
             legislador_nombre = this.selectedOptions[0].text;
-        
+
         if ( legislador_id == "0" ) { return false; }
-        
+
         $('#' + ddjj_col_id + ' .legislador_nombre').html(legislador_nombre);
         reset_legislador(ddjj_col_id);
         grey_in_cargo(ddjj_col_id);
@@ -73,16 +75,20 @@ $(function() {
         show_ddjj_descargas(ddjj_col_id);
         hide_carta(ddjj_col_id);
         find_legislador_ddjjs(ddjj_col_id, legislador_id);
+        var $div_superior = $('#' + ddjj_col_id + ' .total_superior');
+        var $div_inferior = $('#' + ddjj_col_id + ' .total_inferior');
+        $div_superior.html("");
+        $div_inferior.html("");
     }
 
     var ddjjs = {};
-     
+
     function find_legislador_ddjjs(ddjj_col_id, legislador_id) {
         $legislador_ddjjs = $('#' + ddjj_col_id + ' .legislador_ddjjs');
         $legislador_ddjjs.html("");
         $.get(base_url + 'legisladores/{legislador_id}/'.replace( '{legislador_id}', legislador_id ),
                 function(data) {
-                   
+
                     var options = [{id: -1, text: "Seleccione una DJ"}];
                     var text
                     for(i in data.ddjjs) {
@@ -99,6 +105,10 @@ $(function() {
 
     $('.legislador_ddjjs').change(function() {
         var col_id = this.dataset.ddjjCol;
+        var $div_superior = $('#' + col_id + ' .total_superior');
+        var $div_inferior = $('#' + col_id + ' .total_inferior');
+        $div_superior.html("");
+        $div_inferior.html("");
         var ddjj_id = this.value;
         var ddjj = ddjjs[ddjj_id];
         grey_out_cargo(col_id);
@@ -111,16 +121,34 @@ $(function() {
                 hide_ddjj_container(col_id);
             } else {
                 show_ddjj_container(col_id);
+                set_descargas(ddjj_id, col_id);
                 show_ddjj_bienes(ddjj_id, col_id);
                 hide_carta(col_id);
             }
         }
     });
 
+    function set_descargas(ddjj_id, col_id){
+      var $ul = $('#' + col_id + ' .descargas_formatos_libres');
+      var urlJSON = base_url + 'ddjjs/'+ddjj_id;
+      var urlXML = base_url + 'ddjjs/'+ddjj_id;
+      var urlCSV = base_url + 'ddjjs/'+ddjj_id;
+      var html_descargas = '<li><a href="'+urlJSON+'" title="Descargar en formato JSON">JSON</a></li>';
+      //html_descargas	= html_descargas + '<li><a href="'+urlXML+'" title="Descargar en formato XML">XML</a></li>';
+			//html_descargas	= html_descargas + '<li><a href="'+urlCSV+'" title="Descargar en formato CSV">CSV</a></li>';
+      $ul.html(html_descargas);
+      var link_datos = $(".cont_flecha ul");
+      $("ul#descargas li.cont_flecha li a").click(function(event) {
+  			link_datos.toggle("fast");
+  			var w = window.open( this.href, "descargar", "toolbar=no, location=no, resizable=no, scrollbars= no, top=20%,left=50%" );
+  			return false;
+  		})
+    }
+
     function show_legislador_ddjj_info(ddjj, col_id) {
         $('#' + col_id + ' .descripcion .legislador_poder').html(ddjj.poder);
         $('#' + col_id + ' .descripcion .legislador_cargo').html(ddjj.cargo);
-        $('#' + col_id + ' .ddjj_original_url').attr('href', ddjj.url);
+        //$('#' + col_id + ' .ddjj_original_url').attr('href', ddjj.url);
     }
 
     function get_bien_tipo_class(bien_tipo) {
@@ -160,21 +188,23 @@ $(function() {
                       }
 
                       bien_tipo_class = get_bien_tipo_class(key);
-                      
+
                       if(!!!tipo_bienes[bien_tipo_class]) {
                           tipo_bienes[bien_tipo_class] = [];
                       }
-                      
+
                       tipo_bienes[bien_tipo_class].push(bien);
                   }
 
                   show_bienes(tipo_bienes, col_id);
                   grey_out_ddjj(col_id);
-                  
+
               },'json');
     }
 
     function show_bienes(bienes, col_id) {
+        total_patrimonio[col_id] = 0;
+        total_deudas[col_id] = 0;
         show_bienes_xmuebles(bienes['inmuebles'], col_id, 'inmuebles');
         show_bienes_xmuebles(bienes['rodados'], col_id, 'muebles');
         show_bienes_dineros_ahorros(bienes['dinero_ahorros'], col_id);
@@ -185,7 +215,49 @@ $(function() {
         show_bienes_ingresos(bienes['titulos'], col_id, 'titulos');
         show_bienes_ingresos(bienes['deudas'], col_id, 'deudas');
         show_bienes_ingresos(bienes['sociedades'], col_id, 'sociedades');
+		    show_total_patrimonio(col_id);
+        set_max_size();
     }
+
+  function set_max_size(){
+      var tipos = ["inmuebles", "muebles", "dinero", "ingresos_cargo", "ingresos_ventas", "ingresos_otros", "acreencias", "titulos", "deudas", "sociedades"]
+      for(i in tipos) {
+          var tipo = tipos[i];
+          var $div_left = $('#left-ddjj .' + tipo);
+          var $div_right = $('#right-ddjj .' + tipo);
+          $div_left.height('');
+          $div_right.height('');
+          var height_left = $div_left.height();
+          var height_right = $div_right.height();
+          //alert("tipo: "+tipo+ " left: " + height_left + " right: " + height_right);
+          if(height_left<height_right){
+            $div_left.height(height_right);
+          }else{
+            $div_right.height(height_left);
+          }
+      }
+  }
+
+  function numberWithDots(x) {
+    x = Math.floor(x);
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+	function show_total_patrimonio(col_id){
+    if(!total_patrimonio[col_id]){
+      total_patrimonio[col_id]=0;
+    }
+    if(!total_deudas[col_id]){
+      total_deudas[col_id]=0;
+    }
+		total_patrimonio[col_id] = +total_patrimonio[col_id] - +total_deudas[col_id];
+		//var $div = $('#' + col_id);
+    var $div_superior = $('#' + col_id + ' .total_superior');
+    var $div_inferior = $('#' + col_id + ' .total_inferior');
+		//$("<h3 class='total_patrimonio'>TOTAL PATRIMONIO: $"+total_patrimonio[col_id]+"</h3>").insertAfter( '#' + col_id + " #descargas" );
+    $div_superior.html("<h3 class='total_patrimonio'>TOTAL PATRIMONIO: $"+numberWithDots(total_patrimonio[col_id])+"</h3>");
+    $div_inferior.html("<h3 class='total_patrimonio'>TOTAL PATRIMONIO: $"+numberWithDots(total_patrimonio[col_id])+"</h3>");
+	}
 
     function show_bienes_xmuebles(bienes, col_id, xmuebles) {
         var $show_hide_button = $('#' + col_id + '  .' + xmuebles + ' a');
@@ -193,7 +265,7 @@ $(function() {
             $show_hide_button.removeClass('menos');
             return;
         }
-        
+
         var bien, i, $li, nombre_bien;
         var $inmuebles = $('#' + col_id + '  .' + xmuebles + ' ul');
         $inmuebles.html('');
@@ -202,13 +274,13 @@ $(function() {
                           "{% if(porcentaje !== '100.00') { %} <div class='cont_line'> <div class='ico line no_opacity'></div></div> {% } %}" +
                           "<div class='monto'> {{ moneda_tipo }} {{ valor }}</div>"
                         "</li>";
-        
+
         var bien_template = _.template(template);
-        
+		var subtotal = 0;
         for(i in bienes) {
             bien = bienes[i];
             nombre_bien_class = bien.nombre_bien_s.toLowerCase().replace(' ', '_');
-            
+
             if(bien.valor_fiscal !== null) {
                 moneda_tipo = bien.valor_fiscal_moneda_tipo;
                 valor = bien.valor_fiscal;
@@ -216,7 +288,7 @@ $(function() {
                 moneda_tipo = bien.valor_adq_moneda_tipo;
                 valor = bien.valor_adq;
             }
-            
+			subtotal = +subtotal + +valor;
             var b = bien_template({
                 'nombre_bien': bien.nombre_bien_s,
                 'porcentaje': bien.porcentaje,
@@ -235,8 +307,13 @@ $(function() {
 
         // tooltip
         makeOverLi($("li", $inmuebles));
-
+		var subtotal_html = "<table class='tabla'><tbody><tr><td class='first'><b>SUBTOTAL:</b></td><td class='second'><b><span class='numero'>"+numberWithDots(subtotal)+"</b></span><div class='data'></div></td></tr></tbody></table>";
+		$inmuebles.append(subtotal_html);
+    if(!total_patrimonio[col_id]){
+      total_patrimonio[col_id]=0;
     }
+		total_patrimonio[col_id] = +total_patrimonio[col_id] + +subtotal;
+	}
 
     function get_moneda_class(moneda_tipo) {
         var tipos = ["$", "us$", "E", " Uruguayos", "A", "A$", "$L"]
@@ -245,7 +322,7 @@ $(function() {
         if(index == -1) {
             index = 8;
         }
-        
+
         return 'moneda_' + index;
     }
 
@@ -271,12 +348,13 @@ $(function() {
             $show_hide_button.removeClass('menos');
             return;
         }
-        
+
         var bien, i;
         var tipo_ahorros = {};
+		var subtotal = 0;
         for(i in bienes) {
             bien = bienes[i];
-                        
+
             if(bien.valor_fiscal !== null) {
                 moneda_tipo = bien.valor_fiscal_moneda_tipo;
                 valor = bien.valor_fiscal;
@@ -284,7 +362,7 @@ $(function() {
                 moneda_tipo = bien.valor_adq_moneda_tipo;
                 valor = bien.valor_adq;
             }
-            
+			subtotal = +subtotal + +valor;
             if(!!!tipo_ahorros[moneda_tipo]) {
                 tipo_ahorros[moneda_tipo] = {val: 0, data: []};
             }
@@ -292,15 +370,15 @@ $(function() {
             tipo_ahorros[moneda_tipo].val += parseInt(valor);
             tipo_ahorros[moneda_tipo].data.push(bien);
         }
-        
+
         var $dinero = $('#' + col_id + '  .dinero ul');
         $dinero.html('');
-        
+
         var template  = "<li data-data='{{data}}'>" +
                         "<span class='ico {{ moneda_class}}'>{{ moneda_tipo }}</span>" +
                         "<span class='text numero total'>{{ valor }}</span>" +
                         "</li>";
-        
+
         var bien_template = _.template(template);
         var tipo_ahorro;
         for(moneda_tipo in tipo_ahorros) {
@@ -318,8 +396,13 @@ $(function() {
 
         // tooltip
         makeOverLi($("li", $dinero));
-
-    }    
+		var subtotal_html = "<table class='tabla'><tbody><tr><td class='first'><b>SUBTOTAL:</b></td><td class='second'><b><span class='numero'>"+numberWithDots(subtotal)+"</b></span><div class='data'></div></td></tr></tbody></table>";
+		$dinero.append(subtotal_html);
+    if(!total_patrimonio[col_id]){
+      total_patrimonio[col_id]=0;
+    }
+		total_patrimonio[col_id] = +total_patrimonio[col_id] + +subtotal;
+    }
 
     function show_bienes_ingresos(bienes, col_id, ingreso) {
         var $show_hide_button = $('#' + col_id + '  .' + ingreso + ' a');
@@ -327,7 +410,7 @@ $(function() {
             $show_hide_button.removeClass('menos');
             return;
         }
-        
+
         var bien, i, $li, nombre_bien;
         var $ingresos = $('#' + col_id + '  .' + ingreso + ' tbody');
         $ingresos.html('');
@@ -335,14 +418,14 @@ $(function() {
                         "<td class='first'>{{ nombre_bien }} {% if(!!descripcion) { %}<span> {{ descripcion }}</span>{% } %}</td>" +
                         "<td class='second'><span class='moneda'>{{ moneda_tipo }}</span> <span class='numero'>{{ valor }}</span></td>" +
                         "</tr>";
-        
+
         var bien_template = _.template(template);
-        
+		var subtotal = 0;
         for(i in bienes) {
             bien = bienes[i];
             nombre_bien = bien.nombre_bien_s;
             descripcion = bien.descripcion;
-            
+
             if(nombre_bien === 'no especifica') {
                 if(!!descripcion) {
                     nombre_bien = descripcion;
@@ -359,7 +442,9 @@ $(function() {
                 moneda_tipo = bien.valor_adq_moneda_tipo;
                 valor = bien.valor_adq;
             }
-            
+
+			subtotal = +subtotal + +valor;
+
             $ingresos.append(bien_template({
                 'nombre_bien': nombre_bien,
                 'descripcion' : descripcion,
@@ -371,9 +456,23 @@ $(function() {
 
         $('#' + col_id + '  .' + ingreso + ' .tabla').show();
         $show_hide_button.addClass('menos');
-
-        // tooltip
-        makeOverLi($("tr", $ingresos));
+    		var subtotal_html = '<tr><td class="first"><b>SUBTOTAL:</b></td><td class="second"><b><span class="numero">'+numberWithDots(subtotal)+'</b></span><div class="data"></div></td></tr>';
+            $ingresos.append(subtotal_html);
+    		// tooltip
+            makeOverLi($("tr", $ingresos));
+    		if(ingreso=='deudas'){
+          if(!total_deudas[col_id]){
+            total_deudas[col_id]=0;
+          }
+    			total_deudas[col_id] = +total_deudas[col_id] + +subtotal;
+    		}else{
+          if(ingreso!='ingresos_cargo' && ingreso!='ingresos_otros' && ingreso!='ingresos_ventas'){
+            if(!total_patrimonio[col_id]){
+              total_patrimonio[col_id]=0;
+            }
+            total_patrimonio[col_id] = +total_patrimonio[col_id] + +subtotal;
+          }
+        }
     }
 
     function reset_ddjj(col_id) {
@@ -420,7 +519,7 @@ $(function() {
     function show_ddjj_container(col_id) {
         $('#' + col_id + ' .ddjj_container_info').show();
     }
-            
+
     function show_carta(col_id, ddjj) {
         grey_out_ddjj(col_id);
         $('#' + col_id + ' .ddjj-carta').show();
@@ -433,7 +532,7 @@ $(function() {
         $('#' + col_id + ' #descargas').show();
     }
 
-    
+
 });
 
 function makeOverLi($lis){
@@ -441,20 +540,20 @@ function makeOverLi($lis){
     $lis.hover(function(){
             var $el = $(this);
             var data = $el.data("data");
-            
+
             $tooltip.html(tmpl_tooltip(data));
 
-            
+
             $(this).mousemove(function(e){ // mouse move
                 $tooltip.show();
-                
+
                 var pos = {};
-                pos.top= e.pageY - ($tooltip.height() / 2); 
+                pos.top= e.pageY - ($tooltip.height() / 2);
                 pos.left= e.pageX  + 20;
-                
-                
+
+
                 var validaLeft=(pos.left + $tooltip.width()) > $('body').width();
-                if(validaLeft){ // valida position left 
+                if(validaLeft){ // valida position left
                     var margin_cursor = 50;
                     pos.left= pos.left - $tooltip.width() - margin_cursor;
                 }
@@ -466,25 +565,25 @@ function makeOverLi($lis){
 
         }, function(){
             $tooltip.hide();
-            
+
         });
 }
 
 function tmpl_tooltip(data){
     // data = $.parseJSON(data);
     var tooltip = "";
-    
+
     function tmpl_li(x, xx){
         var tmpl = "<li>_x_: <span>_xx_</span></li>";
-        return tmpl.replace("_x_", x).replace("_xx_", xx);          
+        return tmpl.replace("_x_", x).replace("_xx_", xx);
     }
-    
-    function get_list(obj, compartido){ // compartido = recibe true si el bien es compartido en la ddjj 
+
+    function get_list(obj, compartido){ // compartido = recibe true si el bien es compartido en la ddjj
         // if(compartido){
-            // var _obj = obj[0];               
+            // var _obj = obj[0];
         // }else{
         // }
-        
+
             var _obj = obj;
         // if(compartido){
         if(false){
@@ -516,7 +615,7 @@ function tmpl_tooltip(data){
                 "destino":"Destino",
                 "periodo": "Período",
                 "superficie":  "Superficie",
-                "_separador_":  "<li><hr /></li>",                  
+                "_separador_":  "<li><hr /></li>",
                 // "titular_dominio": "Titular del dominio",
                 "titular_dominio": "Titular",
                 "fecha_desde":"Fecha desde",
@@ -528,13 +627,13 @@ function tmpl_tooltip(data){
                 "mejoras": "Mejoras"
                 // "vinculo": "Declarante"
             };
-            
+
         }
-            
+
         for(var key in txt_tooltip){
             if(!!_obj[key]){
                 // var i = [txt_tooltip[key],_obj[key]];
-                
+
                 var i = { nom: txt_tooltip[key], val: _obj[key]};
 
                 if(key == "valor_adq" || key == "valor_fiscal" || key == "mejoras"){
@@ -543,60 +642,60 @@ function tmpl_tooltip(data){
                     }
                     i.val = _obj[key + "_moneda_tipo"] + i.val;
                 }
-                    
+
                 if(key == "porcentaje")
                     i.val = (+i.val).format(i.val % 1 === 0 ? 0 : 2, ',', '.') + "%";
-                
+
                 if(key == "cant_acciones")
                     i.val = (+i.val).format(i.val % 1 === 0 ? 0 : 2, ',', '.');
-                
+
 
 
 
                 // if(key == "titular_dominio"){
-                    // i.val = i.val +" "+ _obj["porcentaje"] + "%"; 
-                    // // if(compartido){ 
+                    // i.val = i.val +" "+ _obj["porcentaje"] + "%";
+                    // // if(compartido){
                         // // i.val += ", "+ obj[1][key] + " " + obj[1]["porcentaje"] + "%"; // agrega el porcentaje del otro declarante
                     // // }
                 // }
-                
+
                 if(key == "superficie")
                     i.val = (+i.val).format(i.val % 1 === 0 ? 0 : 2, ',', '.') + _obj["u_medida"];
-                        
+
                 if(key == "fecha_desde" || key == "fecha_hasta"){
                     var date = i.val.split("-");
                     i.val = date[2] + "/" + date[1] + "/" + date[0];
                 }
                 // if(key == "nombre_bien_s")
                     // i.val = i.val + _obj["u_medida"];
-                        
+
                 tooltip += tmpl_li( i.nom, i.val.toUpperCaseFirst ? i.val.toUpperCaseFirst() : i.val);
             }
             if(key == "titular_dominio" && !_obj[key] ){
-                if(_obj["vinculo"]) {                       
+                if(_obj["vinculo"]) {
                     tooltip += tmpl_li( txt_tooltip["titular_dominio"], _obj["vinculo"]);
                 }
 
-            }   
+            }
             if(key == "_separador_")
                 tooltip += txt_tooltip["_separador_"];
         }
         // if(compartido){
             // tooltip += "<li><hr /></li>"
-//              
+//
         // }
     }
-    
+
     Handlebars.registerHelper('formatNumber', function(n){
         return (+n).format(n % 1 === 0 ? null : 2, ',', '.');
     });
-    
-    if (data.constructor == Array) { // si es un array es arma el tooltip para dinero $$$ ó bienes compartidos 
-        
+
+    if (data.constructor == Array) { // si es un array es arma el tooltip para dinero $$$ ó bienes compartidos
+
         if( /dinero\sahorro/i.test(data[0].tipo_bien.nombre)){  // para dinero
             var template = Handlebars.compile($("#table_tooltip").html());
             return template(data);
-        
+
         }else{  // para los icos
             var i = 0;
             get_list(data[i]);
@@ -614,13 +713,13 @@ function tmpl_tooltip(data){
     }else{ // para todos los damas
         get_list(data);
     }
-    
+
     if(tooltip){
         tooltip= $(document.createElement("ul")).html(tooltip);
-    }   
-    
-    return tooltip;     
-    
+    }
+
+    return tooltip;
+
 };
 
 </script>

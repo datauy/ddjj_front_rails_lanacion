@@ -1,0 +1,39 @@
+body {font-family:'Arial', sans-serif;font-size:12px;color: #333333;}
+a {color:#335577;text-decoration:none;}
+a:visited {color:#335577;}
+a:hover {color:#335577;text-decoration:underline;}
+header {width:100%;}
+header .interna .encabezado h1 {float:left;font:normal 35px/35px 'TheSansSemiLight', 'Arial';padding:6px 10px 0 40px;color:#1DA3D6;width:620px;height:38px;display:block;overflow:hidden;}
+header .interna h1 a:hover {text-decoration: none;color: #2b90b7;}
+header section.cabezal {width:988px;margin:auto;border-left:solid 1px #DADADA;border-right:solid 1px #DADADA;background:#F3F3F3;font-size:12px;position:relative;color:#333;}
+header .interna .logo {float:left;text-align:right;color:#666;margin:20px 0 0 40px;}
+header .interna .logoConSeccion {max-width:600px;float:left;}
+header .interna .logo a.ln {margin-bottom:2px;display:block;text-decoration:none;width:192px;height:160px;background:url("/img/logo_directorio-legislativo.png") 0 0 no-repeat; background-size: contain;}
+header .cabezal .buscador {width: 252px;float: right;margin-top: 26px;margin-right: 40px;}
+header .cabezal .buscador ul li.compartir {float:right;}
+header li.compartir a.facebook {float:left;text-decoration:none;display:block;width:24px;height:24px;background:url("http://especiales.lanacion.com.ar/base-cabezal/imgs/lanacioncom.png") no-repeat 0 -36px transparent;margin-right:10px;}
+header li.compartir a.twitter {float:left;text-decoration:none;display:block;width:24px;height:24px;background:url("http://especiales.lanacion.com.ar/base-cabezal/imgs/lanacioncom.png") no-repeat -34px -36px transparent;margin-right:10px;}
+header li.compartir a.google {float:left;text-decoration:none;display:block;width:24px;height:24px;background:url("http://especiales.lanacion.com.ar/base-cabezal/imgs/lanacioncom.png") no-repeat -67px -36px transparent;}
+header nav#troncal ul.navSecciones {width:948px;border-top: 1px solid #DADADA;margin:auto;padding-top:3px;}
+
+#troncal {width:988px;height:0;margin:auto;z-index:200;background:#F3F3F3;border-left:1px solid #DADADA;border-right:1px solid #DADADA;position:relative;}
+#troncal ul li a:hover {color:#2b90b7;text-decoration:none;}
+#troncal li.principalesTop {background: url("http://especiales.lanacion.com.ar/base-cabezal/imgs/lanacioncom.png") no-repeat right -68px transparent;height:20px;text-align:center;float:left;font:normal 14px/30px 'TheSansSemi', 'Arial';}
+#troncal li .accesoSeccion {color:#335577;padding:0 30px;display:block;}
+#troncal li .accesoSeccion.ultimas {padding-left:2px;}
+#troncal li.servicios .accesoSeccion {background-position:92px -67px;}
+#troncal li.edicion-impresa .accesoSeccion {background-position:136px -67px;}
+#troncal li.guia-salidas {background: none;}
+#troncal li.guia-salidas .accesoSeccion {color:#278c8c;background: url("http://especiales.lanacion.com.ar/base-cabezal/imgs/lanacioncom.png") no-repeat -100px -92px;padding-left:38px;padding-right:25px;}
+header .cierre {line-height:0px;height:5px;background-color:#32A9D3;width:990px;margin:auto;}
+#contenedor {margin: auto;width:990px;}
+footer {width:100%;margin:auto;border-top:1px solid #dadada;}
+footer section#pie {width: 990px;margin:auto;}
+footer section#pie ul {width:990px;}
+footer section#pie ul li {float:left;padding:15px 0 25px 0;}
+footer section#pie ul li span {color:#9c9c9c;padding:0 5px;}
+
+
+footer .copy {font-size:11px;color:#9D9D9D;width:970px;}
+footer .copy b {font-weight:normal;color:#9D9D9D;padding-left:45px;background: url("http://especiales.lanacion.com.ar/base-cabezal/imgs/lanacioncom.png") no-repeat scroll -93px -129px transparent;width:222px;height:22px;display:block;float:left;margin-left:20px;}
+footer .copy span.textoCopy {float:left;display:block;width:324px;height:22px;}

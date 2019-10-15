@@ -1,7 +1,5 @@
 <%
-	datos_cardados_por = ["Poder Ciudadano por la Oficina Anticorrupción",
-	"Directorio Legislativo por el Poder Legislativo",
-	"ACIJ por el Poder Judicial"]
+	datos_cardados_por = [ "Directorio Legislativo por el Poder Legislativo" ]
 %>
 <style type="text/css">
 
@@ -11,13 +9,13 @@
 	<a href='<%= url_for :action => "index" %>' class="cont_flecha" title="volver" id="volver"><span class="spt btn_flecha back"> </span>VOLVER</a>
 	<%= render "buscador_x_str"%>
 	<div class="header">
-		<h2><span class="spt logo_poder">&nbsp;</span> <span id="log_txt">Poder <%= Cargo::PODER[@ddjj.persona_cargo.cargo.poder_id] %> <span class="detalle">&gt; Información aportada a <%=datos_cardados_por[@ddjj.poder_id] %></span></span>
+		<h2><span class="spt logo_poder">&nbsp;</span> <span id="log_txt">Poder <%= Cargo::PODER[@ddjj.persona_cargo.cargo.poder_id] %> <span class="detalle"></span></span>
 		</h2>
 		<%= render "social"%>
 	</div>
 	<div class="row">
-		<div class="col_1">	  
-			
+		<div class="col_1">
+
 			<div class="descripcion">
 				<div class="cell_8">
 				<!-- <img src="#" /> -->
@@ -27,23 +25,23 @@
 			<%else%>
 				<h3><%= @ddjj.persona_cargo.persona.nom_comp %></h3>
 			<%end%>
-				
+
 				<h4>DDJJ de <span><%= "#{@ddjj.ano} #{@ddjj.tipo_ddjj}" %></span><!-- <%= @ddjj.visitas ? content_tag(:span, "- #{@ddjj.visitas} visitas", :class=>"small") : ""%>  --></h4>
 				<h5><%= "#{@ddjj.persona_cargo.cargo.cargo}" %></h5>
 				<div style="color: #888989; margin: 5px 0 0; line-height: 1.3">
 					<p><%= "#{@ddjj.persona_cargo.jurisdiccion.nombre if @ddjj.persona_cargo.jurisdiccion}" %></p>
 					<% if @ddjj.persona_cargo.ingreso %>
-						<% if @ddjj.persona_cargo.cargo.poder_id == 2 %>
-						<p>Ingreso al Poder judicial <%= @ddjj.persona_cargo.ingreso.strftime "%d/%m/%Y" %></p>
+						<% if @ddjj.persona_cargo.cargo.poder_id == 3 %>
+						<!--<p>Ingreso al Poder judicial <%= @ddjj.persona_cargo.ingreso.strftime "%d/%m/%Y" %></p>-->
 						<% else %>
-						<p>Ingreso a la función pública <%= @ddjj.persona_cargo.ingreso.strftime "%d/%m/%Y" %></p>
-						<% end %>					
-					<% end %>	
+						<!--<p>Ingreso a la función pública <%= @ddjj.persona_cargo.ingreso.strftime "%d/%m/%Y" %></p>-->
+						<% end %>
+					<% end %>
 					<% if @ddjj.persona_cargo.persona.ficha_d_l && @ddjj.persona_cargo.persona.ficha_d_l != "" %>
 						<a class="ficha_d_l" href="<%= @ddjj.persona_cargo.persona.ficha_d_l %>" title="Ver ficha de <%= @ddjj.persona_cargo.persona.nom_comp %> en Directorio Legislativo" target="_blanc">Ver ficha en Directorio Legislativo</a>
 					<%end%>
 
-				</div>	
+				</div>
 				</div>
 				<div class="cell_4">
 					<a href='<%= @ddjj.url%>' target="_blank" class="cont_flecha" title="volver" id="" style="/*position:absolute; top: 45px;right: 49px;*/"><span class="spt btn_flecha cloud"> </span>Ddjj original</a>
@@ -63,50 +61,59 @@
 							</li>
 						</ul>
 					<% end %>
-					<% end %>				
-					
-				</div>			
+					<% end %>
+
+				</div>
 			</div>
-		</div>	  
+		</div>
 	</div>
 	<div class="row">
-		<div class="col_1">	  
+		<div class="col_1">
 			<section class="ddjj">
 				<h2 hidden>bienes declarados</h2>
 
-				<% 
-				if @ddjj.flag_presenta == 0  # Si NO presenta DDJJ imprime la carta 
+				<%
+				if @ddjj.flag_presenta == 0  # Si NO presenta DDJJ imprime la carta
 				%>
 
 				<%= render partial: "no_presenta_ddjj" %>
 
 				<% else # si presenta DDJJ
-				%>		
-				
+				%>
+
 				<p id="filtrar" hidden>&nbsp;</p>
+				<%
+					total_patrimonio = 0
+					total_deudas = 0
+				%>
+				<% @ddjj.biens.each do | x |
+						#total_patrimonio += x.valor_fiscal
+						if x.tipo_bien_s.downcase!="deudas" && x.tipo_bien_s.downcase!="ingresos cargo" && x.tipo_bien_s.downcase!="ingresos otros" && x.tipo_bien_s.downcase!="ingresos ventas"
+							total_patrimonio += x.valor_fiscal
+						end
+				    if x.tipo_bien_s.downcase=="deudas"
+							total_deudas += x.valor_fiscal
+						end
+				   end
+				   total_patrimonio = total_patrimonio - total_deudas
+				 %>
+				<h3 class="total_patrimonio">Total patrimonio: $<%= total_patrimonio.round.to_s.reverse.gsub(/...(?=.)/,'\&.').reverse %></h3>
 				<article class="imuebles">
 					<h3><span>Bienes inmuebles</span></h3>
 					<a class="ver menos" href="#">ver mas</a>
 	<!-- 				<div style="overflow:hidden">
-			
+
 
 					</div> -->
-					<ul>
-						
+
 						<%= render partial: "biens_icos", locals: {biens: map_bienes(@ddjj.biens, "bienes inmuebles")}	 %>
-						
-					</ul>
+
 				</article>
-			
+
 				<article class="muebles">
 					<h3><span>Bienes muebles</span></h3>
 					<a class="ver menos" href="#">ver mas</a>
-					
-					<ul>
-
 						<%= render partial: "biens_icos", locals: { biens: map_bienes(@ddjj.biens, "bienes muebles") } %>
-						
-					</ul>
 				</article>
 				<script id="table_tooltip" type="text/x-handlebars-template">
 					{{! template para tooltip dinero }}
@@ -117,8 +124,6 @@
                                 <th>Declarante</th>
                                 <th>Obs.</th>
                                 <th>Origen</th>
-                                <th>Porcentaje</th>
-                                <th>Pais</th>
                                 <th class="val">Valor</th>
                             </tr>
 						</thead>
@@ -147,14 +152,6 @@
 										{{origen}}
 									{{/if}}
 								</td>
-								<td class="porcentaje">
-									{{#if porcentaje}}
-										{{formatNumber porcentaje}}%
-									{{/if}}
-								</td>
-                                <td class="pais">
-                                    {{ pais }}
-								</td>
 
 								<td class="val">
 									{{#if valor_fiscal}}
@@ -170,12 +167,12 @@
 					<h3><span>Ahorros*</span></h3>
 					<a class="ver menos" href="#">ver mas</a>
 					<ul class="dineros">
-					<% 
+					<%
 
 					dinero =  []
-					
+
 					@ddjj.biens.select {|x| x.tipo_bien_s.downcase == "dinero ahorros".downcase } # toma todo el dinero
-						.each do | b | 
+						.each do | b |
 							Bien::TIPO_MONEDA.each_index do |i| # separa x moneda
 								if b.m_valor_fiscal_id == i
 									if dinero[i]
@@ -185,34 +182,37 @@
 										dinero[i] << b
 									end
 								end
-							end	
-						end 
+							end
+						end
 
 					# logger.debug dinero.to_yaml
-					dinero.each_index {|i| 
+					total_dineros = 0
+					dinero.each_index {|i|
 						tmp = 0
 						if dinero[i]
 							dinero[i].each_index {|j|
 								if dinero[i][j].valor_fiscal
 									tmp += dinero[i][j].valor_fiscal
+									total_dineros += dinero[i][j].valor_fiscal
 								end
 							}
 						%>
-						<li data-flag="moneda"><span class="ico <%= dinero[i][0].css_moneda_class_name %>"><%= dinero[i][0].get_moneda "fiscal" %> </span><span class="text numero total"> <%= tmp.to_s %></span> 
+						<li data-flag="moneda"><span class="ico <%= dinero[i][0].css_moneda_class_name %>"><%= dinero[i][0].get_moneda "fiscal" %> </span><span class="text numero total"> <%= tmp.to_s %></span>
 							<div class="data"><%= dinero[i].to_json %></div>
-						</li>	
-						<%	 
+						</li>
+						<%
 						end
-					} 
-					%>	
-					</ul>		
-				</article>	
+					}
+					%>
+					</ul>
+					<table class='tabla'><tbody><tr><td class='first'><b>SUBTOTAL:</b></td><td class='second'><b><span class='numero'><%= total_dineros.to_s %></b></span><div class='data'></div></td></tr></tbody></table>
+				</article>
 				<p class="nota">* INCLUYE DINERO EN EFECTIVO, DEPÓSITOS BANCARIOS Y BONOS</p>
-				
+
 				<article class="ingresos">
-					<h3><span>Ingresos por cargo</span></h3>
+					<h3><span>Ingresos por cargo (excluídos del total patrimonio)</span></h3>
 					<a class="ver menos" href="#">ver mas</a>
-					
+
 					<table class="tabla">
 			  			<thead>
 							<tr>
@@ -223,15 +223,15 @@
 						<tbody>
 
 						<%= render partial: "biens_table", locals: { biens: map_bienes(@ddjj.biens, "ingresos cargo", true) } %>
-						
+
 						</tbody>
 					</table>
 				</article>
-				
+
 				<article class="ingresos_ventas">
-					<h3><span>Ingresos por venta</span></h3>
+					<h3><span>Ingresos por venta (excluídos del total patrimonio)</span></h3>
 					<a class="ver menos" href="#">ver mas</a>
-					
+
 					<table class="tabla">
 			  			<thead>
 							<tr>
@@ -242,13 +242,13 @@
 						<tbody>
 
 						<%= render partial: "biens_table", locals: { biens: map_bienes(@ddjj.biens, "ingresos ventas", true) } %>
-						
+
 						</tbody>
 					</table>
 				</article>
-				
+
 				<article class="ingresos_otros">
-					<h3><span>Otros ingresos</span></h3>
+					<h3><span>Otros ingresos (excluídos del total patrimonio)</span></h3>
 					<a class="ver menos" href="#">ver mas</a>
 					<table class="tabla">
 			  			<thead>
@@ -258,13 +258,13 @@
 							</tr>
 						</thead>
 						<tbody>
-						
+
 						<%= render partial: "biens_table", locals: { biens: map_bienes(@ddjj.biens, "ingresos otros", true) } %>
 
 						</tbody>
 					</table>
 				</article>
-				
+
 				<article class="sociedades">
 					<h3><span>Sociedades</span></h3>
 					<a class="ver menos" href="#">ver mas</a>
@@ -276,13 +276,13 @@
 							</tr>
 						</thead>
 						<tbody>
-							
+
 						<%= render partial: "biens_table_agrupados", locals: { biens: map_bienes(@ddjj.biens, "sociedades") } %>
-						
+
 						</tbody>
 					</table>
 				</article>
-					
+
 				<article class="acreencias">
 					<h3><span>Acreencias</span></h3>
 					<a class="ver menos" href="#">ver mas</a>
@@ -296,11 +296,11 @@
 						<tbody>
 
 						<%= render partial: "biens_table", locals: { biens: map_bienes(@ddjj.biens, "acreencias", true) } %>
-						
+
 						</tbody>
 					</table>
 				</article>
-				
+
 				<article class="titulos">
 					<h3><span>Títulos y Fondos</span></h3>
 					<a class="ver menos" href="#">ver mas</a>
@@ -314,11 +314,11 @@
 						<tbody>
 
 						<%= render partial: "biens_table", locals: { biens: map_bienes(@ddjj.biens, "títulos y fci", true) } %>
-						
+
 						</tbody>
 					</table>
 				</article>
-				
+
 				<article class="deudas">
 					<h3><span>Deudas</span></h3>
 					<a class="ver menos" href="#">ver mas</a>
@@ -332,20 +332,21 @@
 						<tbody>
 
 						<%= render partial: "biens_table", locals: { biens: map_bienes(@ddjj.biens, "deudas", true) } %>
-						
+
 						</tbody>
 					</table>
 				</article>
-				
+				<h3 class="total_patrimonio">Total patrimonio: $<%= total_patrimonio.round.to_s.reverse.gsub(/...(?=.)/,'\&.').reverse %></h3>
 <%end%>
+
 
 <%if @ddjj.obs and not @ddjj.obs.blank? %>
 				<article style="padding-top: 10px; color: #666; margin-top: 20px; border-color:#ccc">
 					<div class="obs_ddjj" style="padding-bottom: 10px;">
-						<% if @ddjj.obs =~ /({[a-z : \/\/ \. 0-9 \- \#]*})/ 
+						<% if @ddjj.obs =~ /({[a-z : \/\/ \. 0-9 \- \#]*})/
 						url = $1
 						%>
-						
+
 						<p>
 							<span style="font-weight: bold">Observaciones:</span> <%= @ddjj.obs.gsub(url, "") %> <%= content_tag(:a, "Haga clic aquí para ver el documento.", :href=> url.gsub(/[\{\}]/,""), :target=> "_blank")%>
 						</p>
@@ -367,10 +368,10 @@
 		</pre>
 		 -->
 		<%
-			if otras_ddjjs.length > 0 
-			# if false 
-		%>				
-		<div class="col_2">			
+			if otras_ddjjs.length > 0
+			# if false
+		%>
+		<div class="col_2">
 			<div class="otras">
 				<h3>OTRAS DDJJ <span class="persona">de <%= @ddjj.persona_cargo.persona.nom_comp %></span></h3>
 				<ul class="mas_ddjjs">
@@ -408,9 +409,7 @@
 		</ul>
 	</section>
 	<div id="notas">
-		<p><span>Nota I: </span>Se tomaron en cuenta los bienes de los funcionarios más los de sus cónyuges o convivientes</p>
-<!-- 		<p><span>Nota II: </span>Para contabilizar el valor de los inmuebles, LA NACION tomó el "valor de adquisición" que los funcionarios informaron en distintas DDJJ, más las mejoras notificadas</p> -->
-		<p><span>Nota II: </span>Los íconos que aparecen con una línea divisoria indican que tiene 2 o más titulares; y los íconos que poseen una transparencia, que el funcionario declaró sólo un porcentaje de dicho bien.</p>
+		<p><span>Nota: </span>Los íconos que aparecen con una línea divisoria indican que tiene 2 o más titulares; y los íconos que poseen una transparencia, que el funcionario declaró sólo un porcentaje de dicho bien.</p>
 	</div>
 	<%else%>
 		<br />
@@ -418,7 +417,7 @@
 </div>
 
 <script type="text/template" id="tabla_tooltip">
-	
+
 </script>
 
 
@@ -429,7 +428,7 @@
 		if(ul.length){
 			get_images_documentcloud(ul);
 		}
-		
+
 	});
 
 </script>
