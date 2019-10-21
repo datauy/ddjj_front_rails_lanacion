@@ -2,7 +2,7 @@
 $(document).bind("ready", function(){
 	var input_str 	= $("input#str"),
 		buscar 		= $("a#buscar_str"),
-		poderes_str	= $("div.buscador ul.filtro li")
+		poderes_str	= $("div#filtros ul.filtro li")
 		action_index = $("body").hasClass('index');
 
 		poderes_str.bind("click", select_poder_to_search);
@@ -33,9 +33,9 @@ $(document).bind("ready", function(){
 		    }
 		});
 	});
-	
+
 	buscar.click(function(){
-		buscar.attr("href", get_link(buscar, input_str));			
+		buscar.attr("href", get_link(buscar, input_str));
 	});
 });
 
