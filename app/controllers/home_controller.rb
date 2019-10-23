@@ -207,6 +207,9 @@ class HomeController < ApplicationController
   end
 
   def comparador
+    @allPersonas = Persona.get_personas.all
+    Rails.logger.info "\n LOGGGGIIINNNNNNNIIIIINNNNN\n"
+    Rails.logger.info @allPersonas
   end
 
 

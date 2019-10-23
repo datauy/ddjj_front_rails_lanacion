@@ -33,7 +33,7 @@ class Persona < ActiveRecord::Base
     end
   end
 
-  # scope :with_ddjjs, -> {includes(:ddjjs).where('ddjjs.id is not null')}
+  scope :only_with_ddjjs, -> {includes(:ddjjs).where('ddjjs.id is not null')}
   scope :with_ddjjs, -> { includes(:persona_cargos => [:cargo,
                                                       {:ddjjs => :biens }
                                                       # ]).where('ddjjs.id is not null').order('personas.apellido', 'ddjjs.ano DESC')}

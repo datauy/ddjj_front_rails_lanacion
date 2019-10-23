@@ -14,7 +14,7 @@ var total_deudas = [];
 $(function() {
     var ddjj = new Ddjj();
     var loading = new Loading("popup");
-    var base_url =  "http://form.ddjj.datauy.org/api/";
+    var base_url =  "http://ddjj.lanacion.com.ar/api/";
 
     loading.start();
 
@@ -34,7 +34,7 @@ $(function() {
         allowClear: true
     });
 
-    $.get(base_url + 'legisladores',
+    /*$.get(base_url + 'legisladores',
         function( data ) {
 
             var opts = ["<option value='0' selected>Seleccione una DJ</option>"];
@@ -53,11 +53,11 @@ $(function() {
             }
 
             $select_legislador.html(opts);
-            $select_legislador.on('change', change_legislador);
             loading.esconder();
         },
         'json'
-    );
+    );*/
+    $select_legislador.on('change', change_legislador);
 
     function change_legislador (e) {
         var legislador_id = this.value,

@@ -3,8 +3,12 @@
         <div class="buscador">
 	        <!-- <input type="text" placeholder="Buscar.." data-ddjj-col="<%= id %>"/> -->
 			<select class="legislador" data-ddjj-col="<%= id %>">
+        <option value='0' selected>Seleccione una DJ</option>
+        <% allPersonas.each do |p| %>
+          <option value="<%= p.id %>"><%= p.name %></option>
+        <% end %>
 			<!-- append legisladores list -->
-            </select>
+      </select>
             <!-- <ul class="results"> </ul> -->
         </div>
 	    <div class="descripcion">

@@ -412,7 +412,7 @@ function Home(){ // carga todos los nodos
 			self.change_status_search(0);
 			return false;
 		});
-		n.btn_buscar_str.click(function(){self.search(1); return false;}); // buscados de str
+		n.btn_buscar_str.click(function(){console.log('BUSCAR BTN STR');self.search(1); return false;}); // buscados de str
 		n.a_buscar.click(function(){self.search(0); return false;});// buscados desde los filtros
 		n.tabs_poderes.click(self.changeActive);
 		// self.events_filtros(); // eventos para los filtros checkbox
