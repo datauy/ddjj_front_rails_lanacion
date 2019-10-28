@@ -190,7 +190,7 @@ class HomeController < ApplicationController
     # @ddjj = Rails.cache.fetch(@key_cache, :expires_in => TIME_CACHE_VIEW_DDJJ) do
     #           q = Ddjj.includes(:biens, {:persona_cargo=>[:persona, :cargo, :jurisdiccion]}).order(["biens.nombre_bien_id", "biens.valor_fiscal DESC", "biens.valor_adq DESC"] ).where(:flag_search => params[:id]).first
     #         end
-
+    @page = true
     unless @ddjj
       respond_to do |format|
         format.html {render(:file => "public/404.html", :layout => false, :status => 404)}
@@ -205,13 +205,6 @@ class HomeController < ApplicationController
       end
     end
   end
-
-  def comparador
-    @allPersonas = Persona.get_personas.all
-    Rails.logger.info "\n LOGGGGIIINNNNNNNIIIIINNNNN\n"
-    Rails.logger.info @allPersonas
-  end
-
 
   def data_bienes
     expires_in TIME_CACHE_DATA_JSON, :public => true

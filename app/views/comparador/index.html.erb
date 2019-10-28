@@ -1,9 +1,10 @@
+<a href='/' class="cont_flecha" title="volver" id="volver"><span class="spt btn_flecha back"> </span>VOLVER</a>
 <div class="row comparador">
     <div class="cell_6">
-        <%= render "comparador_ddjj", :id => 'left-ddjj' %>
+        <%= render "comparador_ddjj", :id => 'left-ddjj', :personas => @personas %>
     </div>
     <div class="cell_6">
-        <%= render "comparador_ddjj", :id => 'right-ddjj' %>
+        <%= render "comparador_ddjj", :id => 'right-ddjj', :personas => @personas %>
     </div>
 </div>
 <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
@@ -33,30 +34,7 @@ $(function() {
         placeholder: { id: -1, text: "Seleccione una DJ" },
         allowClear: true
     });
-
-    /*$.get(base_url + 'legisladores',
-        function( data ) {
-
-            var opts = ["<option value='0' selected>Seleccione una DJ</option>"];
-            var opt = "<option value='{id}'>{name}</option>";
-
-            for( i in data ) {
-                if(data[i].ddjjs_count == 0) {
-                    continue;
-                }
-
-                opts.push(
-                    opt
-                    .replace('{id}', data[i].id)
-                    .replace('{name}', data[i].nombre)
-                );
-            }
-
-            $select_legislador.html(opts);
-            loading.esconder();
-        },
-        'json'
-    );*/
+    loading.esconder();
     $select_legislador.on('change', change_legislador);
 
     function change_legislador (e) {
@@ -84,63 +62,56 @@ $(function() {
     var ddjjs = {};
 
     function find_legislador_ddjjs(ddjj_col_id, legislador_id) {
-        $legislador_ddjjs = $('#' + ddjj_col_id + ' .legislador_ddjjs');
-        $legislador_ddjjs.html("");
-        $.get(base_url + 'legisladores/{legislador_id}/'.replace( '{legislador_id}', legislador_id ),
-                function(data) {
-
-                    var options = [{id: -1, text: "Seleccione una DJ"}];
-                    var text
-                    for(i in data.ddjjs) {
-                        ddjj = data.ddjjs[i];
-                        ddjjs[ddjj.id] = ddjj;
-                        text = 'DDJJ de {0} {1}'.replace('{0}', ddjj.ano).replace('{1}', ddjj.tipo);
-                        option = { id: ddjj.id, text: text};
-                        options.push(option);
-                    }
-
-                    $legislador_ddjjs.select2({data: options}).val("-1");
-            }, 'json');
+      $legislador_ddjjs = $('#' + ddjj_col_id + ' .legislador_ddjjs');
+      $legislador_ddjjs.html("");
+      $.ajax({
+        url: "/personas/ddjj",
+        data: "pid="+legislador_id+"&col="+ddjj_col_id
+      });
+      //$legislador_ddjjs.select2({data: options}).val("-1");
     }
 
     $('.legislador_ddjjs').change(function() {
-        var col_id = this.dataset.ddjjCol;
-        var $div_superior = $('#' + col_id + ' .total_superior');
-        var $div_inferior = $('#' + col_id + ' .total_inferior');
-        $div_superior.html("");
-        $div_inferior.html("");
-        var ddjj_id = this.value;
-        var ddjj = ddjjs[ddjj_id];
-        grey_out_cargo(col_id);
-        reset_ddjj(col_id);
-        grey_in_ddjj(col_id);
-        if(ddjj_id > -1) {
-            show_legislador_ddjj_info(ddjj, col_id);
-            if(ddjj.flag_presenta) {
-                show_carta(col_id, ddjj);
-                hide_ddjj_container(col_id);
-            } else {
-                show_ddjj_container(col_id);
-                set_descargas(ddjj_id, col_id);
-                show_ddjj_bienes(ddjj_id, col_id);
-                hide_carta(col_id);
-            }
+      var col_id = this.dataset.ddjjCol;
+      var ddjj_id = this.value;
+      console.log(this.dataset);
+      $.ajax({
+        url: "/ddjj2compare/"+ddjj_id+"?col="+col_id
+      }).done(function(){
+        set_descargas(ddjj_id, col_id);
+        console.log("Llegamos al change");
+        $('#' + col_id + ' .ddjj_container').removeClass('ddjj-gris');
+        console.log("Pasa grey out");
+      });
+      /*show_ddjj_container(col_id);
+      var $div_superior = $('#' + col_id + ' .total_superior');
+      var $div_inferior = $('#' + col_id + ' .total_inferior');
+      $div_superior.html("");
+      $div_inferior.html("");
+      var ddjj = ddjjs[ddjj_id];
+      grey_out_cargo(col_id);*/
+      /*reset_ddjj(col_id);
+      grey_in_ddjj(col_id);
+      if(ddjj_id > -1) {
+        show_legislador_ddjj_info(ddjj, col_id);
+        if(ddjj.flag_presenta) {
+          show_carta(col_id, ddjj);
+          hide_ddjj_container(col_id);
+        } else {
+          //show_ddjj_bienes(ddjj_id, col_id);
+          hide_carta(col_id);
         }
+      }*/
+
     });
 
     function set_descargas(ddjj_id, col_id){
-      var $ul = $('#' + col_id + ' .descargas_formatos_libres');
-      var urlJSON = base_url + 'ddjjs/'+ddjj_id;
-      var urlXML = base_url + 'ddjjs/'+ddjj_id;
-      var urlCSV = base_url + 'ddjjs/'+ddjj_id;
-      var html_descargas = '<li><a href="'+urlJSON+'" title="Descargar en formato JSON">JSON</a></li>';
-      //html_descargas	= html_descargas + '<li><a href="'+urlXML+'" title="Descargar en formato XML">XML</a></li>';
-			//html_descargas	= html_descargas + '<li><a href="'+urlCSV+'" title="Descargar en formato CSV">CSV</a></li>';
-      $ul.html(html_descargas);
+      var links = "#"+col_id+" ul#descargas li.cont_flecha li a";
+      console.log("Ejecutando descargas: "+links);
       var link_datos = $(".cont_flecha ul");
-      $("ul#descargas li.cont_flecha li a").click(function(event) {
+      $(links).click(function(event) {
   			link_datos.toggle("fast");
-  			var w = window.open( this.href, "descargar", "toolbar=no, location=no, resizable=no, scrollbars= no, top=20%,left=50%" );
+  			var w = window.open( this.href, "_blank" );
   			return false;
   		})
     }

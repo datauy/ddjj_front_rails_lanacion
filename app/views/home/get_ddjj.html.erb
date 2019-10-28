@@ -1,17 +1,18 @@
 <%
-	datos_cardados_por = [ "Directorio Legislativo por el Poder Legislativo" ]
+	datos_cargados_por = [ "Directorio Legislativo por el Poder Legislativo" ]
 %>
 <style type="text/css">
 
 </style>
 
 <div class="cont_ddjj poder_<%= @ddjj.persona_cargo.cargo.poder_id %> gris">
-	<a href='<%= url_for :action => "index" %>' class="cont_flecha" title="volver" id="volver"><span class="spt btn_flecha back"> </span>VOLVER</a>
-	<%= render "buscador_x_str"%>
+	<% if @page %>
+		<a href='<%= url_for :action => "index" %>' class="cont_flecha" title="volver" id="volver"><span class="spt btn_flecha back"> </span>VOLVER</a>
+		<%= render "buscador_x_str"%>
+	<% end %>
 	<div class="header">
 		<h2><span class="spt logo_poder">&nbsp;</span> <span id="log_txt">Poder <%= Cargo::PODER[@ddjj.persona_cargo.cargo.poder_id] %> <span class="detalle"></span></span>
 		</h2>
-		<%= render "social"%>
 	</div>
 	<div class="row">
 		<div class="col_1">
@@ -51,9 +52,9 @@
 							<li class="cont_flecha" title="volver" id="" style="/*position:absolute; top: 0px;right: 20px;*/"><span class="spt btn_flecha down"> </span>Descargar datos
 								<ul>
 						<%if @ddjj.created_at < EXPORTAR_DATA.ago %>
-									<li><a href="<%= url_for :action=> "get_ddjj", :id => @ddjj.flag_search, :format=>:json %>" title="Descargar en formato JSON">JSON</a></li>
-									<li><a href="<%= url_for :action=> "get_ddjj", :id => @ddjj.flag_search, :format=>:xml %>" title="Descargar en formato XML">XML</a></li>
-									<li><a href="<%= url_for :action=> "get_ddjj", :id => @ddjj.flag_search, :format=>:csv %>" title="Descargar en formato CSV">CSV</a></li>
+									<li><a href="/ddjj/<%= @ddjj.flag_search %>.json" title="Descargar en formato JSON">JSON</a></li>
+									<li><a href="/ddjj/<%= @ddjj.flag_search %>.xml" title="Descargar en formato XML">XML</a></li>
+									<li><a href="/ddjj/<%= @ddjj.flag_search %>.csv" title="Descargar en formato CSV">CSV</a></li>
 						<% else %>
 									<li>Próximamente</li>
 						<% end %>
@@ -75,8 +76,9 @@
 				<%
 				if @ddjj.flag_presenta == 0  # Si NO presenta DDJJ imprime la carta
 				%>
-
-				<%= render partial: "no_presenta_ddjj" %>
+				<% if @page %>
+					<%= render partial: "no_presenta_ddjj" %>
+				<% end %>
 
 				<% else # si presenta DDJJ
 				%>
@@ -106,14 +108,14 @@
 
 					</div> -->
 
-						<%= render partial: "biens_icos", locals: {biens: map_bienes(@ddjj.biens, "bienes inmuebles")}	 %>
+						<%= render partial: "home/biens_icos", locals: {biens: map_bienes(@ddjj.biens, "bienes inmuebles")}	 %>
 
 				</article>
 
 				<article class="muebles">
 					<h3><span>Bienes muebles</span></h3>
 					<a class="ver menos" href="#">ver mas</a>
-						<%= render partial: "biens_icos", locals: { biens: map_bienes(@ddjj.biens, "bienes muebles") } %>
+						<%= render partial: "home/biens_icos", locals: { biens: map_bienes(@ddjj.biens, "bienes muebles") } %>
 				</article>
 				<script id="table_tooltip" type="text/x-handlebars-template">
 					{{! template para tooltip dinero }}
@@ -222,7 +224,7 @@
 						</thead>
 						<tbody>
 
-						<%= render partial: "biens_table", locals: { biens: map_bienes(@ddjj.biens, "ingresos cargo", true) } %>
+						<%= render partial: "home/biens_table", locals: { biens: map_bienes(@ddjj.biens, "ingresos cargo", true) } %>
 
 						</tbody>
 					</table>
@@ -241,7 +243,7 @@
 						</thead>
 						<tbody>
 
-						<%= render partial: "biens_table", locals: { biens: map_bienes(@ddjj.biens, "ingresos ventas", true) } %>
+						<%= render partial: "home/biens_table", locals: { biens: map_bienes(@ddjj.biens, "ingresos ventas", true) } %>
 
 						</tbody>
 					</table>
@@ -259,7 +261,7 @@
 						</thead>
 						<tbody>
 
-						<%= render partial: "biens_table", locals: { biens: map_bienes(@ddjj.biens, "ingresos otros", true) } %>
+						<%= render partial: "home/biens_table", locals: { biens: map_bienes(@ddjj.biens, "ingresos otros", true) } %>
 
 						</tbody>
 					</table>
@@ -277,7 +279,7 @@
 						</thead>
 						<tbody>
 
-						<%= render partial: "biens_table_agrupados", locals: { biens: map_bienes(@ddjj.biens, "sociedades") } %>
+						<%= render partial: "home/biens_table_agrupados", locals: { biens: map_bienes(@ddjj.biens, "sociedades") } %>
 
 						</tbody>
 					</table>
@@ -295,7 +297,7 @@
 						</thead>
 						<tbody>
 
-						<%= render partial: "biens_table", locals: { biens: map_bienes(@ddjj.biens, "acreencias", true) } %>
+						<%= render partial: "home/biens_table", locals: { biens: map_bienes(@ddjj.biens, "acreencias", true) } %>
 
 						</tbody>
 					</table>
@@ -313,7 +315,7 @@
 						</thead>
 						<tbody>
 
-						<%= render partial: "biens_table", locals: { biens: map_bienes(@ddjj.biens, "títulos y fci", true) } %>
+						<%= render partial: "home/biens_table", locals: { biens: map_bienes(@ddjj.biens, "títulos y fci", true) } %>
 
 						</tbody>
 					</table>
@@ -331,7 +333,7 @@
 						</thead>
 						<tbody>
 
-						<%= render partial: "biens_table", locals: { biens: map_bienes(@ddjj.biens, "deudas", true) } %>
+						<%= render partial: "home/biens_table", locals: { biens: map_bienes(@ddjj.biens, "deudas", true) } %>
 
 						</tbody>
 					</table>

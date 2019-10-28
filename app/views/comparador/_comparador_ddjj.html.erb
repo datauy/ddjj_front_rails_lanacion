@@ -1,31 +1,30 @@
 <div id="<%= id %>">
-    <div class="row">
-        <div class="buscador">
-	        <!-- <input type="text" placeholder="Buscar.." data-ddjj-col="<%= id %>"/> -->
+  <div class="row">
+    <div class="buscador">
+	    <!-- <input type="text" placeholder="Buscar.." data-ddjj-col="<%= id %>"/> -->
 			<select class="legislador" data-ddjj-col="<%= id %>">
         <option value='0' selected>Seleccione una DJ</option>
-        <% allPersonas.each do |p| %>
-          <option value="<%= p.id %>"><%= p.name %></option>
+        <% personas.each do |p| %>
+          <option value="<%= p.id %>"><%= p.apellido %>, <%= p.nombre %></option>
         <% end %>
 			<!-- append legisladores list -->
       </select>
             <!-- <ul class="results"> </ul> -->
-        </div>
+    </div>
 	    <div class="descripcion">
 		    <h3><a title="" class="legislador_nombre">Apellido, Nombre</a></h3>
-            <select class="legislador_ddjjs" data-ddjj-col="<%= id %>">
-            </select>
-		    <h5 class="legislador_poder ddjj-gris">Poder</h5>
-		    <div class="legislador_cargo_info ddjj-gris" style="margin: 5px 0 0; line-height: 1.3">
-			    <p class="legislador_cargo">Cargo del Funcionario</p>
-			    <p>Ingreso a la función pública</p>
-		    </div>
+        <select class="legislador_ddjjs" data-ddjj-col="<%= id %>">
+          <option value='0'>Seleccione una DJ</option>
+          <% @options.each do |o|%>
+            <option value="<%= o[1] %>" selected><%= o[0] %></option>
+          <% end %>
+        </select>
 	    </div>
     </div>
     <div class="ddjj_container ddjj-gris">
         <div class="row">
 	        <!--<a href="#" target="_blank" class="cont_flecha ddjj_original_url" title="" id="" style=""><span class="spt btn_flecha cloud"> </span>Ddjj original</a>-->
-	        <ul id="descargas">
+	        <ul class="descargas">
 		        <li class="cont_flecha" title="" id="" style="/*position:absolute; top: 0px;right: 20px;*/"><span class="spt btn_flecha down"> </span>Descargar datos
 			        <ul class="descargas_formatos_libres">
 				        <li><a href="" title="Descargar en formato JSON">JSON</a></li>

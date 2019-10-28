@@ -5,7 +5,7 @@
 @charset "utf-8";
 @import url(http://fonts.googleapis.com/css?family=PT+Sans:400,700);
 
-body#home { font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #000}
+body#home, body#comparador { font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #000}
 
 
 h1 { font-size: 1.5em; }
@@ -51,6 +51,7 @@ a:hover { text-decoration: underline}
 
 /*fuente gris */
 body#home a#descargar_datos span,
+body#comparador a#descargar_datos span,
 table#resultado th,
 div.buscador ul,
 section#filtros ul#tabs_poderes li,
@@ -107,15 +108,18 @@ div.buscador { width: 31%; position: absolute; top: 0px; right: 20px;}
 section#filtros div.buscador { width: calc(100% - 250px); position: relative; top: 0px; right: 0px; height: auto; margin-top: 15px; margin-bottom: 15px;}
 section#filtros div.buscador ul.filtro { position: relative; top: 0; right: 0; margin-top: 15px;}
 
+div.buscador ul { display: block; position: absolute; top:30px; right: 0}
+div.buscador ul li { display: inline-block; margin-left: 5px;  }
+div.buscador a#buscar_str { display: block; width: 16px; height: 17px; background-position: -515px 0; text-indent: -5000px; position:absolute; cursor: pointer; top: 3px; right: 10px; }
 .comparador div.buscador { width: 90%; position: relative; right:0px;}
 .comparador ul.results { width: 99%; position: absolute; background: #fff; z-index: 1;  border: 1.5px solid #CECECE; border-top: none; display:none;}
 .comparador ul.results li { width: 100%; position: static;  padding: 5px 0; margin:0px}
 .comparador ul.results li:hover { cursor: pointer; background: #0097CF; color:white; }
 .comparador div.buscador input { padding: 3px 0 3px 5px; border: 2px solid #CECECE; width: 98%}
-div.buscador ul { display: block; position: absolute; top:30px; right: 0}
-div.buscador ul li { display: inline-block; margin-left: 5px;  }
-div.buscador a#buscar_str { display: block; width: 16px; height: 17px; background-position: -515px 0; text-indent: -5000px; position:absolute; cursor: pointer; top: 3px; right: 10px; }
 a#comparador_btn { float: right; }
+#left-ddjj .cont_ddjj { padding: 0 1em 1em 0;}
+#right-ddjj .cont_ddjj { padding: 0 0 1em 1em;}
+
 /*  INPUT */
 .twitter-typeahead { width: 100%}
 .typeahead,
@@ -365,13 +369,12 @@ table#resultado div.tabla_row p a:hover { text-decoration: underline}*/
 table#resultado tr:last-child td { border-bottom: 3px solid #33AAD4; }
 /*paginador*/
 div#paginador { position: relative; margin: 10px 0 0; overflow: hidden}
-body#home p.desc{ float: left; color: #666}
-body#home div.pagination { display: inline-block; font-size: 1.1em; margin-bottom: 25px; float: right;}
-body#home div.pagination a { /*color: #9D9D9D*/ color: #33AAD4}
-body#home div.pagination  .previous_page, div.pagination .next_page { display: inline-block; background-position: -336px 1px; width: 15px; height: 15px; text-indent: -5000px;}
-body#home div.pagination .next_page { background-position: -353px 1px;}
-body#home a#descargar_datos { clear: right; float: right; }
-
+body#home p.desc, body#comparador p.desc{ float: left; color: #666}
+body#home div.pagination, body#comparador div.pagination { display: inline-block; font-size: 1.1em; margin-bottom: 25px; float: right;}
+body#home div.pagination a, body#comparador div.pagination a { /*color: #9D9D9D*/ color: #33AAD4}
+body#home div.pagination .previous_page, body#comparador div.pagination .previous_page, div.pagination .next_page { display: inline-block; background-position: -336px 1px; width: 15px; height: 15px; text-indent: -5000px;}
+body#home div.pagination .next_page, body#comparador div.pagination .next_page { background-position: -353px 1px;}
+body#home a#descargar_datos, body#comparador a#descargar_datos { clear: right; float: right; }
 
 /* status_search */
 div#status_search { position: relative; margin: 15px 0 0;}
@@ -454,6 +457,7 @@ p#filtrar a.cont_flecha { margin: 0 0 0 20px}
 
 a#volver{ font-size: 1.5em; position:absolute; top: -0px;left: 20px;}
 a#volver span.btn_flecha { top: 3px}
+#comparador #volver {position:relative;left: 0; margin-bottom: 20px;}
 div.col_1_comparador { width: 90%; float: left}
 div.col_1 { width: 100%; float: left}
 div.col_2 { width: 15%; float: right; padding: 10px 0 0}
