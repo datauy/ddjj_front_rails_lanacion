@@ -1,1 +1,1 @@
-$("#<%= @col %> .ddjj_container").html("<%= escape_javascript( render( template: 'home/get_ddjj', locals: { :ddjj => @ddjj } ))%>");
+$("#<%= @col %> .ddjj_container").html("<%= escape_javascript( render( template: 'home/get_ddjj', locals: { :ddjj => @ddjj, :currency => @currency } ))%>");

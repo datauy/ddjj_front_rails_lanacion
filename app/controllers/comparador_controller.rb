@@ -9,6 +9,23 @@ class ComparadorController < ApplicationController
     @options = []
   end
 
+  def currency_transformation
+    country_currency = {
+      'ARS' => [29.27, 17.227, 15.359, 9.617, 8.448, 5.704],
+      'COP' => [2977, 3145, 3145, 3145, 3145, 3145],
+      'GTQ' => [7.54, 7.54, 7.54, 7.54, 7.54, 5.704]
+    }
+    # se considera 2018 como año 0
+    #https://es.investing.com/currencies/usd-cop-historical-data
+    @from = params[:from]
+    @value = params[:amount].to_f/country_currency[@from][0]
+    respond_to do |format|
+      format.json do
+        render json: {amount: @value}.to_json()
+      end
+    end
+  end
+
   def get_personas_ddjj
     if params[:pid]
       persona = Persona.find(params[:pid])
@@ -26,7 +43,7 @@ class ComparadorController < ApplicationController
   def ddjj2compare
     @key_cache = "get_ddjj" + params[:id]
     @col = params[:col]
-    Rails.logger.info { "\n\nCOL:"+params[:col] }
+    @currency = params[:currency]
     @ddjj = Ddjj.includes(:biens, {:persona_cargo=>[:persona, :cargo, :jurisdiccion]}).order(["biens.nombre_bien_id", "biens.valor_fiscal DESC", "biens.valor_adq DESC"] ).where(:id => params[:id]).first
     respond_to do |format|
       format.js

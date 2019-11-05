@@ -11,7 +11,7 @@ class Bien < ActiveRecord::Base
 
 
   UNIDAD_MEDIDA = ["m2", "ha"].freeze
-  TIPO_MONEDA = ["$", "$", "us$", "€", "COP", "Q", "$ Uruguayos", "£", "A"].freeze
+  TIPO_MONEDA = ["$", "$", "us$", "EUR", "COP", "Q", "$ Uruguayos", "£", "A"].freeze
 
   def u_medida
     if self.unidad_medida_id

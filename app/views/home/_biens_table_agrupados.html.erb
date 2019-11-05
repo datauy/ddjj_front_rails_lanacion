@@ -1,6 +1,12 @@
 <% total = 0 %>
 <% biens.each do | x | %>
-  <% total += x[0].valor_fiscal %>
+  <%
+  if ( x[0].get_moneda('fiscal') != 'us$' )
+    total += convert_currency(x[0].valor_fiscal, x[0].get_moneda('fiscal'), 'us$')
+  else
+    total += x[0].valor_fiscal
+  end
+  %>
 	<tr class="">
 	<% if x[0].nombre_bien_s && x[0].descripcion	%>
 		<td class="first"><%= x[0].nombre_bien_s %> <span><%= "- #{x[0].descripcion}"%></span></td>
@@ -18,4 +24,4 @@
 	</tr>
 
 <% end %>
-<tr><td class="first"><b>SUBTOTAL:</b></td><td class="second"><b><span class="numero"><%= total %></b></span><div class="data">Subtotal: <%= total %></div></td></tr>
+<tr><td class="first"><b>SUBTOTAL:</b></td><td class="second"><b><span class="numero"><%= total %> USD</b></span><div class="data">Subtotal: <%= total %></div></td></tr>

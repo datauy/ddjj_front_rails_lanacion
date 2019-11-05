@@ -10,11 +10,12 @@ Ddjj2::Application.routes.draw do
 
   match "index" => "home#index"
   match "search" => "home#search"
-  
+
   match "comparador/index"
   match "ddjj2compare/:id" => "comparador#ddjj2compare"
   match "personas/ddjj" => "comparador#get_personas_ddjj"
   match "get_ddjj/:id" => "comparador#get_ddjj"
+  match "currency-exchange" => "comparador#currency_transformation"
 
   match "ddjj/:id" => "home#get_ddjj"
   match "filtros/:id" => "home#get_filtros"

@@ -14,7 +14,8 @@
 		<h2><span class="spt logo_poder">&nbsp;</span> <span id="log_txt">Poder <%= Cargo::PODER[@ddjj.persona_cargo.cargo.poder_id] %> <span class="detalle"></span></span>
 		</h2>
 	</div>
-	<div class="row">
+	<div class="row info">
+		<p>VA PARÁMETRO: <%= currency ? currency : 'falseado' %></p>
 		<div class="col_1">
 
 			<div class="descripcion">
@@ -100,7 +101,7 @@
 				   total_patrimonio = total_patrimonio - total_deudas
 				 %>
 				<h3 class="total_patrimonio">Total patrimonio: $<%= total_patrimonio.round.to_s.reverse.gsub(/...(?=.)/,'\&.').reverse %></h3>
-				<article class="imuebles">
+				<article class="inmuebles">
 					<h3><span>Bienes inmuebles</span></h3>
 					<a class="ver menos" href="#">ver mas</a>
 	<!-- 				<div style="overflow:hidden">
@@ -108,14 +109,14 @@
 
 					</div> -->
 
-						<%= render partial: "home/biens_icos", locals: {biens: map_bienes(@ddjj.biens, "bienes inmuebles")}	 %>
+						<%= render partial: "home/biens_icos", locals: {biens: map_bienes(@ddjj.biens, "bienes inmuebles"), currency: params[:currency] ? params[:currency] : false }	 %>
 
 				</article>
 
 				<article class="muebles">
 					<h3><span>Bienes muebles</span></h3>
 					<a class="ver menos" href="#">ver mas</a>
-						<%= render partial: "home/biens_icos", locals: { biens: map_bienes(@ddjj.biens, "bienes muebles") } %>
+						<%= render partial: "home/biens_icos", locals: { biens: map_bienes(@ddjj.biens, "bienes muebles"), currency: params[:currency] ? params[:currency] : false } %>
 				</article>
 				<script id="table_tooltip" type="text/x-handlebars-template">
 					{{! template para tooltip dinero }}
@@ -224,7 +225,7 @@
 						</thead>
 						<tbody>
 
-						<%= render partial: "home/biens_table", locals: { biens: map_bienes(@ddjj.biens, "ingresos cargo", true) } %>
+						<%= render partial: "home/biens_table", locals: { biens: map_bienes(@ddjj.biens, "ingresos cargo", true), currency: params[:currency] ? params[:currency] : false } %>
 
 						</tbody>
 					</table>
@@ -243,7 +244,7 @@
 						</thead>
 						<tbody>
 
-						<%= render partial: "home/biens_table", locals: { biens: map_bienes(@ddjj.biens, "ingresos ventas", true) } %>
+						<%= render partial: "home/biens_table", locals: { biens: map_bienes(@ddjj.biens, "ingresos ventas", true), currency: params[:currency] ? params[:currency] : false } %>
 
 						</tbody>
 					</table>
@@ -261,7 +262,7 @@
 						</thead>
 						<tbody>
 
-						<%= render partial: "home/biens_table", locals: { biens: map_bienes(@ddjj.biens, "ingresos otros", true) } %>
+						<%= render partial: "home/biens_table", locals: { biens: map_bienes(@ddjj.biens, "ingresos otros", true), currency: params[:currency] ? params[:currency] : false } %>
 
 						</tbody>
 					</table>
@@ -279,7 +280,7 @@
 						</thead>
 						<tbody>
 
-						<%= render partial: "home/biens_table_agrupados", locals: { biens: map_bienes(@ddjj.biens, "sociedades") } %>
+						<%= render partial: "home/biens_table_agrupados", locals: { biens: map_bienes(@ddjj.biens, "sociedades"), currency: params[:currency] ? params[:currency] : false } %>
 
 						</tbody>
 					</table>
@@ -297,7 +298,7 @@
 						</thead>
 						<tbody>
 
-						<%= render partial: "home/biens_table", locals: { biens: map_bienes(@ddjj.biens, "acreencias", true) } %>
+						<%= render partial: "home/biens_table", locals: { biens: map_bienes(@ddjj.biens, "acreencias", true), currency: params[:currency] ? params[:currency] : false } %>
 
 						</tbody>
 					</table>
@@ -315,7 +316,7 @@
 						</thead>
 						<tbody>
 
-						<%= render partial: "home/biens_table", locals: { biens: map_bienes(@ddjj.biens, "títulos y fci", true) } %>
+						<%= render partial: "home/biens_table", locals: { biens: map_bienes(@ddjj.biens, "títulos y fci", true), currency: params[:currency] ? params[:currency] : false } %>
 
 						</tbody>
 					</table>
@@ -333,7 +334,7 @@
 						</thead>
 						<tbody>
 
-						<%= render partial: "home/biens_table", locals: { biens: map_bienes(@ddjj.biens, "deudas", true) } %>
+						<%= render partial: "home/biens_table", locals: { biens: map_bienes(@ddjj.biens, "deudas", true), currency: params[:currency] ? params[:currency] : false } %>
 
 						</tbody>
 					</table>

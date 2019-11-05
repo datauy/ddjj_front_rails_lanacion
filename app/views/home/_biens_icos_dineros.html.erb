@@ -1,7 +1,13 @@
 <% total = 0 %>
 <ul class="dineros">
 <% biens.each do | x | %>
-  <% total += x[0].valor_fiscal %>
+  <%
+  if ( x[0].get_moneda('fiscal') != 'us$' )
+    total += convert_currency(x[0].valor_fiscal, x[0].get_moneda('fiscal'), 'us$')
+  else
+    total += x[0].valor_fiscal
+  end
+  %>
 	<li class="ico <%= x[0].css_class_name %>">
 		<div class="nombre_bien">
 			<%= x[0].nombre_bien_s %>
@@ -34,6 +40,6 @@
 </ul>
 <table class="tabla">
 		<tbody>
-			<tr><td class="first"><b>SUBTOTAL:</b></td><td class="second"><b><span class="numero"><%= total %></b></span><div class="data">Subtotal: <%= total %></div></td></tr>
+			<tr><td class="first"><b>SUBTOTAL:</b></td><td class="second"><b><span class="numero"><%= total %> USD</b></span><div class="data">Subtotal: <%= total %></div></td></tr>
 		</tbody>
 </table>

@@ -12,6 +12,7 @@
 <script type="text/javascript" charset="utf-8">
 var total_patrimonio = [];
 var total_deudas = [];
+var currency = "<%= params[:currency] %>";
 $(function() {
     var ddjj = new Ddjj();
     var loading = new Loading("popup");
@@ -75,13 +76,16 @@ $(function() {
       var col_id = this.dataset.ddjjCol;
       var ddjj_id = this.value;
       console.log(this.dataset);
+      var dir = "/ddjj2compare/"+ddjj_id+"?col="+col_id
+      if ( currency ) {
+        dir += "&currency="+currency
+      }
       $.ajax({
-        url: "/ddjj2compare/"+ddjj_id+"?col="+col_id
+        url: dir
       }).done(function(){
         set_descargas(ddjj_id, col_id);
-        console.log("Llegamos al change");
         $('#' + col_id + ' .ddjj_container').removeClass('ddjj-gris');
-        console.log("Pasa grey out");
+        set_max_size();
       });
       /*show_ddjj_container(col_id);
       var $div_superior = $('#' + col_id + ' .total_superior');
@@ -191,7 +195,7 @@ $(function() {
     }
 
   function set_max_size(){
-      var tipos = ["inmuebles", "muebles", "dinero", "ingresos_cargo", "ingresos_ventas", "ingresos_otros", "acreencias", "titulos", "deudas", "sociedades"]
+      var tipos = ["info", "inmuebles", "muebles", "dinero", "ingresos_cargo", "ingresos_ventas", "ingresos_otros", "acreencias", "titulos", "deudas", "sociedades"]
       for(i in tipos) {
           var tipo = tipos[i];
           var $div_left = $('#left-ddjj .' + tipo);
