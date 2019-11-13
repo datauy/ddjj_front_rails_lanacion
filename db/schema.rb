@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131122184829) do
+ActiveRecord::Schema.define(:version => 20191113005903) do
+
+  create_table "admin_ddjj_app_bienpersona", :force => true do |t|
+    t.integer  "persona_id",                                :null => false
+    t.integer  "bien_id",                                   :null => false
+    t.decimal  "porcentaje", :precision => 10, :scale => 0
+    t.string   "vinculo"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "biens", :force => true do |t|
     t.integer  "tipo_bien_id"
@@ -101,7 +110,10 @@ ActiveRecord::Schema.define(:version => 20131122184829) do
     t.boolean  "status"
     t.datetime "created_at",                                      :null => false
     t.datetime "updated_at",                                      :null => false
+    t.string   "country"
   end
+
+  add_index "ddjjs", ["country"], :name => "index_ddjjs_on_country"
 
   create_table "dj_vista", :force => true do |t|
     t.integer  "ddjj_id"
@@ -141,6 +153,7 @@ ActiveRecord::Schema.define(:version => 20131122184829) do
     t.string   "nombre"
     t.string   "legajo"
     t.integer  "tipo_documento_id"
+    t.string   "email"
     t.integer  "documento"
     t.string   "cuit_cuil"
     t.date     "nacimento"

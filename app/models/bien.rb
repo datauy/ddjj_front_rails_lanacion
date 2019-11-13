@@ -12,6 +12,22 @@ class Bien < ActiveRecord::Base
 
   UNIDAD_MEDIDA = ["m2", "ha"].freeze
   TIPO_MONEDA = ["$", "$", "us$", "EUR", "COP", "Q", "$ Uruguayos", "£", "A"].freeze
+  CURRENCY = ["ARS", "ARS", "USD", "EUR", "COP", "GTQ", "UYU", "£", "A"].freeze
+  CURRENCY2USD = {
+    1 => [29.27, 17.227, 15.359, 9.617, 8.448, 5.704],
+    3 => [0.8495, 0.8495, 0.8495, 0.8495, 0.8495, 0.8495],
+    4 => [2977, 3145, 3145, 3145, 3145, 3145],
+    5 => [7.54, 7.54, 7.54, 7.54, 7.54, 5.704],
+  }.freeze
+
+  def valor_fiscal_usd
+    if self.m_valor_fiscal_id == 2 || self.m_valor_fiscal_id > 5
+      self.valor_fiscal
+    else
+      # 0 es 2018,...
+      (self.valor_fiscal/CURRENCY2USD[self.m_valor_fiscal_id][0]).round(0)
+    end
+  end
 
   def u_medida
     if self.unidad_medida_id
@@ -39,7 +55,9 @@ class Bien < ActiveRecord::Base
     end
   end
 
-
+  def get_currency
+    CURRENCY[self.m_valor_fiscal_id]
+  end
   def get_moneda type
     moneda = false
     if type == "fiscal" && self.m_valor_fiscal_id

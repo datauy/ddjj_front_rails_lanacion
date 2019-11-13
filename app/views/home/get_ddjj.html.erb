@@ -1,9 +1,295 @@
 <%
 	datos_cargados_por = [ "Directorio Legislativo por el Poder Legislativo" ]
+	currency = params[:currency] ? params[:currency] : 'ARS'
 %>
-<style type="text/css">
+<script type="text/javascript">
+function Ddjj(){
+	var self = this;
+	/* nodos html */
+	self.n ={
+		icos: $("ul li.ico, ul.dineros li, table.tabla tbody tr"), // nodos para tooltip
+		// rows_tables: $("table.tabla tbody tr td.second"),
+		tooltip: $("#tooltip"),
+		ver_mas: $("a.ver")
+	};
+	self.cache_ddjj= function(key, _function){ // cache events
+		if(!this.cache){
+			this.cache={};
+		}
+		if(!this.cache[key]){
+			this.cache[key] = _function;
+			//console.log("no che");
+		}else{
+			//console.log("desde che");
+		}
+		return this.cache[key];
+	};
 
-</style>
+	/* template tooltip */
+	self.tmpl_tooltip = function(data){
+		data = $.parseJSON(data);
+		var tooltip = "";
+
+		function tmpl_li(x, xx){
+			var tmpl = "<li>_x_: <span>_xx_</span></li>";
+			return tmpl.replace("_x_", x).replace("_xx_", xx);
+		}
+
+		function get_list(obj, compartido){ // compartido = recibe true si el bien es compartido en la ddjj
+			// if(compartido){
+				// var _obj = obj[0];
+			// }else{
+			// }
+
+				var _obj = obj;
+			if(compartido){
+				var txt_tooltip = {
+					"titular_dominio": "Titular",
+					"fecha_desde":"Fecha desde",
+					"fecha_hasta": "Fecha hasta",
+					"porcentaje": "Porcentaje",
+					"origen":"Origen",
+					"valor_fiscal": "Valor",
+					"valor_adq":"Valor de adq.",
+					"mejoras": "Mejoras"
+					// "vinculo": "Declarante"
+				};
+			}else{
+				var txt_tooltip = {
+					"nombre_bien_s": "Tipo",
+					"direccion": "Dirección",
+					"barrio":"Barrio",
+					"localidad":"Localidad",
+					"provincia":"Provincia",
+					"pais":"País",
+					"descripcion": "Descripción",
+					"modelo": "Modelo",
+					"obs": "Observaciones",
+					"entidad": "Entidad",
+					"ramo": "Ramo",
+					"cant_acciones":"Cantidad",
+					"destino":"Destino",
+					"periodo": "Período",
+					"superficie":  "Superficie",
+					"_separador_":  "<li><hr /></li>",
+					// "titular_dominio": "Titular del dominio",
+					"titular_dominio": "Titular",
+					"fecha_desde":"Fecha desde",
+					"fecha_hasta": "Fecha hasta",
+					"porcentaje": "Porcentaje",
+					"origen":"Origen",
+					"valor_fiscal": "Valor",
+					"valor_adq":"Valor de adq.",
+					"mejoras": "Mejoras"
+					// "vinculo": "Declarante"
+				};
+
+			}
+
+			for(var key in txt_tooltip){
+				if(!!_obj[key] && !!_obj[key] !== ''){
+					var i = [txt_tooltip[key],_obj[key]];
+					if(key == "valor_adq" || key == "valor_fiscal" || key == "mejoras"){
+						if((i[1] +"").length > 3){
+							i[1] =(+i[1]).format(i[1] % 1 === 0 ? 0 : 2, ',', '.');
+						}
+						i[1] = _obj["monedas"][key] + "" + i[1];
+					}
+
+					if(key == "porcentaje")
+						i[1] = (+i[1]).format(i[1] % 1 === 0 ? 0 : 2, ',', '.') + "%";
+
+					if(key == "cant_acciones")
+						i[1] = (+i[1]).format(i[1] % 1 === 0 ? 0 : 2, ',', '.');
+
+
+
+
+					// if(key == "titular_dominio"){
+						// i[1] = i[1] +" "+ _obj["porcentaje"] + "%";
+						// // if(compartido){
+							// // i[1] += ", "+ obj[1][key] + " " + obj[1]["porcentaje"] + "%"; // agrega el porcentaje del otro declarante
+						// // }
+					// }
+
+					if(key == "superficie")
+						i[1] = (+i[1]).format(i[1] % 1 === 0 ? 0 : 2, ',', '.') + _obj["u_medida"];
+
+					if(key == "fecha_desde" || key == "fecha_hasta"){
+						var date = i[1].split("-");
+						i[1] = date[2] + "/" + date[1] + "/" + date[0];
+					}
+					// if(key == "nombre_bien_s")
+						// i[1] = i[1] + _obj["u_medida"];
+
+					tooltip += tmpl_li( i[0], i[1].toUpperCaseFirst ? i[1].toUpperCaseFirst() : i[1]);
+				}
+				if(key == "titular_dominio" && !_obj[key] ){
+					if(_obj["vinculo"])	{
+						tooltip += tmpl_li( txt_tooltip["titular_dominio"], _obj["vinculo"]);
+					}
+
+				}
+				if(key == "_separador_")
+					tooltip += txt_tooltip["_separador_"];
+			}
+			// if(compartido){
+				// tooltip += "<li><hr /></li>"
+//
+			// }
+		}
+
+		if (data.constructor == Array) { // si es un array es arma el tooltip para dinero $$$ ó bienes compartidos
+			if( data[0].tipo_bien_s.toLowerCase() == "Dinero ahorros".toLowerCase()){  // para dinero
+				var template = Handlebars.compile($("#table_tooltip").html());
+				Handlebars.registerHelper('formatNumber', function(n){
+					return (+n).format(n % 1 === 0 ? null : 2, ',', '.');
+				});
+				return template(data);
+			}else{  // para los icos
+				var i = 0;
+				get_list(data[i]);
+				if(data[i + 1]){
+					i++;
+					tooltip += "<li><hr /></li>";
+					for(i; i<data.length; i++){
+						console.log(i)
+						get_list(data[i], true);
+						if (data[i + 1]){
+							tooltip += "<li><hr /></li>";
+						}
+					}
+				}
+			}
+		}else{ // para todos los damas
+			get_list(data);
+		}
+
+		if(tooltip){
+			tooltip= $(document.createElement("ul")).html(tooltip);
+		}
+
+		return tooltip;
+
+	};
+
+	// self.show_tooltip=function(){
+		// $this = $(this);
+//
+		// var data = $this.find(".data").html();
+		// var tooltip = self.cache_ddjj (data, self.tmpl_tooltip(data));
+		// self.n.tooltip.html(tooltip);
+	// };
+
+	self.data_tooltip=function(obj){
+		$this = $(obj);
+		var data = $this.find(".data").html();
+
+		var tooltip = self.cache_ddjj (data, self.tmpl_tooltip(data));
+
+		self.n.tooltip.html(tooltip);
+	};
+
+	self.ver_mas = function(){ // btn +/- ver mas o menos en las ddjj
+		var $this=$(this);
+			var $next = $this.next();
+			if($next.is(':hidden')){
+					$next.slideDown();
+					$this.addClass("menos");
+
+			}else{
+					$next.slideUp();
+					$this.removeClass("menos");
+			}
+			return false;
+	};
+	self.checkear_vacios = function(){
+		var nodos = self.n.ver_mas.next();
+		for(var i = 0; i < nodos.length; i++){
+			// var childs=nodos[i].childNodes;
+			if(nodos[i].tagName == "UL"){
+				var child = nodos[i].getElementsByTagName("li");
+			}else{
+				var child = nodos[i].getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+			};
+			if(!child.length){
+				nodos[i].style.display="none";
+				nodos[i].previousElementSibling.className = "ver";
+			}
+		}
+
+	};
+
+	(function(){
+		// self.n.icos.hover(self.show_tooltip);
+		$.tooltip(self.n.icos, self.n.tooltip, self.data_tooltip); // objetoOver, tooltip, callBack
+		self.checkear_vacios();  // ************************************************* corrigei esto....***************************************************
+		self.n.ver_mas.click(self.ver_mas);
+		// social
+		$("ul.social li a").click(function(){ // botones sociales
+			console.log(this.target)
+			self.social.share(this.target);
+			return false;
+		});
+
+		var hash = window.location.hash;
+		// busca filtros****
+		if(hash){
+			hash = hash.replace("#", "");
+			var opacity = ".4",
+				data_page = $("li.ico, li[data-flag=moneda],  table.tabla tbody tr"),
+				filtro = data_page.filter(":contains("+hash+")");
+
+			if(filtro.length && hash.length >=3){
+				var txt = 'FILTRO: <span>"'+ hash +'"<span>',
+					$P = $("p#filtrar"),
+					a_filtrar = '<a href="#" class="cont_flecha filtrado" ><span class="spt btn_flecha filtrar"> </span>Sacar filtro</a>';
+
+				filtro.each(function(x){
+					var	el = filtro[x],
+						p = el.parentNode;
+					el.style.display="none";
+					var	$clon = $(el.cloneNode(true));
+					// console.log(clon)
+					$clon.addClass("clon").prependTo(p);
+					$clon.show("slow");
+				});
+				data_page.css("opacity", opacity);
+				$P.show().append(txt + a_filtrar)
+
+				// actions
+				var $clones = $(".clon");
+				$.tooltip($clones, self.n.tooltip, self.data_tooltip)
+				$("p#filtrar a.cont_flecha").click(function(){
+					var $this = $(this);
+					if($clones.is(":animated") || data_page.is(":animated")) return false;
+					if($this.is(".filtrado")){
+						data_page.show("slow")
+								.fadeTo("slow", 1);
+						filtro.css("opacity", opacity);
+						$clones.hide("slow");
+						$this.removeClass("filtrado")
+							.html('<span class="spt btn_flecha filtrar"> </span>Filtrar');
+
+					}else{
+						data_page.css("opacity", opacity);
+						$clones.show("slow");
+						filtro.hide("slow");
+						$this.addClass("filtrado")
+							.html('<span class="spt btn_flecha filtrar"> </span>Sacar filtro');
+					}
+					return false;
+				});
+				// filtro.show()
+			}
+		}
+		// event_btn_gen_iframes(); // aplication.js
+		event_btns(); // aplication.js
+	})();
+
+}
+Ddjj.prototype.social = new MiniSocial();
+</script>
 
 <div class="cont_ddjj poder_<%= @ddjj.persona_cargo.cargo.poder_id %> gris">
 	<% if @page %>
@@ -63,7 +349,7 @@
 						</ul>
 					<% end %>
 					<% end %>
-
+					<div class="total_superior"></div>
 				</div>
 			</div>
 		</div>
@@ -87,19 +373,29 @@
 				<%
 					total_patrimonio = 0
 					total_deudas = 0
+					biens_dolar = 0
 				%>
-				<% @ddjj.biens.each do | x |
+				<%
+					@ddjj.biens.each do | x |
 						#total_patrimonio += x.valor_fiscal
-						if x.tipo_bien_s.downcase!="deudas" && x.tipo_bien_s.downcase!="ingresos cargo" && x.tipo_bien_s.downcase!="ingresos otros" && x.tipo_bien_s.downcase!="ingresos ventas"
-							total_patrimonio += x.valor_fiscal
+						if x.tipo_bien_s.downcase!="ingresos cargo" && x.tipo_bien_s.downcase!="ingresos otros" && x.tipo_bien_s.downcase!="ingresos ventas"
+							if x.get_currency == "USD"
+								biens_dolar = x.valor_fiscal
+							else
+								if x.tipo_bien_s.downcase!="deudas"
+									total_patrimonio += x.valor_fiscal
+								else
+									total_deudas += x.valor_fiscal_usd
+								end
+							end
 						end
-				    if x.tipo_bien_s.downcase=="deudas"
-							total_deudas += x.valor_fiscal
-						end
-				   end
-				   total_patrimonio = total_patrimonio - total_deudas
-				 %>
-				<h3 class="total_patrimonio">Total patrimonio: $<%= total_patrimonio.round.to_s.reverse.gsub(/...(?=.)/,'\&.').reverse %></h3>
+					end
+					cotizacion = convert_currency(total_patrimonio, currency, 'USD')
+					total_patrimonio = total_patrimonio - total_deudas
+					total_patrimonio = (total_patrimonio.to_f*cotizacion.to_f + biens_dolar).round
+				%>
+				<h3 class="total_patrimonio">Total patrimonio: <%= total_patrimonio.to_s.reverse.gsub(/...(?=.)/,'\&.').reverse %> USD</h3>
+				<span>Cotización del día <%= currency %> a USD: <%= cotizacion %></span>
 				<article class="inmuebles">
 					<h3><span>Bienes inmuebles</span></h3>
 					<a class="ver menos" href="#">ver mas</a>
@@ -108,14 +404,14 @@
 
 					</div> -->
 
-						<%= render partial: "home/biens_icos", locals: {biens: map_bienes(@ddjj.biens, "bienes inmuebles"), currency: params[:currency] ? params[:currency] : false }	 %>
+						<%= render partial: "home/biens_icos", locals: {biens: map_bienes(@ddjj.biens, "bienes inmuebles"), currency: currency }	 %>
 
 				</article>
 
 				<article class="muebles">
 					<h3><span>Bienes muebles</span></h3>
 					<a class="ver menos" href="#">ver mas</a>
-						<%= render partial: "home/biens_icos", locals: { biens: map_bienes(@ddjj.biens, "bienes muebles"), currency: params[:currency] ? params[:currency] : false } %>
+						<%= render partial: "home/biens_icos", locals: { biens: map_bienes(@ddjj.biens, "bienes muebles"), currency: currency } %>
 				</article>
 				<script id="table_tooltip" type="text/x-handlebars-template">
 					{{! template para tooltip dinero }}
@@ -224,7 +520,7 @@
 						</thead>
 						<tbody>
 
-						<%= render partial: "home/biens_table", locals: { biens: map_bienes(@ddjj.biens, "ingresos cargo", true), currency: params[:currency] ? params[:currency] : false } %>
+						<%= render partial: "home/biens_table", locals: { biens: map_bienes(@ddjj.biens, "ingresos cargo", true), currency: currency } %>
 
 						</tbody>
 					</table>
@@ -243,7 +539,7 @@
 						</thead>
 						<tbody>
 
-						<%= render partial: "home/biens_table", locals: { biens: map_bienes(@ddjj.biens, "ingresos ventas", true), currency: params[:currency] ? params[:currency] : false } %>
+						<%= render partial: "home/biens_table", locals: { biens: map_bienes(@ddjj.biens, "ingresos ventas", true), currency: currency } %>
 
 						</tbody>
 					</table>
@@ -261,7 +557,7 @@
 						</thead>
 						<tbody>
 
-						<%= render partial: "home/biens_table", locals: { biens: map_bienes(@ddjj.biens, "ingresos otros", true), currency: params[:currency] ? params[:currency] : false } %>
+						<%= render partial: "home/biens_table", locals: { biens: map_bienes(@ddjj.biens, "ingresos otros", true), currency: currency } %>
 
 						</tbody>
 					</table>
@@ -279,7 +575,7 @@
 						</thead>
 						<tbody>
 
-						<%= render partial: "home/biens_table_agrupados", locals: { biens: map_bienes(@ddjj.biens, "sociedades"), currency: params[:currency] ? params[:currency] : false } %>
+						<%= render partial: "home/biens_table_agrupados", locals: { biens: map_bienes(@ddjj.biens, "sociedades"), currency: currency } %>
 
 						</tbody>
 					</table>
@@ -297,7 +593,7 @@
 						</thead>
 						<tbody>
 
-						<%= render partial: "home/biens_table", locals: { biens: map_bienes(@ddjj.biens, "acreencias", true), currency: params[:currency] ? params[:currency] : false } %>
+						<%= render partial: "home/biens_table", locals: { biens: map_bienes(@ddjj.biens, "acreencias", true), currency: currency } %>
 
 						</tbody>
 					</table>
@@ -315,7 +611,7 @@
 						</thead>
 						<tbody>
 
-						<%= render partial: "home/biens_table", locals: { biens: map_bienes(@ddjj.biens, "títulos y fci", true), currency: params[:currency] ? params[:currency] : false } %>
+						<%= render partial: "home/biens_table", locals: { biens: map_bienes(@ddjj.biens, "títulos y fci", true), currency: currency } %>
 
 						</tbody>
 					</table>
@@ -333,7 +629,7 @@
 						</thead>
 						<tbody>
 
-						<%= render partial: "home/biens_table", locals: { biens: map_bienes(@ddjj.biens, "deudas", true), currency: params[:currency] ? params[:currency] : false } %>
+						<%= render partial: "home/biens_table", locals: { biens: map_bienes(@ddjj.biens, "deudas", true), currency: currency } %>
 
 						</tbody>
 					</table>
@@ -424,6 +720,7 @@
 
 
 <script type="text/javascript" charset="utf-8">
+	var ddjj = new Ddjj();
 	$(document).bind("ready", function(){
 		var ddjj = new Ddjj();
 		var ul = $("ul#list");
@@ -432,5 +729,14 @@
 		}
 
 	});
-
+	var link_datos = $(".cont_flecha ul");
+	$("ul#descargas li.cont_flecha").click(function(event) {
+		link_datos.toggle("fast");
+		return false;
+	});
+	$("ul#descargas li.cont_flecha li a").click(function(event) {
+		link_datos.toggle("fast");
+		var w = window.open( this.href, "_blank");//, "descargar", "toolbar=no, location=no, resizable=no, scrollbars= no, top=20%,left=50%" );
+		return false;
+	});
 </script>
