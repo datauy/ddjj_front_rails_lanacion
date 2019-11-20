@@ -395,7 +395,7 @@ Ddjj.prototype.social = new MiniSocial();
 					total_patrimonio = (total_patrimonio.to_f*cotizacion.to_f + biens_dolar).round
 				%>
 				<h3 class="total_patrimonio">Total patrimonio: <%= total_patrimonio.to_s.reverse.gsub(/...(?=.)/,'\&.').reverse %> USD</h3>
-				<span>Cotización del día <%= currency %> a USD: <%= cotizacion %></span>
+				<span>Cotización del día: 1,00 USD = <%= cotizacion.to_s.gsub!(/\./,",") %> <%= currency %></span>
 				<article class="inmuebles">
 					<h3><span>Bienes inmuebles</span></h3>
 					<a class="ver menos" href="#">ver mas</a>
@@ -634,7 +634,8 @@ Ddjj.prototype.social = new MiniSocial();
 						</tbody>
 					</table>
 				</article>
-				<h3 class="total_patrimonio">Total patrimonio: $<%= total_patrimonio.round.to_s.reverse.gsub(/...(?=.)/,'\&.').reverse %></h3>
+				<h3 class="total_patrimonio">Total patrimonio: <%= total_patrimonio.to_s.reverse.gsub(/...(?=.)/,'\&.').reverse %> USD</h3>
+				<span>Cotización del día: 1,00 USD = <%= cotizacion.to_s.gsub!(/\./,",") %> <%= currency %></span>
 <%end%>
 
 
