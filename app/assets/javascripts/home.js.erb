@@ -29,6 +29,7 @@ function Home(){ // carga todos los nodos
 
 		// tabs_poderes para filtros
 	};
+	n.xpais = $("li.filter-pais"),
 
 	self.events_filtros = function(){ // eventos para los filtros
 		self.get_nodos_filtros();
@@ -78,6 +79,11 @@ function Home(){ // carga todos los nodos
 		self.log_txt.html(p.h2);
 	}
 
+	n.xpais.click(function(){
+		$(this).toggleClass("selected");
+		self.search(0);
+		return false;
+	});
 	self.load_filtros = function(url, callback){ // busca los filtros según el poder
 		cache = escape(url);
 		if (!self.cache[cache]){
@@ -130,42 +136,32 @@ function Home(){ // carga todos los nodos
 			if(x[1])
 				query[x[0]] = x[1].split("_");
 		}
-		var hay_indice = false;
 		for(key in query){
-
 			// var x =$("[data-type="+key+"]");
-			if(key == "pd"){
-
-			}else if(key == "str"){
+			if ( key != "pd" && key != "tb" && key != "pais" ){
+				if(key == "str"){
 					str += '"'+ query[key] + '"';
-
-				// return false;
-			}else if(key == "tb"){
-
-			}
-			// else if(key == "rkg"){
-			// 	str += "RANKING DE LOS MAS VISTOS"
-			// }
-			else{
-				var li = $("[data-type="+key+"]");
-				var str_li = "";
-
-				if (key == "nb"){
-					str += "Nombre bien > ";
-				}else{
-					str += li.filter(".top").parent().prev().text()+ " > ";
 				}
-				for(var i=0; i< query[key].length; i++){
-					if(i)
+				else{
+					var li = $("[data-type="+key+"]");
+					var str_li = "";
+
+					if (key == "nb"){
+						str += "Nombre bien > ";
+					}else{
+						str += li.filter(".top").parent().prev().text()+ " > ";
+					}
+					for(var i=0; i< query[key].length; i++){
+						if(i)
 						str_li += " +" +li.filter("[data-id="+query[key][i]+"]").text()
-					else
+						else
 						str_li += li.filter("[data-id="+query[key][i]+"]").text();
+					}
+					str += '<span>"'+str_li.trim() +'"</span> ';
 				}
-				str += '<span>"'+str_li.trim() +'"</span> ';
-				if(li[0]) hay_indice = true;
 			}
 		}
-		if(!str && !hay_indice){
+		if(!str){
 			$("#filtro_aplicado").hide();
 		}else{
 			$("#filtro_aplicado")
@@ -248,6 +244,7 @@ function Home(){ // carga todos los nodos
 			});
 			return map;
 		}
+		//AGREGAR Paises
 		var params= {};
 		var filtrados = n.li_types.filter(".filtrado");
 		for(var i = 0; i < filtrados.length; i++){
@@ -278,6 +275,7 @@ function Home(){ // carga todos los nodos
 					break;
 			}
 		}
+		params.pais = getData(n.xpais.filter(".selected")).join("_");
 		params.pd = getData(n.tabs_poderes.filter(".active")).join("_");
 		return params;
 	};

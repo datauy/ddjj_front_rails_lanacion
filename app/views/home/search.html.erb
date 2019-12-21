@@ -30,6 +30,13 @@
 					</div>
 				</div>
 			</th>
+			<th class="pais">
+				<div class="tabla_row">
+					<div class="span12">
+						<p>País</p>
+					</div>
+				</div>
+			</th>
 			<th class="detalle">
 				<div class="tabla_row">
 					<div class="span6">
@@ -60,6 +67,13 @@
 				</div>
 			</div>
 		</td>
+		<td class="pais">
+			<div class="tabla_row">
+				<div class="span12">
+					<p><span class="upper"><%= p.ddjjs.first.country%></p>
+				</div>
+			</div>
+		</td>
 		<td class="detalle">
 		<% p.persona_cargos.each do |pc| %>
 			<div class="tabla_row">
@@ -71,9 +85,11 @@
 						pc_cant = pc.ddjjs.length - 1
 						pc.ddjjs.each_with_index do |dj, n|
 						%>
-						<a href="<%= url_for :action=> "get_ddjj", :id => dj.flag_search %><%= params[:str] ? '#'+params[:str] : ''%>" data-ddjj="<%= dj.id %>" title="<%= dj.tipo_ddjj%> <%= "(Presenta carta por DDJJ)" unless dj.flag_presenta %>"><%= dj.tipo_ddjj_short %><% if dj.flag_presenta == 0 %>
-						<span class="pres_carta min"></span><% end %></a><%= ", " if pc_cant > n
-						%>
+							<a href="<%= url_for :action=> "get_ddjj", :id => dj.flag_search %><%= params[:str] ? '#'+params[:str] : ''%>" data-ddjj="<%= dj.id %>" title="<%= dj.tipo_ddjj%> <%= "(Presenta carta por DDJJ)" unless dj.flag_presenta %>">
+								<%= dj.tipo_ddjj_short %>
+								<% if dj.flag_presenta == 0 %><span class="pres_carta min"></span><% end %>
+							</a>
+						<%= ", " if pc_cant > n	%>
 						<% end %>
 					</p>
 				</div>

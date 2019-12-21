@@ -6,11 +6,17 @@
 </div>
 <div id="cont_filtros">
 	<section id="filtros">
-		<!--<ul class="filtro">
-			<li data-id="1" data-str="poder ejecutivo" class="selected"><span class="check">&nbsp;</span>Argentina</li>
-			<li data-id="2" data-str="poder legislativo" class="selected"><span class="check">&nbsp;</span>Guatemala</li>
-			<li data-id="3" data-str="poder judicial" class="selected"><span class="check">&nbsp;</span>Colombia</li>
-		</ul>-->
+			<ul class="filtrosxpais">
+				<li data-id="argentina" data-link="<%= url_for({:action =>:search, :country => "argentina"}) %>" class="filter-pais selected">
+					<span class="check">&nbsp;</span>Argentina
+				</li>
+				<li data-id="guatemala" data-link="<%= url_for({:action =>:search, :country => "guatemala"}) %>" class="filter-pais selected">
+					<span class="check">&nbsp;</span>Guatemala
+				</li>
+				<li data-id="colombia" data-link="<%= url_for({:action =>:search, :country => "colombia"}) %>" class="filter-pais selected">
+					<span class="check">&nbsp;</span>Colombia
+				</li>
+			</ul>
 	<a id="comparador_btn" href="/comparador/index"><img src="<%= asset_path("comparador_btn.png")  %>"></a>
 	<%= render "buscador_x_str"%>
 
@@ -19,8 +25,8 @@
 			<%
 			### se define active al poder que va a aparecer x dafault al inicio
 			%>
-			<li data-id="2" data-link="<%= url_for({:action =>:get_filtros, :id => 2}) %>" class="<%= 'active' if params[:id].to_i == 2 %>"><h2>Poder Legislativo </h2><span>- <%= @count_ddjjs_2 %> DDJJ</span></li>
-			<li data-id="1" data-link="<%= url_for({:action =>:get_filtros, :id => 1}) %>" class="<%= 'active' if params[:id].to_i == 1 %>"><h2>Poder Ejecutivo </h2><span>- <%= @count_ddjjs_1 %> DDJJ</span></li>
+			<li data-id="2" data-link="<%= url_for({:action =>:get_filtros, :id => 2, :country => 'todos' }) %>" class="<%= 'active' if params[:id].to_i == 2 %>"><h2>Poder Legislativo </h2><span>- <%= @count_ddjjs_2 %> DDJJ</span></li>
+			<li data-id="1" data-link="<%= url_for({:action =>:get_filtros, :id => 1, :country => 'todos' }) %>" class="<%= 'active' if params[:id].to_i == 1 %>"><h2>Poder Ejecutivo </h2><span>- <%= @count_ddjjs_1 %> DDJJ</span></li>
 		</ul>
 		<div id="filtros_ul">
 			<!--  ###	Filtros ###		 -->

@@ -151,6 +151,11 @@ class HomeController < ApplicationController
       @key_cache += "_asc"
       @q = @q.order("personas.apellido asc", "ddjjs.ano DESC")
     end
+    if params[:pais]
+      @onlyPD = false
+      @key_cache += params[:pais]
+      @q = @q.where("ddjjs.country" => params[:pais].split("_"))
+    end
     #poder
     if params[:pd]
       if @onlyPD == true
@@ -159,8 +164,6 @@ class HomeController < ApplicationController
       @key_cache += params[:pd]
       @q = @q.where("cargos.poder_id" => params[:pd].split("_"))
     end
-    #personas
-
 
     if params[:page]
       @key_cache += "page_" + params[:page]

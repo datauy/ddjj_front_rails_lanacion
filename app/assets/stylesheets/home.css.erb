@@ -106,11 +106,17 @@ section#filtros {}
 div.buscador { width: 31%; position: absolute; top: 0px; right: 20px;}
 
 section#filtros div.buscador { width: calc(100% - 250px); position: relative; top: 0px; right: 0px; height: auto; margin-top: 15px; margin-bottom: 15px;}
-section#filtros div.buscador ul.filtro { position: relative; top: 0; right: 0; margin-top: 15px;}
-
+ul.filtrosxpais {
+  text-transform: uppercase;
+}
+section#filtros ul.filtrosxpais,
+section#filtros div.buscador ul { position: relative; top: 0; right: 0; margin-top: 15px;}
+ul.filtrosxpais,
 div.buscador ul { display: block; position: absolute; top:30px; right: 0}
+ul.filtrosxpais li,
 div.buscador ul li { display: inline-block; margin-left: 5px;  }
 div.buscador a#buscar_str { display: block; width: 16px; height: 17px; background-position: -515px 0; text-indent: -5000px; position:absolute; cursor: pointer; top: 3px; right: 10px; }
+ul.filtrosxpais,
 .comparador div.buscador { width: 90%; position: relative; right:0px;}
 .comparador ul.results { width: 99%; position: absolute; background: #fff; z-index: 1;  border: 1.5px solid #CECECE; border-top: none; display:none;}
 .comparador ul.results li { width: 100%; position: static;  padding: 5px 0; margin:0px}
