@@ -1,6 +1,12 @@
 <%
 	datos_cargados_por = [ "Directorio Legislativo por el Poder Legislativo" ]
-	currency = params[:currency] ? params[:currency] : 'ARS'
+	if @ddjj.country == 'guatemala'
+		currency = 'GTQ'
+	elsif @ddjj.country == 'colombia'
+		currency = 'COP'
+	else
+		currency = params[:currency] ? params[:currency] : 'ARS'
+	end
 %>
 <script type="text/javascript">
 function Ddjj(){
@@ -329,6 +335,7 @@ Ddjj.prototype.social = new MiniSocial();
 					<%end%>
 
 				</div>
+				<h4><span><%= @ddjj.country %></span></h4>
 				</div>
 				<div class="cell_4">
 					<a href='<%= @ddjj.url%>' target="_blank" class="cont_flecha" title="volver" id="" style="/*position:absolute; top: 45px;right: 49px;*/"><span class="spt btn_flecha cloud"> </span>Ddjj original</a>
@@ -392,10 +399,10 @@ Ddjj.prototype.social = new MiniSocial();
 					end
 					cotizacion = convert_currency(total_patrimonio, currency, 'USD')
 					total_patrimonio = total_patrimonio - total_deudas
-					total_patrimonio = (total_patrimonio.to_f*cotizacion.to_f + biens_dolar).round
+					total_patrimonio = (total_patrimonio.to_f/cotizacion.to_f + biens_dolar).round
 				%>
 				<h3 class="total_patrimonio">Total patrimonio: <%= total_patrimonio.to_s.reverse.gsub(/...(?=.)/,'\&.').reverse %> USD</h3>
-				<span>Cotización del día: 1,00 USD = <%= (1/cotizacion).round(2).to_s.gsub!(/\./,",") %> <%= currency %></span>
+				<span>Cotización del día: 1,00 USD = <%= cotizacion.round(2).to_s.gsub!(/\./,",") %> <%= currency %></span>
 				<article class="inmuebles">
 					<h3><span>Bienes inmuebles</span></h3>
 					<a class="ver menos" href="#">ver mas</a>
@@ -635,7 +642,7 @@ Ddjj.prototype.social = new MiniSocial();
 					</table>
 				</article>
 				<h3 class="total_patrimonio">Total patrimonio: <%= total_patrimonio.to_s.reverse.gsub(/...(?=.)/,'\&.').reverse %> USD</h3>
-				<span>Cotización del día: 1,00 USD = <%= (1/cotizacion).round(2).to_s.gsub!(/\./,",") %> <%= currency %></span>
+				<span>Cotización del día: 1,00 USD = <%= cotizacion.round(2).to_s.gsub!(/\./,",") %> <%= currency %></span>
 <%end%>
 
 
